@@ -1,0 +1,45 @@
+# Features
+
+- Persistent units
+- Capture mechanics
+- User settings
+- Perimeter defense units (CA)
+- Patrolling perimeter units
+- Passing days, seasons, time and weather
+- Lives system with rolling window
+- Carrier delayed re-spawn system
+- Side lock
+- CSAR
+- Bombers
+- Tankers (basket and boom)
+
+# Roadmap
+- Auto-move garrison units between spawn zones (done - works by defining several patrol waypoints using trigger zones)
+- Rolling window play time
+- Supply based logistics (done)
+- F10 map deployment commands (done)
+- Enforce no taxiway takeoffs
+- Enforce re-arm and refuel at specific location (done)
+- Use IADS with SAMs (deployed)
+- Bases with lighter defenses designed for low level, high-drag bombing (cold war style)
+- Set all FC3 first waypoint to bulls of coalition (done)
+- Setup the start time of mission (done)
+  - multiple of 2 mission is 07:00 - 13:00,
+  - multiple of 3 mission is 13:00 - 21:00
+  - everything else 12:00 - 18:00
+- Setup weather themes (bad and good) (done)
+- Add beacons with morse code to the FARPS (and non-airfield bases)
+- CSAR (done)
+- Move bulls by a command
+- Create polygon with trigger zones to create an ocean area where carriers can move (movement outside is denied) (done)
+- Create mechanics for bombers, tankers and awacs (done)
+- Make units move if smoke is nearby
+- Request FAC for illumination bombs at a target location (spawn an aircraft to go drop it)
+- Create "Compile mission" option
+  - Sets FC3 bulls
+  - Sets briefing information
+    - Carriers freq, tacan, icls, acls, etc...
+    - Tankers freq, tacan
+    - other...
+  - Sets options (no external views, no F10 icon, etc...)
+  - remove zones
