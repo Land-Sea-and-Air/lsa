@@ -8,35 +8,35 @@ function TankerGenerator.generate(base)
 
     for i, template in ipairs(templates) do
         local zone = BaseZoneTypeMapper.__getRandomZone(zones, template.type)
-        if zone == nil then break end
+        if zone ~= nil then
+            local statics = TankerGenerator.__generateSupportingStatics(template, base, zone, i)
+            -- [REVIEW] this means that the template should always include the tanker as its first static
+            local tankerStatic = template.statics[1]
 
-        local statics = TankerGenerator.__generateSupportingStatics(template, base, zone, i)
-        -- [REVIEW] this means that the template should always include the tanker as its first static
-        local tankerStatic = template.statics[1]
+            local tankerName = Dashed(base.name, template.type, i)
+            local tankerType = tankerStatic.type
+            local tankerSide = base.side
+            local tankerFreq = tankerStatic.freq
+            local tankerModulation = tankerStatic.modulation
+            local tankerMethod = tankerStatic.method
+            local tankerTacan = tankerStatic.tacan
+            local tankerLocation = LSA.newPos(zone.location, tankerStatic, zone.heading)
 
-        local tankerName = Dashed(base.name, template.type, i)
-        local tankerType = tankerStatic.type
-        local tankerSide = base.side
-        local tankerFreq = tankerStatic.freq
-        local tankerModulation = tankerStatic.modulation
-        local tankerMethod = tankerStatic.method
-        local tankerTacan = tankerStatic.tacan
-        local tankerLocation = LSA.newPos(zone.location, tankerStatic, zone.heading)
+            local tanker = Tanker.new(
+                tankerName,
+                tankerType,
+                tankerSide,
+                tankerMethod,
+                tankerFreq,
+                tankerModulation,
+                base.name,
+                tankerTacan,
+                statics,
+                tankerLocation
+            )
 
-        local tanker = Tanker.new(
-            tankerName,
-            tankerType,
-            tankerSide,
-            tankerMethod,
-            tankerFreq,
-            tankerModulation,
-            base.name,
-            tankerTacan,
-            statics,
-            tankerLocation
-        )
-
-        table.insert(tankers, tanker)
+            table.insert(tankers, tanker)
+        end
     end
 
     return tankers

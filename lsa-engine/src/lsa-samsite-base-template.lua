@@ -61,20 +61,20 @@ SamSiteBaseTemplate.statics.red = {
             { type = "KAMAZ Truck", distance = 020, angle = 173, heading = 000 },
         },
     },
-    {
-        type = "Vehicles",
-        statics = {
-            { type = "UAZ-469", distance = 000, angle = 000, heading = 000 },
-            { type = "UAZ-469", distance = 005, angle = 268, heading = 335 },
-        },
-    },
-    {
-        type = "Vehicles",
-        statics = {
-            { type = "ATMZ-5", distance = 000, angle = 000, heading = 000 },
-            { type = "ATMZ-5", distance = 006, angle = 090, heading = 001 },
-        },
-    },
+    -- {
+    --     type = "Vehicles",
+    --     statics = {
+    --         { type = "UAZ-469", distance = 000, angle = 000, heading = 000 },
+    --         { type = "UAZ-469", distance = 005, angle = 268, heading = 335 },
+    --     },
+    -- },
+    -- {
+    --     type = "Vehicles",
+    --     statics = {
+    --         { type = "ATMZ-5", distance = 000, angle = 000, heading = 000 },
+    --         { type = "ATMZ-5", distance = 006, angle = 090, heading = 001 },
+    --     },
+    -- },
     --repairs
     {
         type = "Repairs",
@@ -153,20 +153,20 @@ SamSiteBaseTemplate.statics.blue = {
             { type = "M 818",             distance = 020, angle = 173, heading = 000 },
         },
     },
-    {
-        type = "Vehicles",
-        statics = {
-            { type = "Hummer", distance = 000, angle = 000, heading = 000 },
-            { type = "Hummer", distance = 005, angle = 268, heading = 335 },
-        },
-    },
-    {
-        type = "Vehicles",
-        statics = {
-            { type = "HEMTT TFFT", distance = 000, angle = 000, heading = 000 },
-            { type = "HEMTT TFFT", distance = 006, angle = 090, heading = 001 },
-        },
-    },
+    -- {
+    --     type = "Vehicles",
+    --     statics = {
+    --         { type = "Hummer", distance = 000, angle = 000, heading = 000 },
+    --         { type = "Hummer", distance = 005, angle = 268, heading = 335 },
+    --     },
+    -- },
+    -- {
+    --     type = "Vehicles",
+    --     statics = {
+    --         { type = "HEMTT TFFT", distance = 000, angle = 000, heading = 000 },
+    --         { type = "HEMTT TFFT", distance = 006, angle = 090, heading = 001 },
+    --     },
+    -- },
     -- repairs
     {
         type = "Repairs",

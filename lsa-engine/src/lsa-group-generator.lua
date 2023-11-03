@@ -30,27 +30,27 @@ end
 function GroupGenerator.__generateSingleUnitGroup(base, template, zones, collector, dead)
     for j, groupTemplate in ipairs(template.groups) do
         local randomZone = GroupGenerator.__getRandomZone(zones, template.type)
-        if randomZone == nil then return end
+        if randomZone ~= nil then
+            local groupName = Dashed(base.name, template.type, j)
+            local unitName = Dashed(groupName, "1")
 
-        local groupName = Dashed(base.name, template.type, j)
-        local unitName = Dashed(groupName, "1")
+            local unitLocation = LSA.newPos(randomZone.location, groupTemplate, randomZone.heading)
+            local unitWrp = UnitWrp.new(
+                unitName,
+                groupTemplate.type,
+                unitLocation,
+                groupTemplate.heading + randomZone.heading,
+                base.name,
+                base.side
+            )
 
-        local unitLocation = LSA.newPos(randomZone.location, groupTemplate, randomZone.heading)
-        local unitWrp = UnitWrp.new(
-            unitName,
-            groupTemplate.type,
-            unitLocation,
-            groupTemplate.heading + randomZone.heading,
-            base.name,
-            base.side
-        )
+            if dead then
+                UnitWrp.kill(unitWrp)
+            end
 
-        if dead then
-            UnitWrp.kill(unitWrp)
+            local groupWrp = GroupWrp.new(groupName, { unitWrp }, base.name, base.side)
+            table.insert(collector, groupWrp)
         end
-
-        local groupWrp = GroupWrp.new(groupName, { unitWrp }, base.name, base.side)
-        table.insert(collector, groupWrp)
     end
 end
 
@@ -64,30 +64,30 @@ function GroupGenerator.__generateMultiUnitGroup(base, template, zones, i, colle
     local groupName = Dashed(base.name, template.type, i)
 
     local randomZone = GroupGenerator.__getRandomZone(zones, template.type)
-    if randomZone == nil then return end
+    if randomZone ~= nil then
+        local units = {}
+        for j, unitTemplate in ipairs(template.units) do
+            local unitName = Dashed(groupName, j)
+            local unitLocation = LSA.newPos(randomZone.location, unitTemplate, randomZone.heading)
+            local unitWrp = UnitWrp.new(
+                unitName,
+                unitTemplate.type,
+                unitLocation,
+                unitTemplate.heading + randomZone.heading,
+                base.name,
+                base.side
+            )
 
-    local units = {}
-    for j, unitTemplate in ipairs(template.units) do
-        local unitName = Dashed(groupName, j)
-        local unitLocation = LSA.newPos(randomZone.location, unitTemplate, randomZone.heading)
-        local unitWrp = UnitWrp.new(
-            unitName,
-            unitTemplate.type,
-            unitLocation,
-            unitTemplate.heading + randomZone.heading,
-            base.name,
-            base.side
-        )
+            if dead then
+                UnitWrp.kill(unitWrp)
+            end
 
-        if dead then
-            UnitWrp.kill(unitWrp)
+            table.insert(units, unitWrp)
         end
 
-        table.insert(units, unitWrp)
+        local groupWrp = GroupWrp.new(groupName, units, base.name, base.side)
+        table.insert(collector, groupWrp)
     end
-
-    local groupWrp = GroupWrp.new(groupName, units, base.name, base.side)
-    table.insert(collector, groupWrp)
 end
 
 ---Gets a random zone for a given type.

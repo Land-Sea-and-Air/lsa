@@ -8,25 +8,25 @@ function BomberGenerator.generate(base)
 
     for i, template in ipairs(templates) do
         local zone = BaseZoneTypeMapper.__getRandomZone(zones, template.type)
-        if zone == nil then break end
+        if zone ~= nil then
+            local statics = BomberGenerator.__generateSupportingStatics(template, base, zone, i)
+            -- [REVIEW] this means that the template should always include the bomber as its first static
+            local bomberStatic = template.statics[1]
 
-        local statics = BomberGenerator.__generateSupportingStatics(template, base, zone, i)
-        -- [REVIEW] this means that the template should always include the bomber as its first static
-        local bomberStatic = template.statics[1]
+            local bomberName = Dashed(base.name, template.type, i)
+            local bomberType = bomberStatic.type
+            local bomberLocation = LSA.newPos(zone.location, bomberStatic, zone.heading)
 
-        local bomberName = Dashed(base.name, template.type, i)
-        local bomberType = bomberStatic.type
-        local bomberLocation = LSA.newPos(zone.location, bomberStatic, zone.heading)
+            local bomber = Bomber.new(
+                bomberName,
+                bomberType,
+                base.name,
+                bomberLocation,
+                statics
+            )
 
-        local bomber = Bomber.new(
-            bomberName,
-            bomberType,
-            base.name,
-            bomberLocation,
-            statics
-        )
-
-        table.insert(bombers, bomber)
+            table.insert(bombers, bomber)
+        end
     end
 
     return bombers

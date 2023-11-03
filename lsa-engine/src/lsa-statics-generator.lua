@@ -19,16 +19,16 @@ function StaticsGenerator.generate(base, dead)
     local zones = BaseZoneTypeMapper.__getZonesMap(base, templates)
     for i, template in ipairs(templates) do
         local zone = BaseZoneTypeMapper.__getRandomZone(zones, template.type)
-        if zone == nil then break end
-
-        for j, staticTemplate in ipairs(template.statics) do
-            local static = StaticsGenerator.__generateSimpleStatic(base, template, staticTemplate, zone, i, j, dead)
-            if template.type == "Repairs" then
-                table.insert(repairs, static)
-            elseif template.type == "Logistics" then
-                table.insert(logistics, static)
-            else
-                table.insert(statics, static)
+        if zone ~= nil then
+            for j, staticTemplate in ipairs(template.statics) do
+                local static = StaticsGenerator.__generateSimpleStatic(base, template, staticTemplate, zone, i, j, dead)
+                if template.type == "Repairs" then
+                    table.insert(repairs, static)
+                elseif template.type == "Logistics" then
+                    table.insert(logistics, static)
+                else
+                    table.insert(statics, static)
+                end
             end
         end
     end

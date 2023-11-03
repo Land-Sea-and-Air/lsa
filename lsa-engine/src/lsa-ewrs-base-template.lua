@@ -87,7 +87,7 @@ EwrsBaseTemplate.groups.red = {
     },
     {
         type = "Service",
-        groups = {
+        units = {
             { type = "outpost",  distance = 000, angle = 000, heading = 000 },
             { type = "ATZ-10",   distance = 010, angle = 165, heading = 271 },
             { type = "Ural-375", distance = 015, angle = 170, heading = 271 },
@@ -111,7 +111,7 @@ EwrsBaseTemplate.groups.blue = {
     },
     {
         type = "Service",
-        groups = {
+        units = {
             { type = "outpost",           distance = 000, angle = 000, heading = 000 },
             { type = "M978 HEMTT Tanker", distance = 010, angle = 165, heading = 271 },
             { type = "M 818",             distance = 015, angle = 170, heading = 271 },

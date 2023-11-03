@@ -86,41 +86,6 @@ LSA.logistics.personnel.blue = {
 }
 --#endregion
 
---#region Text
-LSA.text = {}
-LSA.text.BASE_CAPTURED = "We have captured %s."
-LSA.text.BASE_LOST = "We have lost %s."
-LSA.text.BASE_SAFE = "Well done. %s is now safe. Make sure to keep it that way."
-LSA.text.BASE_CAPTURE_IMMINENT =
-"Base %s is about to be captured. Kill the enemies inside the capture zone or we will lose the base. You have %s seconds."
-LSA.text.BASE_CAPTURE_IN_PROGESS = "We're starting the capture of the base. Give us %s seconds."
-LSA.text.GARRISON_LEAVING_PERIMETER =
-"You're leaving the base perimeter. Return to the perimeter immediately or you will be destroyed. You have %s seconds."
-LSA.text.GARRISON_RETURNING_PERIMETER =
-"Glad you decided to return. Make sure you don't leave the base perimeter soldier."
-LSA.text.NOT_CLOSE_ENOUGH_LOGISTICS = "Unable, we need to be close to a logistics center."
-LSA.text.LAND_FIRST = "Unable, you need to land first."
-LSA.text.CARGO_ON_BOARD_ALREADY = "Unable, you already have cargo on-board."
-LSA.text.NEED_LOGISTICS_CENTER = "Unable, you need to be close to a logistics center."
-LSA.text.NO_PERSONNEL_ON_BOARD = "Unable, no personnel on-board."
-LSA.text.CANNOT_SPAWN = "Unable, make sure the location is not obstructed."
-LSA.text.NO_SUPPLIES_NEARBY = "Unable, no supplies nearby (%sm)."
-LSA.text.NOT_ENOUGH_SUPPLIES_ON_CRATE =
-"Unable, there aren't enough supplies nearby (available: %s | required: %s)."
-LSA.text.NO_SUPPLIES_LEFT_CRATE = "No supplies left on the crates."
-LSA.text.SUPPLIES_LEFT_CRATE = "Still %s supplies left on the crate(s)."
-LSA.text.CRATE_ALREADY_SPAWNED = "Unable, there is already a crate in front of you."
-LSA.text.NOT_ENOUGH_SUPPLIES_FACTION = "Unable, we don't have enough supplies to comply with your request."
-LSA.text.NO_CARGO_NEARBY = "Unable, no cargo nearby."
-LSA.text.NO_PERSONNEL_NEARBY = "Unable, no personnel nearby."
-LSA.text.NO_CARGO_ON_BOARD = "No cargo on-board."
-LSA.text.PERSONNEL_ON_BOARD_ALREADY = "Unable, you already have personnel on-board."
-LSA.text.NOT_ENOUGH_SEATS = "Unable, not enough seats available."
-LSA.text.NO_FRIENDLY_PILOT_FOUND = "Unable, could not find any friendly pilot nearby (%sm)."
-LSA.text.PILOT_RESCUED = "We've rescued %s."
-LSA.text.PILOT_RETURNED = "We've have returned %s to base."
---#endregion
-
 LSA.transports = {
     ["Mi-8MT"] = { type = "Mi-8MT", seats = 12 },
     ["Mi-24P"] = { type = "Mi-24P", seats = 8 },
@@ -371,14 +336,14 @@ function LSA.onPersonnelMenu(args)
 
     -- is player on the ground
     if playerPosition.airborne then
-        LSA.messagePlayer(player, LSA.text.LAND_FIRST)
+        LSA.messagePlayer(player, Text.LAND_FIRST)
         return
     end
 
     -- is the player close to a logistics center
     local center = LSA.findFriendlyLogistics(player.side, playerPosition)
     if center == nil then
-        LSA.messagePlayer(player, LSA.text.NOT_CLOSE_ENOUGH_LOGISTICS)
+        LSA.messagePlayer(player, Text.NOT_CLOSE_ENOUGH_LOGISTICS)
         return
     end
 
@@ -425,14 +390,14 @@ function LSA.onUnpackCargoMenu(args)
 
     -- is player on the ground
     if playerPosition.airborne then
-        LSA.messagePlayer(player, LSA.text.LAND_FIRST)
+        LSA.messagePlayer(player, Text.LAND_FIRST)
         return
     end
 
     local container = LSA.findFriendlyCrateAt(player.side, playerPosition)
     if container == nil then
         Log.debug("No container to unpack")
-        LSA.messagePlayer(player, LSA.text.NO_CARGO_NEARBY)
+        LSA.messagePlayer(player, Text.NO_CARGO_NEARBY)
         return
     end
 
@@ -454,21 +419,21 @@ function LSA.onReturnCargoMenu(args)
 
     -- is player on the ground
     if playerPosition.airborne then
-        LSA.messagePlayer(player, LSA.text.LAND_FIRST)
+        LSA.messagePlayer(player, Text.LAND_FIRST)
         return
     end
 
     local logisticsCenter = LSA.findFriendlyLogistics(player.side, playerPosition)
     if logisticsCenter == nil then
         Log.debug("No logistic center nearby")
-        LSA.messagePlayer(player, LSA.text.NEED_LOGISTICS_CENTER)
+        LSA.messagePlayer(player, Text.NEED_LOGISTICS_CENTER)
         return
     end
 
     local container = LSA.findFriendlyCrateAt(player.side, playerPosition)
     if container == nil then
         Log.debug("No container to discard")
-        LSA.messagePlayer(player, LSA.text.NO_CARGO_NEARBY)
+        LSA.messagePlayer(player, Text.NO_CARGO_NEARBY)
         return
     end
 
@@ -490,7 +455,7 @@ function LSA.onDisbandPersonnelMenu(args)
 
     -- is player on the ground
     if playerPosition.airborne then
-        LSA.messagePlayer(player, LSA.text.LAND_FIRST)
+        LSA.messagePlayer(player, Text.LAND_FIRST)
         return
     end
 
@@ -519,7 +484,7 @@ function LSA.onUnloadCargoMenu(args)
 
     -- is player on the ground
     if playerPosition.airborne then
-        LSA.messagePlayer(player, LSA.text.LAND_FIRST)
+        LSA.messagePlayer(player, Text.LAND_FIRST)
         return
     end
 
@@ -540,7 +505,7 @@ function LSA.onUnloadPersonnelMenu(args)
 
     -- is player on the ground
     if playerPosition.airborne then
-        LSA.messagePlayer(player, LSA.text.LAND_FIRST)
+        LSA.messagePlayer(player, Text.LAND_FIRST)
         return
     end
 
@@ -595,7 +560,7 @@ function LSA.onLoadPersonnelMenu(args)
 
     -- is player on the ground
     if playerPosition.airborne then
-        LSA.messagePlayer(player, LSA.text.LAND_FIRST)
+        LSA.messagePlayer(player, Text.LAND_FIRST)
         return
     end
 
@@ -611,7 +576,7 @@ function LSA.onLoadCargoMenu(args)
 
     -- is player on the ground
     if playerPosition.airborne then
-        LSA.messagePlayer(player, LSA.text.LAND_FIRST)
+        LSA.messagePlayer(player, Text.LAND_FIRST)
         return
     end
 
@@ -1361,7 +1326,7 @@ function LSA.garrison(_, time)
         end
     end
 
-    return time + 1
+    return time + 10
 end
 
 function LSA.patrol(_, time)
@@ -1505,7 +1470,7 @@ function LSA.players(_, time)
         end
     end
 
-    return time + 1
+    return time + 3
 end
 
 function LSA.setFlag(key, value)
@@ -1667,7 +1632,7 @@ function LSA.baseSiege(_, time)
         LSA.captureZoneBaseStatus(base)
     end
 
-    return time + 1
+    return time + 10
 end
 
 LSA.BaseRepairsFunctionIds = {}
@@ -1724,12 +1689,12 @@ function LSA.captureZoneBaseStatus(base)
         LSA.BaseCaptureFunctionIds[base.name] = id
 
         local defender = base.side
-        local defenderMessage = string.format(LSA.text.BASE_CAPTURE_IMMINENT, base.name, delay)
+        local defenderMessage = string.format(Text.BASE_CAPTURE_IMMINENT, base.name, delay)
         trigger.action.outTextForCoalition(defender, defenderMessage, 10, true)
         LSA.outSoundForCoalition(defender, "beep.ogg")
 
         local attacker = LSA.theOtherSide(base.side)
-        local attackerMessage = string.format(LSA.text.BASE_CAPTURE_IN_PROGESS, base.name, delay)
+        local attackerMessage = string.format(Text.BASE_CAPTURE_IN_PROGESS, base.name, delay)
         trigger.action.outTextForCoalition(attacker, attackerMessage, 10, true)
         LSA.outSoundForCoalition(attacker, "beep.ogg")
     end
@@ -1740,7 +1705,7 @@ function LSA.captureZoneBaseStatus(base)
         TS.stop(LSA.BaseCaptureFunctionIds[base.name])
         LSA.BaseCaptureFunctionIds[base.name] = nil
 
-        local message = string.format(LSA.text.BASE_SAFE, base.name)
+        local message = string.format(Text.BASE_SAFE, base.name)
         trigger.action.outTextForCoalition(base.side, message, 10, true)
         LSA.outSoundForCoalition(base.side, "beep.ogg")
     end
@@ -1763,11 +1728,11 @@ function LSA.scheduleBaseCapture(args, _)
     local newOwner, previousOwner = Base.capture(base)
 
     -- inform previous owner that they lost the base
-    local lostBaseMessage = string.format(LSA.text.BASE_LOST, base.name)
+    local lostBaseMessage = string.format(Text.BASE_LOST, base.name)
     trigger.action.outTextForCoalition(previousOwner, lostBaseMessage, 10, true)
 
     -- inform new owner that they captured the base
-    local capturedBaseMessage = string.format(LSA.text.BASE_CAPTURED, base.name)
+    local capturedBaseMessage = string.format(Text.BASE_CAPTURED, base.name)
     trigger.action.outTextForCoalition(newOwner, capturedBaseMessage, 10, true)
 
     return nil
@@ -1777,19 +1742,6 @@ function LSA.appendTo(from, to)
     for _, v in ipairs(from) do
         table.insert(to, v)
     end
-end
-
-function LSA.toggleBaseCoalition(base)
-    Log.trace("Toggling base coalition from " .. LSA.side(base.side))
-    if base.side == coalition.side.RED then
-        base.side = coalition.side.BLUE
-    elseif base.side == coalition.side.BLUE then
-        base.side = coalition.side.RED
-    end
-
-    Log.trace(" to " .. LSA.side(base.side))
-    Airbase.getByName(base.name):setCoalition(base.side)
-    Log.trace("Base " .. base.name .. " is now " .. LSA.side(base.side))
 end
 
 LSA.UnitDetonation = {}
@@ -1814,7 +1766,7 @@ function LSA.monitorUnit(base, unitWrp)
         local id = TS.task("destroy traitor", LSA.destroyTraitorUnit, destroyArgs, delay)
         LSA.UnitDetonation[unitName] = id
 
-        local message = string.format(LSA.text.GARRISON_LEAVING_PERIMETER, LSA.settings.outsidePerimeterDelay)
+        local message = string.format(Text.GARRISON_LEAVING_PERIMETER, LSA.settings.outsidePerimeterDelay)
         trigger.action.outTextForUnit(unitId, message, 10, true)
         LSA.outSoundForUnit(unitId, "beep.ogg")
     end
@@ -1826,7 +1778,7 @@ function LSA.monitorUnit(base, unitWrp)
         TS.stop(unitDetonation)
         LSA.UnitDetonation[unitName] = nil
 
-        local message = LSA.text.GARRISON_RETURNING_PERIMETER
+        local message = Text.GARRISON_RETURNING_PERIMETER
         trigger.action.outTextForUnit(unitId, message, 10, true)
         LSA.outSoundForUnit(unitId, "beep.ogg")
     end
@@ -1850,7 +1802,8 @@ function LSA.messageAll(message, delay, clearView)
 end
 
 function LSA.loadState()
-    local path = string.format("%s\\%s", LSA.settings.path, LSA.settings.stateFileName)
+    local theatre = env.mission.theatre
+    local path = string.format("%s\\%s", LSA.settings.path, theatre .. ".state.json")
     -- check if there is a state to load or defaults
     if FileExists(path) then
         Log.debug("State file exists")
@@ -1866,17 +1819,26 @@ function LSA.loadState()
 end
 
 function LSA.loadSavedState()
-    local path = string.format("%s\\%s", LSA.settings.path, LSA.settings.stateFileName)
+    local theatre = env.mission.theatre
+    local path = string.format("%s\\%s", LSA.settings.path, theatre .. ".state.json")
     local content = ReadFile(path)
     local state = net.json2lua(content)
 
-    if LSA.version == state.version then
-        LSA.state = state
-    else
+    if LSA.version ~= state.version then
         Log.debug("Save file version is %s and mission version is %s, loading default state instead.", state.version,
             LSA.version)
         LSA.loadDefaultState()
+        return
     end
+
+    if theatre ~= state.theatre then
+        Log.debug("Save file theatre is %s and mission theatre is %s, loading default state instead.", state.version,
+            LSA.version)
+        LSA.loadDefaultState()
+        return
+    end
+
+    LSA.state = state
 end
 
 function LSA.getRadioModulation(modulation)
@@ -2884,10 +2846,11 @@ function LSA.saveState()
         end
     end
 
+    snapshot.theatre = env.mission.theatre
     snapshot.createdOn = os.date("!%c")
     snapshot.version = LSA.version
     local contents = net.lua2json(snapshot)
-    local path = LSA.settings.path .. "\\" .. LSA.settings.stateFileName
+    local path = LSA.settings.path .. "\\" .. snapshot.theatre .. ".state.json"
     WriteFile(path, contents)
 
     Log.debug("Save file written at %s", snapshot.createdOn)
@@ -4374,7 +4337,7 @@ function LogiCenter.near(player)
     end
 
     Log.debug("No logistic center nearby")
-    LSA.messagePlayer(player, LSA.text.NEED_LOGISTICS_CENTER)
+    LSA.messagePlayer(player, Text.NEED_LOGISTICS_CENTER)
     return nil
 end
 

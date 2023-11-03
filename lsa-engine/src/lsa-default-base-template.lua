@@ -76,15 +76,15 @@ DefaultBaseTemplate.statics.red = {
         },
     },
     -- research facility
-    {
-        type = "Buildings",
-        statics = {
-            { type = "Tech hangar A", distance = 000, angle = 000, heading = 000 },
-            { type = "Mi-26",         distance = 032, angle = 360, heading = 090 },
-            { type = "KrAZ6322",      distance = 027, angle = 155, heading = 090 },
-            { type = "KrAZ6322",      distance = 034, angle = 159, heading = 090 },
-        },
-    },
+    -- {
+    --     type = "Buildings",
+    --     statics = {
+    --         { type = "Tech hangar A", distance = 000, angle = 000, heading = 000 },
+    --         { type = "Mi-26",         distance = 032, angle = 360, heading = 090 },
+    --         { type = "KrAZ6322",      distance = 027, angle = 155, heading = 090 },
+    --         { type = "KrAZ6322",      distance = 034, angle = 159, heading = 090 },
+    --     },
+    -- },
     -- vehicles
     {
         type = "Vehicles",
@@ -224,15 +224,15 @@ DefaultBaseTemplate.statics.blue = {
         },
     },
     -- research facility
-    {
-        type = "Buildings",
-        statics = {
-            { type = "Tech hangar A",     distance = 000, angle = 000, heading = 000 },
-            { type = "CH-47D",            distance = 032, angle = 360, heading = 090 },
-            { type = "M 818",             distance = 027, angle = 155, heading = 090 },
-            { type = "M978 HEMTT Tanker", distance = 034, angle = 159, heading = 090 },
-        },
-    },
+    -- {
+    --     type = "Buildings",
+    --     statics = {
+    --         { type = "Tech hangar A",     distance = 000, angle = 000, heading = 000 },
+    --         { type = "CH-47D",            distance = 032, angle = 360, heading = 090 },
+    --         { type = "M 818",             distance = 027, angle = 155, heading = 090 },
+    --         { type = "M978 HEMTT Tanker", distance = 034, angle = 159, heading = 090 },
+    --     },
+    -- },
     -- vehicles
     {
         type = "Vehicles",

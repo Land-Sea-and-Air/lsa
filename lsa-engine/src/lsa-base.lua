@@ -277,7 +277,7 @@ function Base.capture(base)
 end
 
 function Base.occupy(base)
-    LSA.toggleBaseCoalition(base)
+    Base.__setBaseCoalition(base)
     LSA.paintBasePerimeter(base)
     base.lastAttackAt = nil
     LSA.BaseCaptureFunctionIds[base.name] = nil

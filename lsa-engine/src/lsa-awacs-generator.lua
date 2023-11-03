@@ -8,31 +8,31 @@ function AwacsGenerator.generate(base)
 
     for i, template in ipairs(templates) do
         local zone = BaseZoneTypeMapper.__getRandomZone(zones, template.type)
-        if zone == nil then break end
+        if zone ~= nil then
+            local statics = AwacsGenerator.__generateSupportingStatics(template, base, zone, i)
+            -- [REVIEW] this means that the template should always include the awacs as its first static
+            local awacsStatic = template.statics[1]
 
-        local statics = AwacsGenerator.__generateSupportingStatics(template, base, zone, i)
-        -- [REVIEW] this means that the template should always include the awacs as its first static
-        local awacsStatic = template.statics[1]
+            local awacsName = Dashed(base.name, template.type, i)
+            local awacsType = awacsStatic.type
+            local awacsSide = base.side
+            local awacsFreq = awacsStatic.freq
+            local awacsModulation = awacsStatic.modulation
+            local awacsLocation = LSA.newPos(zone.location, awacsStatic, zone.heading)
 
-        local awacsName = Dashed(base.name, template.type, i)
-        local awacsType = awacsStatic.type
-        local awacsSide = base.side
-        local awacsFreq = awacsStatic.freq
-        local awacsModulation = awacsStatic.modulation
-        local awacsLocation = LSA.newPos(zone.location, awacsStatic, zone.heading)
+            local awacs = Awacs.new(
+                awacsName,
+                awacsType,
+                awacsSide,
+                awacsFreq,
+                awacsModulation,
+                base.name,
+                statics,
+                awacsLocation
+            )
 
-        local awacs = Awacs.new(
-            awacsName,
-            awacsType,
-            awacsSide,
-            awacsFreq,
-            awacsModulation,
-            base.name,
-            statics,
-            awacsLocation
-        )
-
-        table.insert(aircraft, awacs)
+            table.insert(aircraft, awacs)
+        end
     end
 
     return aircraft
