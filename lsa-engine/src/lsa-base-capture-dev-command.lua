@@ -15,11 +15,11 @@ BaseCaptureDevCommand = {
         local newOwner, previousOwner = Base.capture(base)
 
         -- inform previous owner that they lost the base
-        local lostBaseMessage = string.format(LSA.text.BASE_LOST, base.name)
+        local lostBaseMessage = string.format(Text.BASE_LOST, base.name)
         trigger.action.outTextForCoalition(previousOwner, lostBaseMessage, 10, true)
 
         -- inform new owner that they captured the base
-        local capturedBaseMessage = string.format(LSA.text.BASE_CAPTURED, base.name)
+        local capturedBaseMessage = string.format(Text.BASE_CAPTURED, base.name)
         trigger.action.outTextForCoalition(newOwner, capturedBaseMessage, 10, true)
 
         return true, ""

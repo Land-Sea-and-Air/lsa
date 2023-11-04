@@ -89,7 +89,7 @@ function Supplies.findNear(player, includeAll)
     local playerPosition = Player.position(player)
     local containers = LSA.findCargosAt(playerPosition.x, playerPosition.y, LSA.settings.maxSearchRadiusMeters)
     if #containers < 1 then
-        local message = string.format(LSA.text.NO_SUPPLIES_NEARBY, LSA.settings.maxSearchRadiusMeters)
+        local message = string.format(Text.NO_SUPPLIES_NEARBY, LSA.settings.maxSearchRadiusMeters)
         LSA.messagePlayer(player, message)
         return {}
     end
@@ -145,7 +145,7 @@ function Supplies.__alreadySpawned(player, playerPosition)
     local cargoObjects = LSA.findCargo(playerFront, 50) -- [TODO] move to settings
     for _, cargoObject in ipairs(cargoObjects) do
         if cargoObject:getTypeName() == LSA.settings.crateType and cargoObject:getCoalition() == player.side then
-            LSA.messagePlayer(player, LSA.text.CRATE_ALREADY_SPAWNED)
+            LSA.messagePlayer(player, Text.CRATE_ALREADY_SPAWNED)
             return
         end
     end
@@ -155,14 +155,14 @@ function Supplies.bringTo(player)
     local playerPosition = Player.position(player)
     -- is player on the ground
     if playerPosition.airborne then
-        LSA.messagePlayer(player, LSA.text.LAND_FIRST)
+        LSA.messagePlayer(player, Text.LAND_FIRST)
         return
     end
 
     -- is the player close to a logistics center
     local logisticsCenter = LSA.findFriendlyLogistics(player.side, playerPosition)
     if logisticsCenter == nil then
-        LSA.messagePlayer(player, LSA.text.NEED_LOGISTICS_CENTER)
+        LSA.messagePlayer(player, Text.NEED_LOGISTICS_CENTER)
         return
     end
 
@@ -170,7 +170,7 @@ function Supplies.bringTo(player)
 
     local crate = Supplies.new(player.side)
     if not LSA.hasFactionEnoughSupplies(player.side, crate.units) then
-        LSA.messagePlayer(player, LSA.text.NOT_ENOUGH_SUPPLIES_FACTION)
+        LSA.messagePlayer(player, Text.NOT_ENOUGH_SUPPLIES_FACTION)
         return
     end
 
@@ -258,7 +258,7 @@ function Supplies.recover(player)
 
     -- is player on the ground
     if playerPosition.airborne then
-        LSA.messagePlayer(player, LSA.text.LAND_FIRST)
+        LSA.messagePlayer(player, Text.LAND_FIRST)
         return
     end
 

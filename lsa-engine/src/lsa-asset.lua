@@ -104,7 +104,7 @@ function Asset.deploy(player, template, category)
 
     -- is player on the ground
     if playerPosition.airborne then
-        LSA.messagePlayer(player, LSA.text.LAND_FIRST)
+        LSA.messagePlayer(player, Text.LAND_FIRST)
         return
     end
 
@@ -118,14 +118,14 @@ function Asset.deploy(player, template, category)
 
     -- check if there are enough supplies on the crate
     if totalSupplies < template.cost then
-        local message = string.format(LSA.text.NOT_ENOUGH_SUPPLIES_ON_CRATE, totalSupplies, template.cost)
+        local message = string.format(Text.NOT_ENOUGH_SUPPLIES_ON_CRATE, totalSupplies, template.cost)
         LSA.messagePlayer(player, message)
         return
     end
 
     -- check if the location in front of player (where we will spawn the item) is unobstructed
     -- if LSA.isPlayerFrontObstructed(player, deployable.space) then
-    --     LSA.messagePlayer(player, LSA.text.CANNOT_SPAWN)
+    --     LSA.messagePlayer(player, Text.CANNOT_SPAWN)
     --     return
     -- end
 
@@ -164,9 +164,9 @@ function Asset.deploy(player, template, category)
     end
 
     if totalSupplies == template.cost then
-        LSA.messagePlayer(player, LSA.text.NO_SUPPLIES_LEFT_CRATE)
+        LSA.messagePlayer(player, Text.NO_SUPPLIES_LEFT_CRATE)
     else
-        local message = string.format(LSA.text.SUPPLIES_LEFT_CRATE, totalSupplies - template.cost)
+        local message = string.format(Text.SUPPLIES_LEFT_CRATE, totalSupplies - template.cost)
         LSA.messagePlayer(player, message)
     end
 end

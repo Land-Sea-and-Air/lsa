@@ -223,7 +223,7 @@ function Personnel.near(player)
     local name = LSA.findFriendlyPersonnelAt(player, playerPosition)
     if name == nil then
         Log.debug("No personnel to disband")
-        LSA.messagePlayer(player, LSA.text.NO_PERSONNEL_NEARBY)
+        LSA.messagePlayer(player, Text.NO_PERSONNEL_NEARBY)
         return nil
     end
 

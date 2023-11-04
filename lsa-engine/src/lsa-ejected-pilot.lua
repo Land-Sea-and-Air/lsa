@@ -105,7 +105,7 @@ function EjectedPilot.returnPilot(player)
     -- check if near a friendly logistics center
     local center = LSA.findFriendlyLogistics(player.side, playerPosition)
     if center == nil then
-        LSA.messagePlayer(player, LSA.text.NOT_CLOSE_ENOUGH_LOGISTICS)
+        LSA.messagePlayer(player, Text.NOT_CLOSE_ENOUGH_LOGISTICS)
         return
     end
 
@@ -121,7 +121,7 @@ function EjectedPilot.returnPilot(player)
     UnitWrp.removeWeight(unitWrp, pilot.mass)
     EjectedPilot.__removeByTransport(player.unitName)
 
-    local m = string.format(LSA.text.PILOT_RETURNED, pilot.playerName)
+    local m = string.format(Text.PILOT_RETURNED, pilot.playerName)
     LSA.messagePlayer(player, m)
     LSA.outSoundForUnit(player.unitId, "beep.ogg")
 end
@@ -149,7 +149,7 @@ function EjectedPilot.rescue(player)
     local pilot = EjectedPilot.findNear(player)
     if pilot == nil then
         Log.debug("Could not find any friendly downed pilots near the player")
-        local m = string.format(LSA.text.NO_FRIENDLY_PILOT_FOUND, LSA.settings.maxSearchRadiusMeters)
+        local m = string.format(Text.NO_FRIENDLY_PILOT_FOUND, LSA.settings.maxSearchRadiusMeters)
         LSA.messagePlayer(player, m)
         return
     end
@@ -166,7 +166,7 @@ function EjectedPilot.rescue(player)
     pilot.pilotUnit:destroy() -- removes the pilot instance from DCS
     pilot.pilotUnit = nil
 
-    local m = string.format(LSA.text.PILOT_RESCUED, pilot.playerName)
+    local m = string.format(Text.PILOT_RESCUED, pilot.playerName)
     LSA.messagePlayer(player, m)
     LSA.outSoundForUnit(player.unitId, "beep.ogg")
 end

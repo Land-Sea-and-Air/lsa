@@ -126,7 +126,7 @@ function Repairs.__alreadySpawned(player, playerPosition)
     local cargoObjects = LSA.findCargo(playerFront, 50) -- [TODO] move to settings
     for _, cargoObject in ipairs(cargoObjects) do
         if cargoObject:getTypeName() == LSA.settings.crateType and cargoObject:getCoalition() == player.side then
-            LSA.messagePlayer(player, LSA.text.CRATE_ALREADY_SPAWNED)
+            LSA.messagePlayer(player, Text.CRATE_ALREADY_SPAWNED)
             return
         end
     end
@@ -136,14 +136,14 @@ function Repairs.bringTo(player)
     local playerPosition = Player.position(player)
     -- is player on the ground
     if playerPosition.airborne then
-        LSA.messagePlayer(player, LSA.text.LAND_FIRST)
+        LSA.messagePlayer(player, Text.LAND_FIRST)
         return
     end
 
     -- is the player close to a logistics center
     local logistics = LSA.findFriendlyLogistics(player.side, playerPosition)
     if logistics == nil then
-        LSA.messagePlayer(player, LSA.text.NEED_LOGISTICS_CENTER)
+        LSA.messagePlayer(player, Text.NEED_LOGISTICS_CENTER)
         return
     end
 
