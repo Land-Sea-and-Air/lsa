@@ -12,7 +12,7 @@ sidebar_position: 3
 
 Land, Sea and Air features a challenging lives system that will require you to manage your combat commitments carefully.
 
-The system exist to induce a feeling of constrained resources, where the aircraft you fly are not infinitely available.
+The system exists to induce a feeling of constrained resources, where the aircraft you fly are not infinitely available.
 
 It works by allowing the player 3 lives in total.
 
