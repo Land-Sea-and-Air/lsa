@@ -21,7 +21,7 @@ function Repairs.__spawnContainer(position, side)
     local offset = { distance = LSA.settings.crateSpawnDistance, angle = position.heading }
     local inFront = LSA.newPos(position, offset)
     local scheme = LSA.schemeStatic(Repairs.name, Repairs.type, inFront, position.heading + 90)
-    local static = LSA.spawnStatic(scheme, side)
+    local static = LSA.spawnStatic2(scheme, side)
     assert(static ~= nil)
 
     return scheme.name

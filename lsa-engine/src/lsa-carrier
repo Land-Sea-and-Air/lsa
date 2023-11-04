@@ -1,0 +1,232 @@
+Vessel = {}
+
+function Vessel.new(name, template, location, side)
+    local vessel = {
+        name = name,
+        type = template.type,
+        heading = template.heading,
+        freq = template.freq,
+        modulation = template.modulation,
+        angle = template.angle,
+        distance = template.distance,
+        location = location,
+        side = side,
+        killedOn = nil
+    }
+
+    return vessel
+end
+
+function Vessel.isAlive(vessel)
+    if vessel == nil then return false end
+    return vessel.killedOn == nil
+end
+
+function Vessel.isDead(vessel)
+    if vessel == nil then return false end
+    return vessel.killedOn ~= nil
+end
+
+function Vessel.onLostUnit(event)
+    local unitName = event.initiator:getName()
+    local unit = RefUnits.get(unitName)
+    if unit ~= nil then
+        Vessel.kill(unit)
+    end
+end
+
+function Vessel.kill(vessel)
+    if vessel ~= nil then
+        vessel.killedOn = Now()
+    end
+end
+
+CarrierGroup = {
+}
+
+function CarrierGroup.new(name, side)
+    local carrierGroup = {
+        name = name,
+        units = {},
+        side = side,
+        commands = {},
+        killedOn = nil
+    }
+
+    return carrierGroup
+end
+
+function CarrierGroup.addUnit(carrierGroup, unit)
+    table.insert(carrierGroup.units, unit)
+end
+
+function CarrierGroup.setCommands(carrierGroup, commands)
+    if carrierGroup ~= nil then
+        carrierGroup.commands = commands
+    end
+end
+
+function CarrierGroup.generate(airbaseName)
+    local unit = Unit.getByName(airbaseName)
+    if unit == nil then return end
+
+    local group = unit:getGroup()
+    if group == nil then return end
+
+    -- make sure only one unit (the carrier) is in the group
+    if #group:getUnits() > 1 then return end
+
+    local groupName = group:getName()
+    local unitTypeName = unit:getTypeName()
+    local unitLocation = ToVec2(unit:getPoint())
+    local unitCoalition = unit:getCoalition()
+
+    local templates = LSA.byCoalition(unitCoalition, CarrierTemplates.red, CarrierTemplates.blue)
+    local template = templates[unitTypeName]
+    if template == nil then return end
+
+    local carrierGroup = CarrierGroup.new(groupName, unitCoalition)
+    CarrierGroup.setCommands(carrierGroup, template.commands)
+
+    for i, vesselTemplate in ipairs(template.units) do
+        local vesselName = Dashed(carrierGroup.name, i)
+        if i == 1 then
+            vesselName = carrierGroup.name
+        end
+        local vesselLocation = LSA.newPos(unitLocation, vesselTemplate)
+        local vessel = Vessel.new(vesselName, vesselTemplate, vesselLocation, unitCoalition)
+        CarrierGroup.addUnit(carrierGroup, vessel)
+    end
+
+    table.insert(LSA.state.carriers2, carrierGroup)
+end
+
+function CarrierGroup.spawn(carrierGroup)
+    if CarrierGroup.isDead(carrierGroup) then return end
+
+    local scheme = CarrierGroup.__scheme(carrierGroup)
+    local group = LSA.spawnShip2(scheme, carrierGroup.side)
+
+    for _, unit in ipairs(carrierGroup.units) do
+        RefUnits.new(unit.name, unit)
+    end
+
+    if group ~= nil then
+        local commands = LSA.carrierCommands()
+        local carrierUnit = carrierGroup.units[1]
+        local unitName = carrierUnit.name
+        local frequency = carrierUnit.freq
+        local modulation = carrierUnit.modulation
+
+        -- set frequency
+        commands["RADIO"](unitName, { frequency = frequency, modulation = modulation })
+
+        if carrierGroup.commands ~= nil then
+            for _, command in ipairs(carrierGroup.commands) do
+                Log.debug("Running command " .. command.name .. " for " .. unitName)
+                commands[command.name](unitName, command.args)
+            end
+        end
+    end
+
+    return group
+end
+
+function CarrierGroup.__scheme(carrierGroup)
+    local group = LSA.getGroup(carrierGroup.name)
+    local unit = group:getUnit(1)
+
+    local schemeGroup = {
+        ["visible"] = false,
+        ["groupId"] = group:getID(),
+        ["tasks"] = {},
+        ["hidden"] = false,
+        ["units"] = {},
+        ["uncontrollable"] = true,
+        ["name"] = carrierGroup.name,
+        ["hiddenOnMFD"] = true,
+        ["start_time"] = 0,
+        ["task"] = "Ground Nothing",
+    }
+
+    for i, vessel in ipairs(carrierGroup.units) do
+        local schemeUnit = {
+            ["heading"] = math.rad(vessel.heading),
+            ["modulation"] = vessel.modulation,
+            ["skill"] = LSA.settings.defaultUnitSkillLevel,
+            ["y"] = vessel.location.y,
+            ["x"] = vessel.location.x,
+            ["name"] = vessel.name,
+            ["type"] = vessel.type,
+            ["frequency"] = vessel.freq,
+        }
+
+        if i == 1 then
+            schemeUnit.unitId = unit:getID()
+            schemeUnit.name = unit:getName()
+        end
+
+        table.insert(schemeGroup.units, schemeUnit)
+    end
+
+    return schemeGroup
+end
+
+function CarrierGroup.isDead(carrierGroup)
+    for _, unit in ipairs(carrierGroup.units) do
+        if Vessel.isAlive(unit) then
+            return false
+        end
+    end
+
+    return true
+end
+
+function CarrierGroup.isAlive(carrierGroup)
+    for _, unit in ipairs(carrierGroup.units) do
+        if Vessel.isAlive(unit) then
+            return true
+        end
+    end
+
+    return false
+end
+
+function CarrierGroup.isAvailable(carrierGroup)
+    if CarrierGroup.isAlive(carrierGroup) then return true end
+
+    local killed = carrierGroup.killed
+    local waitPeriod = LSA.settings.waitPeriodForNewCarrier
+    local today = LSA.getToday()
+
+    -- if the current date is greater than the kill date
+    -- the we can just subtract the current with the kill date
+    -- and compare with the wait period
+    if today >= killed then
+        return today - killed > waitPeriod
+    end
+
+    -- because the mission loops in a given year
+    -- when the date of kill is greater than the current date
+    -- we need to add a year's worth of seconds to the current date
+    -- effectively moving the current date to next year
+    -- then subtract the kill date to the new current date
+    -- and compare with the wait period
+    local yearLenghtInSeconds = LSA.getYearLengthInSeconds(env.mission.date.year)
+    return (today + yearLenghtInSeconds) - killed > waitPeriod
+end
+
+function CarrierGroup.updateLocations()
+    for _, carrier in ipairs(LSA.state.carriers2) do
+        for _, vessel in ipairs(carrier.units) do
+            if Vessel.isAlive(vessel) then
+                local unit = LSA.getUnit(vessel.name)
+                if unit ~= nil then
+                    local currentPosition = ToVec2(unit:getPoint())
+                    vessel.x = currentPosition.x
+                    vessel.y = currentPosition.y
+                end
+            end
+        end
+    end
+end

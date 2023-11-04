@@ -1,15 +1,107 @@
 Base = {}
 
-function Base.new()
+function Base.new(airbase)
+    local airbaseName = airbase:getName()
+    local airbaseDesc = airbase:getDesc()
+    local airbaseType = airbaseDesc.category
+
+    local airbaseId = airbase:getID()
+    local airbaseSide = airbase:getCoalition()
+    local airbaseOrientation = LSA.getAirbaseOrientation(airbase, airbaseType)
+    local airbaseLocation = ToVec2(airbase:getPoint())
+
+    local longestRunwayLocation = nil
+    if airbaseType == Airbase.Category.AIRDROME then
+        local longestRunway = LSA.getLongestRunway(airbase)
+        longestRunwayLocation = ToVec2(longestRunway.position)
+    end
+
+    local apronPolygons = LSA.getApronPolygons(airbaseName)
+    
     local base = {
+        id = airbaseId,     -- dcs id
+        name = airbaseName, -- dcs name
+        type = airbaseType,
+        side = airbaseSide,
+        location = airbaseLocation,
+        longestRunwayLocation = longestRunwayLocation,
+        template = LSA.airbaseTemplateTypes[airbaseName],
         lastAttackAt = nil,
-        perimeterMarkupId = nil,
+        orientation = airbaseOrientation,
+        apron = {
+            name = Dashed(airbaseName, "Apron"),
+            polygons = apronPolygons,
+            markupId = nil
+        },
+        patrol = {
+            name = Dashed(airbaseName, "Patrol"),
+        },
+        perimeter = {
+            name = Dashed(airbaseName, "Perimeter"),
+            markupId = nil
+        },
+        capture = {
+            name = Dashed(airbaseName, "Capture-Zone"),
+            scheduled = nil,
+            markupId = nil
+        },
         groups = {},
         statics = {},
         repairs = {},
         logistics = {},
+        bombers = {},
+        tankers = {},
+        awacs = {},
     }
     return base
+end
+
+function Base.createEmpty(airbase)
+    local airbaseName = airbase:getName()
+    local airbaseDesc = airbase:getDesc()
+    local airbaseType = airbaseDesc.category
+
+    local airbaseId = airbase:getID()
+    local airbaseSide = airbase:getCoalition()
+    local airbaseOrientation = LSA.getAirbaseOrientation(airbase, airbaseType)
+    local airbaseLocation = ToVec2(airbase:getPoint())
+
+    local longestRunwayLocation = nil
+    if airbaseType == Airbase.Category.AIRDROME then
+        local longestRunway = LSA.getLongestRunway(airbase)
+        longestRunwayLocation = ToVec2(longestRunway.position)
+    end
+
+    local apronPolygons = LSA.getApronPolygons(airbaseName)
+
+    return {
+        id = airbaseId,     -- dcs id
+        name = airbaseName, -- dcs name
+        type = airbaseType,
+        side = airbaseSide,
+        location = airbaseLocation,
+        longestRunwayLocation = longestRunwayLocation,
+        template = LSA.airbaseTemplateTypes[airbaseName],
+        lastAttackAt = nil,
+        orientation = airbaseOrientation,
+        apron = {
+            name = Dashed(airbaseName, "Apron"),
+            polygons = apronPolygons,
+            markupId = nil
+        },
+        patrol = {
+            name = Dashed(airbaseName, "Patrol"),
+        },
+        perimeter = {
+            name = Dashed(airbaseName, "Perimeter"),
+            markupId = nil
+        },
+        capture = {
+            name = Dashed(airbaseName, "Capture-Zone"),
+            scheduled = nil,
+            markupId = nil
+        },
+    }
 end
 
 function Base.hasRepairs(base)

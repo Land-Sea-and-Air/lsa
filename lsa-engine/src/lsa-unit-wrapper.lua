@@ -32,7 +32,9 @@ function UnitWrp.isAlive(unitWrp)
 end
 
 function UnitWrp.kill(unitWrp)
-    unitWrp.killedOn = Now()
+    if unitWrp ~= nil then
+        unitWrp.killedOn = Now()
+    end
 end
 
 function UnitWrp.repair(unitWrp)

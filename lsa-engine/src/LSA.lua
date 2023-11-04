@@ -40,6 +40,7 @@ LSA.state.counters = {}
 
 LSA.state.players = {}
 
+LSA.state.carriers2 = {}
 LSA.state.carriers = {}
 LSA.state.carriers.red = {}
 LSA.state.carriers.blue = {}
@@ -100,55 +101,6 @@ LSA.misc = {}
 LSA.misc.events = {}
 
 LSA.OceanPoly = {}
-
-function LSA.setIndexUnits(group, base)
-    for _, unit in ipairs(group.units) do
-        LSA.setIndexUnit(unit.name, group, unit, base)
-    end
-end
-
-function LSA.newIndexUnits(group)
-    for _, unit in ipairs(group.units) do
-        LSA.newIndexUnit(unit.name)
-    end
-end
-
-function LSA.setIndexUnit(unitName, group, unit, base)
-    local index = LSA.index.units[unitName] or {}
-    index.group = group
-    index.unit = unit
-    index.base = base
-
-    LSA.index.units[unitName] = index
-end
-
-function LSA.newIndexUnit(unitName)
-    if LSA.index.units[unitName] == nil then
-        local unit = {}
-
-        -- setup transit structures
-        --unit.transit = Transit.new()
-
-        LSA.index.units[unitName] = unit
-    end
-    return LSA.index.units[unitName]
-end
-
-function LSA.getIndexUnit(unitName)
-    local index = LSA.index.units[unitName]
-    if index ~= nil then return index end
-
-    Log.debug("Unit " .. tostring(unitName) .. " was not found in the index")
-    return nil
-end
-
-LSA.index.statics = {}
-
-function LSA.newIndexStatic(staticName)
-    local index = LSA.index.statics[staticName] or {}
-    LSA.index.statics[staticName] = index
-    return LSA.index.statics[staticName]
-end
 
 function LSA.start()
     local start = os.time()
@@ -665,7 +617,6 @@ function LSA:onEvent(event)
     end
 
     if event.id == world.event.S_EVENT_TAKEOFF then
-        Dump(event)
         LSA.onTakeoffEvent(event)
         return
     end
@@ -706,13 +657,11 @@ function LSA:onEvent(event)
     end
 
     if event.id == world.event.S_EVENT_ENGINE_STARTUP then
-        Dump(event)
         LSA.onEngineStartupEvent(event)
         return
     end
 
     if event.id == world.event.S_EVENT_ENGINE_SHUTDOWN then
-        Dump(event)
         LSA.onEngineShutdownEvent(event)
         return
     end
@@ -900,7 +849,6 @@ function LSA.onPlayerLeaveAircraft(unitName)
     local unit = Unit.getByName(unitName)
     if unit ~= nil and unit:inAir() and unit:getLife() > 0 and Player.isPlayer(unitName) then
         Log.debug("You left your plane while in the air")
-        --Player.unitLost(unitName)
     end
 end
 
@@ -908,7 +856,6 @@ function LSA.onPlayerLeaveHelicopter(unitName)
     local unit = Unit.getByName(unitName)
     if unit ~= nil and unit:inAir() and unit:getLife() > 0 and Player.isPlayer(unitName) then
         Log.debug("You left your helo while in the air")
-        --Player.unitLost(unitName)
     end
     local unitType = unit:getTypeName()
     if Transport.isTransport(unitType) then
@@ -1019,47 +966,6 @@ function LSA.findNearestUnit(player)
 
     if #units == 0 then return nil end
     return units[1].unit
-end
-
-function LSA.findClosestGroup(player, playerPosition)
-    local foundUnits = LSA.findUnitsAt(playerPosition.x, playerPosition.y, LSA.settings.maxSearchRadiusMeters)
-    if #foundUnits < 1 then
-        Log.debug("Could not find any units near player")
-        return nil
-    end
-
-    -- remove own player vehicle from list
-    for index, unitName in ipairs(foundUnits) do
-        if unitName == player.unitName then
-            table.remove(foundUnits, index)
-            break
-        end
-    end
-
-    -- determine the closest unit
-    local units = {}
-    for _, unitName in ipairs(foundUnits) do
-        local index = LSA.getIndexUnit(unitName)
-        assert(index ~= nil)
-        local unit = index.unit
-        if unit ~= nil then
-            if unit._side == player.side then
-                local distance = Distance(playerPosition, { x = unit.x, y = unit.y })
-                table.insert(units, { index = index, distance = distance })
-            end
-        end
-    end
-
-    if #units < 1 then return nil end
-
-    local byDistance = function(a, b)
-        return a.distance < b.distance
-    end
-
-    table.sort(units, byDistance)
-
-    -- return the group from the indexed unit
-    return units[1].index.group
 end
 
 function LSA.logisticsMenuEntries(player)
@@ -1189,6 +1095,7 @@ function LSA.onLostUnit(event)
     Tanker.onLostUnit(unitName)
     UnitWrp.onUnitLost(event)
     Base.onLostUnit(event)
+    Vessel.onLostUnit(event)
 end
 
 function LSA.getToday()
@@ -1930,36 +1837,10 @@ function LSA.getYearLengthInSeconds(year)
     return endYear - startYear
 end
 
-function LSA.populateShips()
-    local function _carrierSpawn(carriers, side)
-        for _, carrier in ipairs(carriers) do
-            Log.debug("Spawning carrier " .. carrier.fleet.name)
-
-            if LSA.hasCarrierArrived(carrier.fleet) then
-                carrier.fleet._killed = nil
-            end
-
-            local group = LSA.spawnShip(carrier.fleet, side)
-            if group ~= nil then
-                local commands = LSA.carrierCommands()
-                local unitName = carrier.fleet.units[1].name
-                local frequency = carrier.fleet.units[1].frequency
-                local modulation = carrier.fleet.units[1].modulation
-                -- set frequency
-                commands["RADIO"](unitName, { frequency = frequency, modulation = modulation })
-
-                if carrier.template.commands ~= nil then
-                    for _, command in ipairs(carrier.template.commands) do
-                        Log.debug("Running command " .. command.name)
-                        commands[command.name](unitName, command.args)
-                    end
-                end
-            end
-        end
+function LSA.populateShips2()
+    for _, carrier in ipairs(LSA.state.carriers2) do
+        CarrierGroup.spawn(carrier)
     end
-
-    _carrierSpawn(LSA.state.carriers.red, coalition.side.RED)
-    _carrierSpawn(LSA.state.carriers.blue, coalition.side.BLUE)
 end
 
 function LSA.populateAssets()
@@ -1981,7 +1862,7 @@ function LSA.populateMissionFromState()
     LSA.populateLandBases()
 
     -- populate ships
-    LSA.populateShips()
+    LSA.populateShips2()
 
     -- populate ground units (non-base)
     LSA.populateAssets()
@@ -2068,43 +1949,6 @@ function LSA.loadDefaultState()
     LSA.state.faction.supplies.blue = LSA.settings.maxSupplies
 end
 
-function LSA.generateCarriers(airbaseName)
-    local unit = Unit.getByName(airbaseName)
-    if unit == nil then return end
-
-    local group = unit:getGroup()
-    if group == nil then return end
-
-    -- make sure only one unit (the carrier) is in the group
-    if #group:getUnits() > 1 then return end
-
-    local groupId = group:getID()
-    local groupName = group:getName()
-    local unitId = unit:getID()
-    local unitName = unit:getName()
-    local unitTypeName = unit:getTypeName()
-    local unitPoint = unit:getPoint()
-    local unitCoalition = unit:getCoalition()
-
-    local templates = LSA.byCoalition(unitCoalition, Templates.carriers.red, Templates.carriers.blue)
-    local template = templates[unitTypeName]
-    if template == nil then return end
-
-    local position = ToVec2(unitPoint)
-    local fleet = LSA.shipsFromTemplate(groupName, position, template)
-
-    -- in order to preserve the slots created in the mission editor
-    -- the id's and names of the group and the carrier units must match exactly
-    -- we override the generated ones here
-    fleet.name = groupName
-    fleet.groupId = groupId
-    fleet.units[1].unitId = unitId
-    fleet.units[1].name = unitName
-
-    local carriers = LSA.byCoalition(unitCoalition, LSA.state.carriers.red, LSA.state.carriers.blue)
-    table.insert(carriers, { fleet = fleet, template = template })
-end
-
 function LSA.getLongestRunway(airbase)
     local byLength = function(a, b)
         return a.length > b.length
@@ -2148,11 +1992,11 @@ function LSA.loadDefaultBaseState(airbase)
     local airbaseType = airbaseDesc.category
 
     if airbaseType == Airbase.Category.SHIP then
-        LSA.generateCarriers(airbaseName)
+        CarrierGroup.generate(airbaseName)
         return
     end
 
-    local base = LSA.createEmptyBase(airbase)
+    local base = Base.new(airbase)
 
     base.groups = GroupGenerator.generate(base)
     base.statics, base.repairs, base.logistics = StaticsGenerator.generate(base)
@@ -2163,54 +2007,6 @@ function LSA.loadDefaultBaseState(airbase)
 
     -- store the new base in the state
     LSA.state.bases[base.name] = base
-end
-
-function LSA.createEmptyBase(airbase)
-    local airbaseName = airbase:getName()
-    local airbaseDesc = airbase:getDesc()
-    local airbaseType = airbaseDesc.category
-
-    local airbaseId = airbase:getID()
-    local airbaseSide = airbase:getCoalition()
-    local airbaseOrientation = LSA.getAirbaseOrientation(airbase, airbaseType)
-    local airbaseLocation = ToVec2(airbase:getPoint())
-
-    local longestRunwayLocation = nil
-    if airbaseType == Airbase.Category.AIRDROME then
-        local longestRunway = LSA.getLongestRunway(airbase)
-        longestRunwayLocation = ToVec2(longestRunway.position)
-    end
-
-    local apronPolygons = LSA.getApronPolygons(airbaseName)
-
-    return {
-        id = airbaseId,     -- dcs id
-        name = airbaseName, -- dcs name
-        type = airbaseType,
-        side = airbaseSide,
-        location = airbaseLocation,
-        longestRunwayLocation = longestRunwayLocation,
-        template = LSA.airbaseTemplateTypes[airbaseName],
-        lastAttackAt = nil,
-        orientation = airbaseOrientation,
-        apron = {
-            name = Dashed(airbaseName, "Apron"),
-            polygons = apronPolygons,
-            markupId = nil
-        },
-        patrol = {
-            name = Dashed(airbaseName, "Patrol"),
-        },
-        perimeter = {
-            name = Dashed(airbaseName, "Perimeter"),
-            markupId = nil
-        },
-        capture = {
-            name = Dashed(airbaseName, "Capture-Zone"),
-            scheduled = nil,
-            markupId = nil
-        },
-    }
 end
 
 function LSA.getApronPolygons(airbaseName)
@@ -2262,56 +2058,6 @@ function LSA.countNamedSpawnZones(name)
     return count
 end
 
-function LSA.generateBombers(base, regen)
-    Log.trace("Generating bombers for " .. base.name)
-    regen = regen or false
-    base.bombers.statics = {}
-
-    local randomZones = LSA.pickRandomZones(base.bombers.spawns)
-    if #randomZones == 0 then return {} end
-    local blueprints = LSA.getBaseBombersBlueprints(base)
-    if #blueprints == 0 then return {} end
-
-    for i, blueprint in ipairs(blueprints) do
-        if randomZones[i] == nil then break end
-        LSA.staticsFromTemplate(
-            base.bombers.statics,
-            base.bombers.name,
-            randomZones[i].location,
-            blueprint,
-            randomZones[i].heading,
-            regen)
-    end
-
-    Log.debug(base.name .. " - #bombers " .. #base.bombers.statics)
-    return base.bombers.statics
-end
-
-function LSA.generateTankers(base, regen)
-    Log.trace("Generating tankers for " .. base.name)
-    regen = regen or false
-    base.tankers.statics = {}
-
-    local randomZones = LSA.pickRandomZones(base.tankers.spawns)
-    if #randomZones == 0 then return {} end
-    local blueprints = LSA.getBaseTankersBlueprints(base)
-    if #blueprints == 0 then return {} end
-
-    for i, blueprint in ipairs(blueprints) do
-        if randomZones[i] == nil then break end
-        LSA.staticsFromTemplate(
-            base.tankers.statics,
-            base.tankers.name,
-            randomZones[i].location,
-            blueprint,
-            randomZones[i].heading,
-            regen)
-    end
-
-    Log.debug(base.name .. " - #tankers " .. #base.tankers.statics)
-    return base.tankers.statics
-end
-
 --- Determine a position that is offset from the given center.
 --- @param center2d table
 --- @param offset table
@@ -2326,131 +2072,6 @@ function LSA.newPos(center2d, offset, rotation)
     return { x = x, y = y }
 end
 
-function LSA.getBaseRepairsBlueprints(base)
-    if base.template ~= nil then
-        local template = Templates[string.lower(base.template)]
-        return LSA.byCoalition(base.side, template.repairs.v2.red, template.repairs.v2.blue)
-    end
-
-    if base.type == Airbase.Category.AIRDROME then
-        return LSA.byCoalition(base.side, Templates.repairs.v2.red, Templates.repairs.v2.blue)
-    end
-    if base.type == Airbase.Category.HELIPAD then
-        return LSA.byCoalition(base.side, Templates.farps.repairs.v2.red, Templates.farps.repairs.v2.blue)
-    end
-
-    return {}
-end
-
-function LSA.getBaseLogisticsBlueprints(base)
-    if base.template ~= nil then
-        local template = Templates[string.lower(base.template)]
-        return LSA.byCoalition(base.side, template.logistics.v2.red, template.logistics.v2.blue)
-    end
-
-    if base.type == Airbase.Category.AIRDROME then
-        return LSA.byCoalition(base.side, Templates.logistics.v2.red, Templates.logistics.v2.blue)
-    end
-    if base.type == Airbase.Category.HELIPAD then
-        return LSA.byCoalition(base.side, Templates.farps.logistics.v2.red, Templates.farps.logistics.v2.blue)
-    end
-
-    return {}
-end
-
-function LSA.getBaseSamsBlueprints(base)
-    if base.template ~= nil then
-        local template = Templates[string.lower(base.template)]
-        return LSA.byCoalition(base.side, template.sams.v2.red, template.sams.v2.blue)
-    end
-
-    if base.type == Airbase.Category.AIRDROME then
-        return LSA.byCoalition(base.side, Templates.sams.v2.red, Templates.sams.v2.blue)
-    end
-    if base.type == Airbase.Category.HELIPAD then
-        -- [TODO] make actual farp sam blueprints
-        return LSA.byCoalition(base.side, Templates.sams.v2.red, Templates.sams.v2.blue)
-    end
-
-    return {}
-end
-
-function LSA.getBaseVehicleBlueprints(base)
-    if base.template ~= nil then
-        local template = Templates[string.lower(base.template)]
-        return LSA.byCoalition(base.side, template.vehicles.v2.red, template.vehicles.v2.blue)
-    end
-
-    if base.type == Airbase.Category.AIRDROME then
-        return LSA.byCoalition(base.side, Templates.vehicles.v2.red, Templates.vehicles.v2.blue)
-    end
-    if base.type == Airbase.Category.HELIPAD then
-        return LSA.byCoalition(base.side, Templates.farps.vehicles.v2.red, Templates.farps.vehicles.v2.blue)
-    end
-
-    return {}
-end
-
-function LSA.getBaseBombersBlueprints(base)
-    -- if base.template ~= nil then
-    --     local template = Templates[string.lower(base.template)]
-    --     return LSA.byCoalition(base.side, template.bombers.v2.red, template.bombers.v2.blue)
-    -- end
-
-    if base.type == Airbase.Category.AIRDROME then
-        return LSA.byCoalition(base.side, Templates.bombers.v2.red, Templates.bombers.v2.blue)
-    end
-    -- if base.type == Airbase.Category.HELIPAD then
-    --     return LSA.byCoalition(base.side, Templates.farps.bombers.v2.red, Templates.farps.bombers.v2.blue)
-    -- end
-
-    return {}
-end
-
-function LSA.getBaseTankersBlueprints(base)
-    -- if base.template ~= nil then
-    --     local template = Templates[string.lower(base.template)]
-    --     return LSA.byCoalition(base.side, template.tankers.red, template.tankers.blue)
-    -- end
-
-    if base.type == Airbase.Category.AIRDROME then
-        return LSA.byCoalition(base.side, Templates.tankers.red, Templates.tankers.blue)
-    end
-    -- if base.type == Airbase.Category.HELIPAD then
-    --     return LSA.byCoalition(base.side, Templates.farps.tankers.red, Templates.farps.tankers.blue)
-    -- end
-
-    return {}
-end
-
-function LSA.staticsFromTemplate(schemes, name, location2d, template, orientation, regen)
-    if template.statics == nil then return nil end
-
-    schemes = schemes or {}
-    orientation = orientation or 0
-    regen = regen or false
-    local today = LSA.getToday()
-
-    for _, static in ipairs(template.statics) do
-        -- generate a scheme for the static
-        local pos2d = LSA.newPos(location2d, static, orientation)
-        local scheme = LSA.schemeStatic(name, static.type, pos2d, static.heading + orientation)
-
-        -- the template that created the static
-        scheme._template = static
-
-        -- should the static be dead
-        if regen then
-            scheme._killed = today
-        end
-
-        -- add the static scheme to the schemes
-        table.insert(schemes, scheme)
-    end
-
-    return schemes
-end
-
 function LSA.shipsFromTemplate(name, location2d, blueprint)
     local group = LSA.groupScheme(name)
     if blueprint.vessels ~= nil then
@@ -2461,132 +2082,6 @@ function LSA.shipsFromTemplate(name, location2d, blueprint)
         end
     end
     return group
-end
-
-function LSA.groupsFromTemplate(schemes, name, location2d, template, orientation, regen)
-    schemes = schemes or {}
-    orientation = orientation or 0
-    regen = regen or false
-    local today = LSA.getToday()
-
-    -- multiple units groups
-    if template.units ~= nil then
-        -- generate a scheme for a group
-        local groupScheme = LSA.groupScheme(name)
-
-        -- template that created the scheme
-        groupScheme._template = template
-
-        -- should the group be dead
-        if regen then
-            groupScheme._killed = today
-        end
-
-        -- tasks for the group
-        groupScheme._taskName = template.taskName
-
-        for _, unit in ipairs(template.units) do
-            -- generate a scheme for each unit
-            local unitName = groupScheme.name
-            local unitPos = LSA.newPos(location2d, unit, orientation)
-            local unitType = unit.type
-            local unitHdg = unit.heading - (360 - orientation)
-            local unitScheme = LSA.unitScheme(unitName, unitPos, unitType, unitHdg)
-
-            -- template that created the unit
-            unitScheme._template = unit
-
-            -- should the unit be dead
-            if regen then
-                unitScheme._killed = today
-            end
-
-            -- add the unit scheme to the group
-            table.insert(groupScheme.units, unitScheme)
-        end
-
-        -- add the group scheme to the schemes
-        table.insert(schemes, groupScheme)
-    end
-
-    -- single unit groups
-    if template.groups ~= nil then
-        for _, group in ipairs(template.groups) do
-            -- generate a scheme for a group
-            local groupScheme = LSA.groupScheme(name)
-
-            -- template that created the scheme
-            groupScheme._template = template
-
-            -- should the group be dead
-            if regen then
-                groupScheme._killed = today
-            end
-
-            -- tasks for the group
-            groupScheme._taskName = template.taskName
-
-            -- generate a scheme for the single unit
-            local unitName = groupScheme.name
-            local unitPos = LSA.newPos(location2d, group, orientation)
-            local unitType = group.type
-            local unitHdg = group.heading - (360 - orientation)
-            local unitScheme = LSA.unitScheme(unitName, unitPos, unitType, unitHdg)
-
-            -- add the unit scheme to the group
-            table.insert(groupScheme.units, unitScheme)
-
-            -- add the group scheme to the schemes
-            table.insert(schemes, groupScheme)
-        end
-    end
-
-    return schemes
-end
-
-function LSA.getBaseBuildingsBlueprints(base)
-    if base.template ~= nil then
-        local template = Templates[string.lower(base.template)]
-        return LSA.byCoalition(base.side, template.buildings.v2.red, template.buildings.v2.blue)
-    end
-
-    if base.type == Airbase.Category.AIRDROME then
-        return LSA.byCoalition(base.side, Templates.buildings.v2.red, Templates.buildings.v2.blue)
-    end
-    if base.type == Airbase.Category.HELIPAD then
-        return LSA.byCoalition(base.side, Templates.farps.buildings.v2.red, Templates.farps.buildings.v2.blue)
-    end
-
-    return {}
-end
-
-function LSA.getBaseServiceBlueprints(base)
-    if base.template ~= nil then
-        local template = Templates[string.lower(base.template)]
-        return LSA.byCoalition(base.side, template.service.v2.red, template.service.v2.blue)
-    end
-
-    if base.type == Airbase.Category.HELIPAD then
-        return LSA.byCoalition(base.side, Templates.farps.service.v2.red, Templates.farps.service.v2.blue)
-    end
-
-    return {}
-end
-
-function LSA.getBaseGarrisonTemplates(base)
-    if base.template ~= nil then
-        local template = Templates[string.lower(base.template)]
-        return LSA.byCoalition(base.side, template.garrison.v2.red, template.garrison.v2.blue)
-    end
-
-    if base.type == Airbase.Category.AIRDROME then
-        return LSA.byCoalition(base.side, Templates.garrison.v2.red, Templates.garrison.v2.blue)
-    end
-    if base.type == Airbase.Category.HELIPAD then
-        return LSA.byCoalition(base.side, Templates.farps.garrison.v2.red, Templates.farps.garrison.v2.blue)
-    end
-
-    return {}
 end
 
 function LSA.groupScheme2(name)
@@ -2825,26 +2320,7 @@ function LSA.saveState()
     Personnel.updateLocations()
     snapshot.personnel = Personnel.state()
 
-    -- update carriers current position
-    for _, carrier in ipairs(snapshot.carriers.red) do
-        for _, vessel in ipairs(carrier.fleet.units) do
-            local unit = Unit.getByName(vessel.name)
-            local pos = ToVec2(unit:getPoint())
-            vessel.x = pos.x
-            vessel.y = pos.y
-        end
-    end
-
-    for _, carrier in ipairs(snapshot.carriers.blue) do
-        for _, vessel in ipairs(carrier.fleet.units) do
-            if vessel._killed == nil then
-                local unit = Unit.getByName(vessel.name)
-                local pos = ToVec2(unit:getPoint())
-                vessel.x = pos.x
-                vessel.y = pos.y
-            end
-        end
-    end
+    CarrierGroup.updateLocations()
 
     snapshot.theatre = env.mission.theatre
     snapshot.createdOn = os.date("!%c")
@@ -2998,7 +2474,7 @@ function LSA.clearAndSpawnGroup(group, side)
     end
 
     TS.task("spawn group", function()
-        LSA.spawnGroup(group, side)
+        LSA.spawnGroup2(group, side)
     end)
 end
 
@@ -3025,73 +2501,14 @@ function LSA.spawnGroup2(scheme, side)
     return group
 end
 
-function LSA.spawnGroup(blueprint, side)
-    assert(blueprint ~= nil, "group can't be nil")
+function LSA.spawnShip2(scheme, side)
     assert(side ~= nil, "side can't be nil")
     assert(side ~= coalition.side.NEUTRAL, "side can't be neutral")
 
-    if #blueprint.units == 0 then
-        Log.error("Group " .. blueprint.name .. " contains no units")
-        return nil
-    end
-
-    if blueprint._killed ~= nil then
-        Log.debug("Group " .. blueprint.name .. " is dead, skipping")
-        return nil
-    end
-
-    -- set the side on the group and units
-    -- not required by DCS
-    blueprint._side = side
-    for _, unit in ipairs(blueprint.units) do
-        unit._side = side
-    end
-
     local cntry = LSA.byCoalition(side, country.id.CJTF_RED, country.id.CJTF_BLUE)
-    coalition.addGroup(cntry, Group.Category.GROUND, blueprint)
-    local group = LSA.getGroup(blueprint.name)
-
-    -- index
-    LSA.newIndexUnits(blueprint)
-
-    -- assign tasks
-    if blueprint._taskName ~= nil then
-        local tasking = LSA.groupTaskings()
-        tasking[blueprint._taskName](group)
-    end
-
-    return group
-end
-
-function LSA.spawnShip(blueprint, side)
-    assert(blueprint ~= nil, "group can't be nil")
-    assert(side ~= nil, "side can't be nil")
-    assert(side ~= coalition.side.NEUTRAL, "side can't be neutral")
-
-    if #blueprint.units == 0 then
-        Log.error("Group " .. blueprint.name .. " contains no units")
-        return nil
-    end
-
-    if blueprint._killed ~= nil then
-        Log.debug("Group " .. blueprint.name .. " is dead, skipping")
-        return nil
-    end
-
-    -- this is not required by DCS, only by LSA
-    blueprint._side = side
-    for _, unit in ipairs(blueprint.units) do
-        unit._side = side
-    end
-
-    local cntry = LSA.byCoalition(side, country.id.CJTF_RED, country.id.CJTF_BLUE)
-    coalition.addGroup(cntry, Group.Category.SHIP, blueprint)
-
-    local group = LSA.getGroup(blueprint.name)
-    if group ~= nil then
-        LSA.setIndexUnits(blueprint, nil)
-    end
-
+    coalition.addGroup(cntry, Group.Category.SHIP, scheme)
+    local group = LSA.getGroup(scheme.name)
+    assert(group ~= nil)
     return group
 end
 
@@ -3103,32 +2520,16 @@ function LSA.clearAndSpawnStatic(building, side)
     -- will still be in the sim thus creating stacked objects
     -- to avoid this we schedule the spawning to a second later
     TS.task("spawn static", function()
-        LSA.spawnStatic(building, side)
+        LSA.spawnStatic2(building, side)
     end)
 end
 
-function LSA.spawnStatic2(blueprint, side)
+function LSA.spawnStatic2(static, side)
     local cntry = LSA.byCoalition(side, country.id.CJTF_RED, coalition.side.BLUE)
 
-    coalition.addStaticObject(cntry, blueprint)
+    coalition.addStaticObject(cntry, static)
 
-    LSA.newIndexStatic(blueprint.name)
-    return LSA.getStatic(blueprint.name)
-end
-
-function LSA.spawnStatic(blueprint, side)
-    if blueprint._killed ~= nil then
-        Log.debug("Static " .. blueprint.name .. " is dead, skipping")
-        return nil
-    end
-
-    local cntry = LSA.byCoalition(side, country.id.CJTF_RED, coalition.side.BLUE)
-
-    coalition.addStaticObject(cntry, blueprint)
-    blueprint._side = side
-
-    LSA.newIndexStatic(blueprint.name)
-    return LSA.getStatic(blueprint.name)
+    return LSA.getStatic(static.name)
 end
 
 function LSA.getStatic(staticName)

@@ -49,6 +49,7 @@ function GroupGenerator.__generateSingleUnitGroup(base, template, zones, collect
             end
 
             local groupWrp = GroupWrp.new(groupName, { unitWrp }, base.name, base.side)
+            GroupWrp.setTaskName(groupWrp, template.taskName)
             table.insert(collector, groupWrp)
         end
     end
@@ -86,6 +87,7 @@ function GroupGenerator.__generateMultiUnitGroup(base, template, zones, i, colle
         end
 
         local groupWrp = GroupWrp.new(groupName, units, base.name, base.side)
+        GroupWrp.setTaskName(groupWrp, template.taskName)
         table.insert(collector, groupWrp)
     end
 end
@@ -156,23 +158,17 @@ function GroupGenerator.__mapZonesForType(collector, base, type)
         local triggerZone = LSA.getZone(triggerZoneName)
         if triggerZone == nil then break end
 
-        -- local headingZoneName = Dashed(name, "Heading", index)
-        -- local headingZone = LSA.getZone(headingZoneName)
         if triggerZone ~= nil then
             if collector[type] == nil then
                 collector[type] = {}
             end
 
             local heading = base.orientation
-            -- if headingZone ~= nil then
-            --     heading = Angle(triggerZone.location, headingZone.location)
-            -- end
             for _, property in ipairs(triggerZone.properties) do
                 if property.key == "Heading" then
                     heading = property.value
                 end
             end
-
 
             local zone = {
                 name = triggerZoneName,
