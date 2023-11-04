@@ -1400,7 +1400,7 @@ function LSA.getDateUTC()
 end
 
 function LSA.nextMission()
-    LSA.saveMissionTask()
+    LSA.saveState()
     local outputPath = LSA.settings.path
 
     -- we will calculate the "next day" for the mission
