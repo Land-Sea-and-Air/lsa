@@ -29,6 +29,7 @@ end
 
 function Bomber.spawn(bomber)
     if Bomber.isDead(bomber) then return end
+    if Bomber.__isUsed(bomber) then return end
 
     for _, static in ipairs(bomber.statics) do
         local scheme = StaticWrp.__scheme(static)
@@ -99,7 +100,9 @@ function Bomber.__isBomber(staticName)
     return false
 end
 
-function Bomber.onLostStatic(staticName)
+function Bomber.onLostStatic(event)
+    local static = event.initiator
+    local staticName = static:getName()
     if Bomber.__isBomber(staticName) then
         local bomber = Bomber.__findByStaticName(staticName)
         Bomber.__kill(bomber)
@@ -118,7 +121,9 @@ function Bomber.__findByStaticName(staticName)
     return nil
 end
 
-function Bomber.onLostUnit(unitName)
+function Bomber.onLostUnit(event)
+    local unit = event.initiator
+    local unitName = unit:getName()
     local bomber = Bomber.__findByName(unitName)
     if bomber ~= nil then
         Bomber.__kill(bomber)
@@ -135,6 +140,10 @@ end
 
 function Bomber.__isUnused(bomber)
     return bomber.usedOn == nil
+end
+
+function Bomber.__isUsed(bomber)
+    return bomber.usedOn ~= nil
 end
 
 function Bomber.__isAlive(bomber)

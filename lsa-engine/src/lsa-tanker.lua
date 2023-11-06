@@ -53,6 +53,7 @@ end
 function Tanker.isDead(tanker)
     return tanker.killedOn ~= nil
 end
+
 function Tanker.isAlive(tanker)
     return tanker.killedOn == nil
 end
@@ -71,6 +72,7 @@ end
 
 function Tanker.spawn(tanker)
     if Tanker.isDead(tanker) then return end
+    if Tanker.isUsed(tanker) then return end
 
     for _, static in ipairs(tanker.statics) do
         local scheme = StaticWrp.__scheme(static)
@@ -129,14 +131,18 @@ function Tanker.__isTanker(staticName)
     return false
 end
 
-function Tanker.onLostStatic(staticName)
+function Tanker.onLostStatic(event)
+    local static = event.initiator
+    local staticName = static:getName()
     if Tanker.__isTanker(staticName) then
         local tanker = Tanker.__findByStaticName(staticName)
         Tanker.kill(tanker)
     end
 end
 
-function Tanker.onLostUnit(unitName)
+function Tanker.onLostUnit(event)
+    local unit = event.initiator
+    local unitName = unit:getName()
     local tanker = Tanker.__findByName(unitName)
     if tanker ~= nil then
         Tanker.kill(tanker)

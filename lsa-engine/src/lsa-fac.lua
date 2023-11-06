@@ -382,8 +382,10 @@ function FAC.state()
 end
 
 ---Processes the unit lost event for FAC.
----@param unitName any
-function FAC.onLostUnit(unitName)
+---@param event unknown
+function FAC.onLostUnit(event)
+    local unit = event.initiator
+    local unitName = unit:getName()
     local fac = FAC.facs[unitName]
     if fac == nil then return end
 

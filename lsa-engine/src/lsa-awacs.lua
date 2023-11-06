@@ -80,24 +80,70 @@ function Awacs.onLandEvent(unitName)
     end
 end
 
-function Awacs.onLostStatic(staticName)
-    local awacs = Awacs.__findByName(staticName)
+function Awacs.__findByStaticName(staticName)
+    for _, awacs in pairs(Awacs.aircraft) do
+        for _, static in ipairs(awacs.statics) do
+            if static.name == staticName then
+                return awacs
+            end
+        end
+    end
+
+    return nil
+end
+
+function Awacs.onLostStatic(event)
+    local static = event.initiator
+    local staticName = static:getName()
+    local awacs = Awacs.__findByStaticName(staticName)
     if awacs ~= nil then
         Awacs.kill(awacs)
-        Awacs.__removeByName(staticName)
     end
 end
 
-function Awacs.onLostUnit(unitName)
+function Awacs.onLostUnit(event)
+    local unit = event.initiator
+    local unitName = unit:getName()
     local awacs = Awacs.__findByName(unitName)
     if awacs ~= nil then
         Awacs.kill(awacs)
-        Awacs.__removeByName(unitName)
     end
 end
 
-function Awacs.available(awacs)
-    return true
+function Awacs.isAlive(awacs)
+    return awacs.killedOn == nil
+end
+
+function Awacs.isUsed(awacs)
+    return awacs.usedOn ~= nil
+end
+
+function Awacs.isUnused(awacs)
+    return awacs.userOn == nil
+end
+
+function Awacs.isAvailable(awacs)
+    if Awacs.isUnused(awacs) and Awacs.isAlive(awacs) then return true end
+
+    local date = awacs.usedOn or awacs.killedOn
+    local waitPeriod = LSA.settings.waitPeriodForNewTanker
+    local today = LSA.getToday()
+
+    -- if the current date is greater than the used date
+    -- the we can just subtract the current with the used date
+    -- and compare with the wait period
+    if today >= date then
+        return today - date > waitPeriod
+    end
+
+    -- because the mission loops in a given year
+    -- when the date of used is greater than the current date
+    -- we need to add a year's worth of seconds to the current date
+    -- effectively moving the current date to next year
+    -- then subtract the used date to the new current date
+    -- and compare with the wait period
+    local yearLenghtInSeconds = LSA.getYearLengthInSeconds(env.mission.date.year)
+    return (today + yearLenghtInSeconds) - date > waitPeriod
 end
 
 function Awacs.__removeByName(name)
