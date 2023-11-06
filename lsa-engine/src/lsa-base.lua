@@ -199,13 +199,13 @@ function Base.repair(base)
 
         for _, static in ipairs(base.statics) do
             if StaticWrp.isDead(static) then
-                StaticWrp.repair(static)
+                StaticWrp.respawn(static)
             end
         end
 
         for _, static in ipairs(base.logistics) do
             if StaticWrp.isDead(static) then
-                StaticWrp.repair(static)
+                StaticWrp.respawn(static)
             end
         end
     end)
@@ -389,7 +389,7 @@ function Base.rebuildRepairs(baseName)
     if base == nil then return end
 
     for _, repairs in ipairs(base.repairs) do
-        StaticWrp.repair(repairs)
+        StaticWrp.respawn(repairs)
     end
 end
 

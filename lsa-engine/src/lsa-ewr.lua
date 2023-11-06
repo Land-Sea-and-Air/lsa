@@ -455,7 +455,7 @@ function GCI.toggleAutoDisplay(unitName)
     trigger.action.outTextForUnit(unit:getID(), text, 5)
 end
 
-function GCI.onUnitBirthEvent(event)
+function GCI.onUnitBirth(event)
     local groupId = event.initiator:getGroup():getID()
     local initiatorName = event.initiator:getName()
     GCI.autoDisplay[initiatorName] = false

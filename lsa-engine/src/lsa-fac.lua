@@ -106,7 +106,7 @@ function FAC.__updateMenus(fac)
     end
 end
 
-function FAC.onUnitBirthEvent(event)
+function FAC.onUnitBirth(event)
     local initiatorName = event.initiator:getName()
     local player = Player.operating(initiatorName)
     if player ~= nil then
@@ -152,7 +152,7 @@ function FAC.smoke(fac)
 
     -- [TODO] check range, since smoke must be thrown in range should be reduced
 
-    if fac.lastSmokedOn ~= nil and (Now() - fac.lastSmokedOn) < (5 * 60) then -- [TODO] move to settings or determine accurately how long smoke goes for
+    if fac.lastSmokedOn ~= nil and (LSA.getNow() - fac.lastSmokedOn) < (5 * 60) then -- [TODO] move to settings or determine accurately how long smoke goes for
         return false, "Negative, target is already marked with smoke."
     end
 
@@ -181,7 +181,7 @@ function FAC.smoke(fac)
         trigger.action.smoke(smokePosition, trigger.smokeColor.Red)
     end
 
-    fac.lastSmokedOn = Now()
+    fac.lastSmokedOn = LSA.getNow()
     fac.smokeCanisters = fac.smokeCanisters - 1
 
     return true, string.format(

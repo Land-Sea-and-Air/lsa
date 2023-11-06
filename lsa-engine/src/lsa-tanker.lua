@@ -42,6 +42,7 @@ function Tanker.new(name, type, side, method, freq, modulation, baseName, tacan,
             memberNr = memberNr,
         },
         side = side,
+        usedOn = nil,
         killedOn = nil,
         status = "ready"
     }
@@ -52,9 +53,20 @@ end
 function Tanker.isDead(tanker)
     return tanker.killedOn ~= nil
 end
+function Tanker.isAlive(tanker)
+    return tanker.killedOn == nil
+end
+
+function Tanker.isUsed(tanker)
+    return tanker.usedOn ~= nil
+end
+
+function Tanker.isUnused(tanker)
+    return tanker.userOn == nil
+end
 
 function Tanker.kill(tanker)
-    tanker.killedOn = Now()
+    tanker.killedOn = LSA.getNow()
 end
 
 function Tanker.spawn(tanker)
@@ -66,6 +78,16 @@ function Tanker.spawn(tanker)
 
         Tanker.tankers[tanker.name] = tanker
         RefStatics.new(static.name, static)
+    end
+end
+
+function Tanker.repair(tanker)
+    if tanker == nil then return end
+
+    tanker.killedOn = nil
+
+    for _, static in ipairs(tanker.statics) do
+        StaticWrp.repair(static)
     end
 end
 
@@ -84,11 +106,33 @@ function Tanker.onLandEvent(unitName)
     end
 end
 
+function Tanker.__findByStaticName(staticName)
+    for _, tanker in pairs(Tanker.tankers) do
+        for _, static in ipairs(tanker.statics) do
+            if static.name == staticName then
+                return tanker
+            end
+        end
+    end
+
+    return nil
+end
+
+function Tanker.__isTanker(staticName)
+    for _, tanker in pairs(Tanker.tankers) do
+        for _, static in ipairs(tanker.statics) do
+            if static.name == staticName and static.role == "tanker" then
+                return true
+            end
+        end
+    end
+    return false
+end
+
 function Tanker.onLostStatic(staticName)
-    local tanker = Tanker.__findByName(staticName)
-    if tanker ~= nil then
+    if Tanker.__isTanker(staticName) then
+        local tanker = Tanker.__findByStaticName(staticName)
         Tanker.kill(tanker)
-        Tanker.__removeByName(staticName)
     end
 end
 
@@ -96,33 +140,31 @@ function Tanker.onLostUnit(unitName)
     local tanker = Tanker.__findByName(unitName)
     if tanker ~= nil then
         Tanker.kill(tanker)
-        Tanker.__removeByName(unitName)
     end
 end
 
-function Tanker.available(tanker)
-    return true
-end
+function Tanker.isAvailable(tanker)
+    if Tanker.isUnused(tanker) and Tanker.isAlive(tanker) then return true end
 
-function Tanker.__removeByName(name)
-    local tanker = Tanker.tankers[name]
-    if tanker == nil then
-        Log.trace("Tanker %s does not exist", name)
-        return
-    end
-    Tanker.tankers[name] = nil
-end
+    local date = tanker.usedOn or tanker.killedOn
+    local waitPeriod = LSA.settings.waitPeriodForNewTanker
+    local today = LSA.getToday()
 
----Returns the tanker by the base name.
----@param baseName string
----@return table|nil
-function Tanker.__findByBase(baseName)
-    for _, tanker in pairs(Tanker.tankers) do
-        if tanker.baseName == baseName then
-            return tanker
-        end
+    -- if the current date is greater than the used date
+    -- the we can just subtract the current with the used date
+    -- and compare with the wait period
+    if today >= date then
+        return today - date > waitPeriod
     end
-    return nil
+
+    -- because the mission loops in a given year
+    -- when the date of used is greater than the current date
+    -- we need to add a year's worth of seconds to the current date
+    -- effectively moving the current date to next year
+    -- then subtract the used date to the new current date
+    -- and compare with the wait period
+    local yearLenghtInSeconds = LSA.getYearLengthInSeconds(env.mission.date.year)
+    return (today + yearLenghtInSeconds) - date > waitPeriod
 end
 
 ---Returns the tanker by the name.
@@ -205,6 +247,7 @@ function Tanker.dispatch(side, fromName, destination, method, track)
         local group = LSA.spawnAircraft(scheme, side)
         assert(group ~= nil)
 
+        tanker.usedOn = LSA.getNow()
         tanker.status = "airborne"
     end)
     return true, string.format("Roger, %s on the way.", tanker.callsign.name)
@@ -234,7 +277,6 @@ function Tanker.relocate(callsign, markCoalition, destination, track)
     local airdrome = LSA.findBase(tanker.baseName)
     if airdrome == nil then return false, string.format("Unable, invalid tanker base.") end
 
-    local approachSpeed = LSA.kmhToMps(Tanker.approachSpeed)
     local approachAlt = Tanker.approachAlt
     local tacan = tanker.tacan
     local tankerTask = LSA.getTankerTask()
@@ -242,9 +284,9 @@ function Tanker.relocate(callsign, markCoalition, destination, track)
     local currentPoint = LSA.getWaypoint(ToVec2(tankerUnit:getPoint()), Tanker.speed, Tanker.altitude)
     currentPoint.task = LSA.getComboTask({ tankerTask, tacanTask })
     local tankerOrbitPoint = LSA.getOrbitPoint(destination, Tanker.speed, Tanker.altitude, Tanker.duration, track)
-    local approachPoint = LSA.getApproachPoint(airdrome.location, approachSpeed, approachAlt)
+    local approachPoint = LSA.getApproachPoint(airdrome.location, Tanker.approachSpeed, approachAlt)
     local descentPoint = LSA.getDescentPoint(approachPoint, Tanker.speed, Tanker.altitude)
-    local landPoint = LSA.getLandRunwayPoint(airdrome.id, airdrome.location, approachSpeed, approachAlt)
+    local landPoint = LSA.getLandRunwayPoint(airdrome.id, airdrome.location, Tanker.approachSpeed, approachAlt)
 
     local route = { points = {} }
     table.insert(route.points, currentPoint)

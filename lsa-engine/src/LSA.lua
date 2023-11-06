@@ -26,6 +26,7 @@ LSA.settings.timeToNewLife = 3 * 60 * 60
 LSA.settings.shipSpeedMetersPerSecond = 6                  -- meters per second
 LSA.settings.waitPeriodForNewCarrier = 10 * (24 * 60 * 60) -- ten days in seconds
 LSA.settings.waitPeriodForNewBomber = 10 * (24 * 60 * 60)  -- ten days in seconds
+LSA.settings.waitPeriodForNewTanker = 10 * (24 * 60 * 60)  -- ten days in seconds
 LSA.settings.saveMissionInterval = 5 * 60
 --#endregion
 
@@ -674,6 +675,8 @@ function LSA.onEngineShutdownEvent(event)
         local player = Player.operating(unitName)
         if player == nil then return end
 
+        player.engines = false
+
         local position = ToVec2(unit:getPoint())
         local baseName = nil
         if event.place ~= nil then
@@ -706,6 +709,8 @@ function LSA.onEngineStartupEvent(event)
 
         local player = Player.operating(unitName)
         if player == nil then return end
+
+        player.engines = true
 
         local baseName = nil
         if event.place ~= nil then
@@ -744,11 +749,16 @@ function LSA.onUnitBirthEvent(event)
 
     local unitCategory = initiator:getDesc().category
     if unitCategory == Unit.Category.AIRPLANE or unitCategory == Unit.Category.HELICOPTER then
-        local player = Player.enter(unitName)
+        local player = Player.onUnitBirth(unitName)
         LSA.addPlayerMenu(player)
-        GCI.onUnitBirthEvent(event)
-        FAC.onUnitBirthEvent(event)
-        local unitWrp = UnitWrp.new(unitName, initiator:getTypeName(), ToVec2(initiator:getPoint()), 0, nil,
+        GCI.onUnitBirth(event)
+        FAC.onUnitBirth(event)
+        local unitWrp = UnitWrp.new(
+            unitName,
+            initiator:getTypeName(),
+            ToVec2(initiator:getPoint()),
+            0,
+            nil,
             initiator:getCoalition())
         RefUnits.new(unitName, unitWrp)
     end
@@ -789,7 +799,18 @@ end
 function LSA.onEjectEvent(event)
     if event.initiator == nil then return end
 
-    EjectedPilot.eject(event)
+    if LSA.isPlayerEvent(event) then
+        local unit = event.initiator
+        local unitName = unit:getName()
+        local player = Player.operating(unitName)
+        if player ~= nil and not unit:inAir() then
+            Player.loseLife(player.ucid)
+            Player.loseLife(player.ucid)
+            Player.loseLife(player.ucid)
+        end
+    end
+
+    EjectedPilot.onEject(event)
 end
 
 function LSA.onUnitLostEvent(event)
@@ -1098,11 +1119,26 @@ function LSA.onLostUnit(event)
     Vessel.onLostUnit(event)
 end
 
+---Returns mission today.
+---@return integer
 function LSA.getToday()
     local year = env.mission.date.Year
     local month = env.mission.date.Month
     local day = env.mission.date.Day
     return os.time { year = year, month = month, day = day }
+end
+
+---Returns mission now.
+---@return integer
+function LSA.getNow()
+    local year = env.mission.date.Year
+    local month = env.mission.date.Month
+    local day = env.mission.date.Day
+    local missionTime = math.ceil(timer.getAbsTime())
+    local missionDate = os.time { year = year, month = month, day = day, hour = 0, min = 0, sec = 0 }
+
+    local missionNow = missionDate + missionTime
+    return missionNow
 end
 
 function LSA.onTakeoffEvent(event)
@@ -1135,7 +1171,7 @@ end
 
 function LSA.devTools()
     local menus = {
-        { path = "Tools.Save Mission State",             handler = LSA.saveMissionTask,                  args = {} },
+        { path = "Tools.Save Mission State",             handler = LSA.saveState,                        args = {} },
         { path = "Tools.Scheduled Tasks",                handler = LSA.onScheduledTasksMenu,             args = {} },
         { path = "Tools.Indexed Objects",                handler = LSA.onIndexedObjectsMenu,             args = {} },
         { path = "Tools.Export.Pattern",                 handler = LSA.onExportPatternMenu,              args = {} },
@@ -1214,9 +1250,45 @@ function LSA.initializeTasks()
     TS.task("siege check", LSA.baseSiege, {})
     TS.task("repair check", LSA.baseRepair, {})
     TS.task("patrol", LSA.patrol, {})
-    TS.task("remove debris", LSA.removeDebris, {}, (60 * 60))
+    TS.task("carriers", LSA.carriers, {})
+    TS.task("bombers", LSA.bombers, {})
+    TS.task("tankers", LSA.tankers, {})
+    TS.task("remove debris", LSA.removeDebris, {}, (60 * 60)) -- [TODO] move to settings
     TS.task("save mission", LSA.saveMissionTask, {}, LSA.settings.saveMissionInterval)
     TS.task("next session", LSA.nextMission, {}, LSA.settings.sessionLengthSeconds)
+end
+
+function LSA.carriers(_, time)
+    for _, carrierGroup in ipairs(LSA.state.carriers2) do
+        -- a carrier group is eligible to "repair" if it is dead
+        -- but there is a new carrier available
+        if CarrierGroup.isDead(carrierGroup) and CarrierGroup.isAvailable(carrierGroup) then
+            CarrierGroup.repair(carrierGroup)
+        end
+    end
+    return time + (60 * 60) -- [TODO] move to settings
+end
+
+function LSA.bombers(_, time)
+    for _, base in pairs(LSA.state.bases) do
+        for _, bomber in ipairs(base.bombers) do
+            if Bomber.isDead(bomber) and Bomber.isAvailable(bomber) then
+                Bomber.repair(bomber)
+            end
+        end
+    end
+    return time + (60 * 60) -- [TODO] move to settings
+end
+
+function LSA.tankers(_, time)
+    for _, base in pairs(LSA.state.bases) do
+        for _, tanker in ipairs(base.tankers) do
+            if Tanker.isDead(tanker) and Tanker.isAvailable(tanker) then
+                Tanker.repair(tanker)
+            end
+        end
+    end
+    return time + (60 * 60) -- [TODO] move to settings
 end
 
 function LSA.saveMissionTask(_, time)
@@ -1806,30 +1878,6 @@ function LSA.populateLandBases()
     end
 end
 
-function LSA.hasCarrierArrived(fleet)
-    if fleet._killed == nil then return true end
-
-    local killed = fleet._killed
-    local waitPeriod = LSA.settings.waitPeriodForNewCarrier
-    local today = LSA.getToday()
-
-    -- if the current date is greater than the kill date
-    -- the we can just subtract the current with the kill date
-    -- and compare with the wait period
-    if today >= killed then
-        return today - killed > waitPeriod
-    end
-
-    -- because the mission loops in a given year
-    -- when the date of kill is greater than the current date
-    -- we need to add a year's worth of seconds to the current date
-    -- effectively moving the current date to next year
-    -- then subtract the kill date to the new current date
-    -- and compare with the wait period
-    local yearLenghtInSeconds = LSA.getYearLengthInSeconds(env.mission.date.year)
-    return (today + yearLenghtInSeconds) - killed > waitPeriod
-end
-
 function LSA.getYearLengthInSeconds(year)
     local startYear = os.time { year = year, month = 1, day = 1 }
     local endYear = os.time { year = year, month = 12, day = 31 }
@@ -2072,24 +2120,12 @@ function LSA.newPos(center2d, offset, rotation)
     return { x = x, y = y }
 end
 
-function LSA.shipsFromTemplate(name, location2d, blueprint)
-    local group = LSA.groupScheme(name)
-    if blueprint.vessels ~= nil then
-        for _, unit in ipairs(blueprint.vessels) do
-            local pos2d = LSA.newPos(location2d, unit)
-            local generated = LSA.generateShip(group.name, pos2d, unit.type, unit.heading, unit.freq, unit.modulation)
-            table.insert(group.units, generated)
-        end
-    end
-    return group
-end
-
-function LSA.groupScheme2(name)
+function LSA.groupScheme(name)
     LSA.notNilOrEmpty(name)
 
     return {
         ["visible"] = false,
-        ["hidden"] = false,
+        ["hidden"] = true,
         ["hiddenOnMFD"] = true,
         ["tasks"] = {},
         ["units"] = {},
@@ -2100,29 +2136,7 @@ function LSA.groupScheme2(name)
     }
 end
 
-function LSA.groupScheme(name, uniqueName)
-    LSA.notNilOrEmpty(name)
-    local unique = uniqueName or false
-
-    local groupName = name
-    if not unique then
-        groupName = Dashed(groupName, LSA.next())
-    end
-
-    return {
-        ["visible"] = false,
-        ["hidden"] = false,
-        ["hiddenOnMFD"] = true,
-        ["tasks"] = {},
-        ["units"] = {},
-        ["uncontrollable"] = true,
-        ["task"] = "Ground Nothing",
-        ["name"] = groupName,
-        ["start_time"] = 0 -- spawn immediately
-    }
-end
-
-function LSA.unitScheme2(name, location, type, heading)
+function LSA.unitScheme(name, location, type, heading)
     LSA.notNilOrEmpty(name)
     LSA.notNilOrEmpty(type)
     LSA.notNil(location)
@@ -2136,46 +2150,6 @@ function LSA.unitScheme2(name, location, type, heading)
         ["name"] = name,
         ["heading"] = math.rad(heading),
         ["playerCanDrive"] = true
-    }
-end
-
-function LSA.unitScheme(name, location, type, heading)
-    LSA.notNilOrEmpty(name)
-    LSA.notNilOrEmpty(type)
-    LSA.notNil(location)
-
-    local hdg = heading or 0
-    local unitName = Dashed(name, LSA.next())
-
-    return {
-        ["skill"] = LSA.settings.defaultUnitSkillLevel,
-        ["coldAtStart"] = false,
-        ["type"] = type,
-        ["y"] = location.y,
-        ["x"] = location.x,
-        ["name"] = unitName,
-        ["heading"] = math.rad(hdg),
-        ["playerCanDrive"] = true
-    }
-end
-
-function LSA.generateShip(name, location, type, heading, freq, modulation)
-    LSA.notNilOrEmpty(name)
-    LSA.notNilOrEmpty(type)
-    LSA.notNil(location)
-
-    local hdg = heading or 0
-    local unitName = Dashed(name, LSA.next())
-
-    return {
-        ["skill"] = LSA.settings.defaultUnitSkillLevel,
-        ["frequency"] = freq, -- [REMOVE]
-        ["type"] = type,
-        ["y"] = location.y,
-        ["x"] = location.x,
-        ["name"] = unitName,
-        ["heading"] = math.rad(hdg),
-        ["modulation"] = modulation -- [REMOVE]
     }
 end
 
@@ -3242,6 +3216,7 @@ Log.settings.debug = os.getenv("LSA_DEBUG") == "true"
 Log.settings.trace = os.getenv("LSA_TRACE") == "true"
 
 function Log.error(message, ...)
+    message = message or "nil"
     local a = {}
     for _, value in ipairs({ ... } or {}) do
         table.insert(a, tostring(value))
@@ -3260,6 +3235,7 @@ function Log.error(message, ...)
 end
 
 function Log.debug(message, ...)
+    message = message or "nil"
     if not Log.settings.debug then
         return
     end
@@ -3281,6 +3257,7 @@ function Log.debug(message, ...)
 end
 
 function Log.trace(message, ...)
+    message = message or "nil"
     if not Log.settings.trace then
         return
     end
@@ -3302,6 +3279,7 @@ function Log.trace(message, ...)
 end
 
 function Log.info(message, ...)
+    message = message or "nil"
     local a = {}
     for _, value in ipairs({ ... } or {}) do
         table.insert(a, tostring(value))
@@ -3359,7 +3337,6 @@ function LSA.getClosestAirbase(location, radius)
     local airbases = LSA.findAirbases(location, radius)
     local ordered = {}
     for _, airbaseObj in ipairs(airbases) do
-        Log.debug("airbase name %s", airbaseObj:getName())
         local airbaseLocation = ToVec2(airbaseObj:getPoint())
         local distance = Distance(location, airbaseLocation)
         table.insert(ordered, { airbaseName = airbaseObj:getName(), distance = distance })
@@ -3370,7 +3347,6 @@ function LSA.getClosestAirbase(location, radius)
     end)
 
     if #ordered < 1 then return nil end
-    Log.debug(ordered[1].airbaseName)
     return ordered[1].airbaseName
 end
 
@@ -3522,7 +3498,7 @@ function Player.__getInfo(predicate)
     return nil
 end
 
-function Player.enter(unitName)
+function Player.onUnitBirth(unitName)
     assert(unitName ~= nil, "unitName cannot be nil")
 
     local playerUnit = Unit.getByName(unitName)
@@ -3854,7 +3830,7 @@ function LSA.getWaypoint(point, speed, altitude)
         ["alt"] = altitude,
         ["action"] = "Turning Point",
         ["alt_type"] = "BARO",
-        ["speed"] = speed,
+        ["speed"] = LSA.kmhToMps(speed),
         ["task"] =
         {
             ["id"] = "ComboTask",

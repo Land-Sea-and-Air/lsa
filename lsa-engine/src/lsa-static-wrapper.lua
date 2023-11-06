@@ -44,7 +44,7 @@ function StaticWrp.isRepairs(static)
 end
 
 function StaticWrp.kill(static)
-    static.killedOn = Now()
+    static.killedOn = LSA.getNow()
 end
 
 function StaticWrp.spawn(static)
@@ -57,12 +57,18 @@ function StaticWrp.spawn(static)
 end
 
 function StaticWrp.repair(static)
+    if static ~= nil then
+        static.killedOn = nil
+    end
+end
+
+function StaticWrp.respawn(static)
     if static == nil then return end
 
     if StaticWrp.isDead(static) then
+        StaticWrp.repair(static)
         local scheme = StaticWrp.__scheme(static)
         LSA.clearAndSpawnStatic(scheme, static.side)
-        static.killedOn = nil
     end
 end
 

@@ -195,12 +195,6 @@ function In(token, list)
     return false
 end
 
----Returns the current time in seconds.
----@return integer
-function Now()
-    return os.time()
-end
-
 ---Returns the arguments joined by a dash.
 ---@param ... any
 ---@return string

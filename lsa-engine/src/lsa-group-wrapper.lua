@@ -20,11 +20,11 @@ function GroupWrp.setTaskName(groupWrp, taskName)
 end
 
 function GroupWrp.__scheme(groupWrp)
-    local groupScheme = LSA.groupScheme2(groupWrp.name)
+    local groupScheme = LSA.groupScheme(groupWrp.name)
     for i, unit in ipairs(groupWrp.units) do
         if UnitWrp.isAlive(unit) then
             local unitName = Dashed(groupWrp.name, i)
-            local unitScheme = LSA.unitScheme2(unitName, unit.location, unit.type, unit.heading)
+            local unitScheme = LSA.unitScheme(unitName, unit.location, unit.type, unit.heading)
             table.insert(groupScheme.units, unitScheme)
         end
     end
@@ -65,8 +65,7 @@ function GroupWrp.repair(groupWrp)
         UnitWrp.repair(unit)
     end
 
+    groupWrp.killedOn = nil
     local scheme = GroupWrp.__scheme(groupWrp)
     LSA.clearAndSpawnGroup(scheme, groupWrp.side)
-
-    groupWrp.killedOn = nil
 end

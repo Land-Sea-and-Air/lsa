@@ -3,14 +3,14 @@ CarrierTemplates = {}
 CarrierTemplates.red = {
     KUZNECOW = {
         units = {
-            { type = "KUZNECOW",          distance = 000, angle = 000, heading = 000, freq = 110000000, modulation = "AM" },
+            { type = "KUZNECOW",          distance = 000, angle = 000, heading = 000, freq = 110000000, modulation = "AM", role = "carrier" },
             { type = "NEUSTRASH",         distance = 600, angle = 235, heading = 000, freq = 110200000, modulation = "AM" },
             { type = "Ship_Tilde_Supply", distance = 600, angle = 125, heading = 000, freq = 110300000, modulation = "AM" },
         }
     },
     CV_1143_5 = {
         units = {
-            { type = "CV_1143_5",         distance = 000, angle = 000, heading = 000, freq = 112000000, modulation = "AM" },
+            { type = "CV_1143_5",         distance = 000, angle = 000, heading = 000, freq = 112000000, modulation = "AM", role = "carrier" },
             { type = "NEUSTRASH",         distance = 600, angle = 235, heading = 000, freq = 112100000, modulation = "AM" },
             { type = "Ship_Tilde_Supply", distance = 600, angle = 125, heading = 000, freq = 112200000, modulation = "AM" },
         }
@@ -31,7 +31,7 @@ CarrierTemplates.blue = {
             },
         },
         units = {
-            { type = "Stennis",           distance = 000, angle = 000, heading = 000, freq = 270000000, modulation = "AM" },
+            { type = "Stennis",           distance = 000, angle = 000, heading = 000, freq = 270000000, modulation = "AM", role = "carrier" },
             { type = "PERRY",             distance = 600, angle = 235, heading = 000, freq = 270100000, modulation = "AM" },
             { type = "Ship_Tilde_Supply", distance = 600, angle = 125, heading = 000, freq = 270200000, modulation = "AM" },
         }
@@ -49,7 +49,7 @@ CarrierTemplates.blue = {
             },
         },
         units = {
-            { type = "CVN_71",            distance = 000, angle = 000, heading = 000, freq = 271000000, modulation = "AM" },
+            { type = "CVN_71",            distance = 000, angle = 000, heading = 000, freq = 271000000, modulation = "AM", role="carrier" },
             { type = "PERRY",             distance = 600, angle = 235, heading = 000, freq = 271100000, modulation = "AM" },
             { type = "Ship_Tilde_Supply", distance = 600, angle = 125, heading = 000, freq = 271200000, modulation = "AM" },
         }

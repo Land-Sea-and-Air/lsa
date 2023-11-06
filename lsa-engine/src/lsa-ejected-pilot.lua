@@ -171,7 +171,7 @@ function EjectedPilot.rescue(player)
     LSA.outSoundForUnit(player.unitId, "beep.ogg")
 end
 
-function EjectedPilot.eject(event)
+function EjectedPilot.onEject(event)
     local playerName = event.initiator:getPlayerName()
     if playerName == nil then
         -- ignore AI ejections
@@ -216,7 +216,7 @@ function EjectedPilot.onGround(event)
         pilot.pilotUnit = pilotUnit
         pilot.location = ToVec2(pilotUnit:getPoint())
     else
-        Log.debug("AI ejected player, removing")
+        Log.debug("AI ejected pilot, removing")
         pilotUnit:destroy()
         return
     end

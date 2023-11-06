@@ -23,12 +23,12 @@ function Bomber.new(name, type, baseName, location, statics)
     return bomber
 end
 
-function Bomber.isKilled(bomber)
+function Bomber.isDead(bomber)
     return bomber.killedOn ~= nil
 end
 
 function Bomber.spawn(bomber)
-    if Bomber.isKilled(bomber) then return end
+    if Bomber.isDead(bomber) then return end
 
     for _, static in ipairs(bomber.statics) do
         local scheme = StaticWrp.__scheme(static)
@@ -36,6 +36,16 @@ function Bomber.spawn(bomber)
 
         Bomber.bombers[bomber.name] = bomber
         RefStatics.new(static.name, static)
+    end
+end
+
+function Bomber.repair(bomber)
+    if bomber == nil then return end
+
+    bomber.killedOn = nil
+
+    for _, static in ipairs(bomber.statics) do
+        StaticWrp.repair(static)
     end
 end
 
@@ -78,39 +88,49 @@ function Bomber.onLandEvent(unitName)
     end
 end
 
----Removes the bomber with the given name.
----@param name string
-function Bomber.__removeByName(name)
-    local bomber = Bomber.bombers[name]
-    if bomber == nil then
-        Log.trace("Bomber %s does not exist", name)
-        return
+function Bomber.__isBomber(staticName)
+    for _, bomber in pairs(Bomber.bombers) do
+        for _, static in ipairs(bomber.statics) do
+            if static.name == staticName and static.role == "bomber" then
+                return true
+            end
+        end
     end
-    Bomber.bombers[name] = nil
+    return false
 end
 
 function Bomber.onLostStatic(staticName)
-    local bomber = Bomber.__findByName(staticName)
-    if bomber ~= nil then
-        Bomber.kill(bomber)
-        Bomber.__removeByName(staticName)
+    if Bomber.__isBomber(staticName) then
+        local bomber = Bomber.__findByStaticName(staticName)
+        Bomber.__kill(bomber)
     end
+end
+
+function Bomber.__findByStaticName(staticName)
+    for _, bomber in pairs(Bomber.bombers) do
+        for _, static in ipairs(bomber.statics) do
+            if static.name == staticName then
+                return bomber
+            end
+        end
+    end
+
+    return nil
 end
 
 function Bomber.onLostUnit(unitName)
     local bomber = Bomber.__findByName(unitName)
     if bomber ~= nil then
-        Bomber.kill(bomber)
-        Bomber.__removeByName(unitName)
+        Bomber.__kill(bomber)
     end
 end
 
-function Bomber.kill(bomber)
-    bomber.killedOn = Now()
+function Bomber.__kill(bomber)
+    bomber.killedOn = LSA.getNow()
 end
 
 function Bomber.__setAsUsed(bomber)
-    bomber.usedOn = Now()
+    bomber.usedOn = LSA.getNow()
 end
 
 function Bomber.__isUnused(bomber)
@@ -203,13 +223,13 @@ function Bomber.explode(bomber)
     end
 end
 
-function Bomber.available(bomber)
+function Bomber.isAvailable(bomber)
     if Bomber.__isUnused(bomber) and Bomber.__isAlive(bomber) then return true end
 
     local date = bomber.usedOn or bomber.killedOn
     local waitPeriod = LSA.settings.waitPeriodForNewBomber
     local today = LSA.getToday()
-
+    
     -- if the current date is greater than the used date
     -- the we can just subtract the current with the used date
     -- and compare with the wait period

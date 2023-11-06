@@ -33,7 +33,7 @@ end
 
 function UnitWrp.kill(unitWrp)
     if unitWrp ~= nil then
-        unitWrp.killedOn = Now()
+        unitWrp.killedOn = LSA.getNow()
     end
 end
 

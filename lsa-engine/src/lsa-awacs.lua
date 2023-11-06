@@ -50,7 +50,7 @@ function Awacs.isDead(awacs)
 end
 
 function Awacs.kill(awacs)
-    awacs.killedOn = Now()
+    awacs.killedOn = LSA.getNow()
 end
 
 function Awacs.spawn(awacs)
