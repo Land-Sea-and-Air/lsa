@@ -675,21 +675,22 @@ function LSA.onEngineShutdownEvent(event)
 
         player.engines = false
 
-        local position = ToVec2(unit:getPoint())
-        local baseName = nil
-        if event.place ~= nil then
-            baseName = event.place:getName()
+        local place = event.place
+        if place == nil then return end
+
+        local baseSide = place:getCoalition()
+        if player.side ~= baseSide then return end
+
+        local isAtApron = false
+        if place:getDesc().category == Airbase.Category.SHIP then
+            isAtApron = true
         else
-            Log.debug("Place was nil on startup engine")
-            local unitLocation = ToVec2(unit:getPoint())
-            baseName = LSA.getClosestAirbase(unitLocation, 1000) -- [TODO] settings and review
+            local position = ToVec2(unit:getPoint())
+            local base = Base.find(place:getName())
+            Base.isApronArea(base, position)
         end
-        local base = Base.find(baseName)
-        if base == nil then return end
 
-        if player.side ~= base.side then return end -- make sure it's a friendly base
-
-        if Base.isApronArea(base, position) then
+        if isAtApron then
             Player.winLife(player.ucid)
             LSA.messagePlayer(player,
                 string.format("Welcome back %s. You now have %s lives.", player.playerName,
