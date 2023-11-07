@@ -702,27 +702,18 @@ end
 function LSA.onEngineStartupEvent(event)
     if LSA.isPlayerEvent(event) then
         local unit = event.initiator
-        local unitName = unit:getName()
         if unit:inAir() then return end
 
+        local unitName = unit:getName()
         local player = Player.operating(unitName)
         if player == nil then return end
 
         player.engines = true
 
-        local baseName = nil
-        if event.place ~= nil then
-            baseName = event.place:getName()
-        else
-            Log.debug("Place was nil on startup engine")
-            local unitLocation = ToVec2(unit:getPoint())
-            baseName = LSA.getClosestAirbase(unitLocation, 1000) -- [TODO] settings and review
-        end
+        if event.place == nil then return end
 
-        local base = Base.find(baseName)
-        if base == nil then return end
-
-        if player.side ~= base.side then return end
+        local baseSide = event.place:getCoalition()
+        if player.side ~= baseSide then return end
 
         Player.loseLife(player.ucid)
         LSA.messagePlayer(player,
