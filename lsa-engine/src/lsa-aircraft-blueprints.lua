@@ -4368,6 +4368,175 @@ AircraftBlueprints =
         ["task"] = "CAP",
         ["uncontrolled"] = false,
     },
+    ["Mirage-F1BE"] =
+    {
+        ["frequency"] = 127.5,
+        ["uncontrollable"] = false,
+        ["modulation"] = 0,
+        ["tasks"] =
+        {
+        },
+        ["route"] =
+        {
+            ["points"] =
+            {
+                [1] =
+                {
+                    ["alt"] = 2000,
+                    ["type"] = "TakeOffGround",
+                    ["action"] = "From Ground Area",
+                    ["alt_type"] = "BARO",
+                    ["y"] = 0,
+                    ["x"] = 0,
+                    ["speed_locked"] = true,
+                    ["formation_template"] = "",
+                    ["speed"] = 125,
+                    ["ETA_locked"] = true,
+                    ["task"] =
+                    {
+                        ["id"] = "ComboTask",
+                        ["params"] =
+                        {
+                            ["tasks"] =
+                            {
+                            },
+                        },
+                    },
+                    ["ETA"] = 0,
+                },
+            },
+        },
+        ["hidden"] = false,
+        ["units"] =
+        {
+            [1] =
+            {
+                ["alt"] = 2000,
+                ["alt_type"] = "BARO",
+                ["livery_id"] = "aerges blue",
+                ["skill"] = "Client",
+                ["speed"] = 300,
+                ["AddPropAircraft"] =
+                {
+                    ["FlareMultiNumber"] = 1,
+                    ["SoloFlight"] = false,
+                    ["LaserCode10"] = 8,
+                    ["ChaffProgramNumber"] = 1,
+                    ["ChaffMultiTime"] = 1,
+                    ["NetCrewControlPriority"] = 0,
+                    ["ChaffMultiNumber"] = 1,
+                    ["FlareMultiTime"] = 1,
+                    ["MissSimplLock"] = 1,
+                    ["LaserCode100"] = 6,
+                    ["LaserCode1"] = 8,
+                    ["ChaffProgramTime"] = 1,
+                    ["RocketSalvoF4"] = 1,
+                    ["RocketSalvoF1"] = 1,
+                    ["GunBurstSettings"] = 1,
+                    ["RadarCoverSettings"] = 1,
+                },
+                ["type"] = "Mirage-F1BE",
+                ["Radio"] =
+                {
+                    [1] =
+                    {
+                        ["channelsNames"] =
+                        {
+                        },
+                        ["modulations"] =
+                        {
+                        },
+                        ["channels"] =
+                        {
+                            [1] = 127.5,
+                            [2] = 119.25,
+                            [4] = 126.5,
+                            [8] = 133,
+                            [16] = 261,
+                            [17] = 262,
+                            [9] = 141,
+                            [18] = 263,
+                            [5] = 127,
+                            [10] = 250.5,
+                            [20] = 270,
+                            [11] = 251,
+                            [3] = 122,
+                            [6] = 129,
+                            [12] = 253,
+                            [13] = 254,
+                            [7] = 131,
+                            [14] = 257,
+                            [15] = 260,
+                            [19] = 267,
+                        },
+                    },
+                    [2] =
+                    {
+                        ["channelsNames"] =
+                        {
+                        },
+                        ["modulations"] =
+                        {
+                        },
+                        ["channels"] =
+                        {
+                            [1] = 225,
+                            [2] = 230,
+                            [4] = 250.5,
+                            [8] = 262,
+                            [16] = 252,
+                            [17] = 268,
+                            [9] = 263,
+                            [18] = 271,
+                            [5] = 251,
+                            [10] = 267,
+                            [20] = 360,
+                            [11] = 270,
+                            [3] = 240,
+                            [6] = 256,
+                            [12] = 254,
+                            [13] = 264,
+                            [7] = 257,
+                            [14] = 266,
+                            [15] = 265,
+                            [19] = 275,
+                        },
+                    },
+                },
+                ["psi"] = -6.1086523819802,
+                ["y"] = 0,
+                ["x"] = 0,
+                ["name"] = "",
+                ["payload"] =
+                {
+                    ["pylons"] =
+                    {
+                    },
+                    ["fuel"] = 2436,
+                    ["flare"] = 15,
+                    ["chaff"] = 30,
+                    ["gun"] = 100,
+                },
+                ["callsign"] =
+                {
+                    [1] = 1,
+                    [2] = 1,
+                    ["name"] = "Enfield11",
+                    [3] = 1,
+                },
+                ["heading"] = 6.1086523819802,
+                ["onboard_num"] = "011",
+            },
+        },
+        ["y"] = 0,
+        ["radioSet"] = false,
+        ["name"] = "",
+        ["communication"] = true,
+        ["x"] = 0,
+        ["start_time"] = 0,
+        ["task"] = "CAP",
+        ["uncontrolled"] = false,
+    },
     ["Su-27"] =
     {
         ["frequency"] = 127.5,
