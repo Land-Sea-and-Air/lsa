@@ -62,7 +62,7 @@ function CarrierGroup.generate(airbaseName)
         CarrierGroup.addUnit(carrierGroup, vessel)
     end
 
-    table.insert(LSA.state.carriers2, carrierGroup)
+    table.insert(LSA.state.carriers, carrierGroup)
 end
 
 function CarrierGroup.spawn(carrierGroup)
@@ -93,6 +93,11 @@ function CarrierGroup.spawn(carrierGroup)
         end
     end
 
+    Log.debug("Spawned carrier group %s", carrierGroup.name)
+    Log.debug("Carrier group object id %s", group["id_"])
+    local arb = Airbase.getByName(carrierGroup.name)
+    Log.debug("Airbase name %s", arb:getName())
+    Log.debug("Airbase object id %s", arb["id_"])
     return group
 end
 
@@ -164,7 +169,7 @@ function CarrierGroup.getCarrier(carrierGroup)
 end
 
 function CarrierGroup.updateLocations()
-    for _, carrier in ipairs(LSA.state.carriers2) do
+    for _, carrier in ipairs(LSA.state.carriers) do
         for _, vessel in ipairs(carrier.units) do
             Vessel.updateLocation(vessel)
         end

@@ -42,10 +42,7 @@ LSA.state.counters = {}
 
 LSA.state.players = {}
 
-LSA.state.carriers2 = {}
 LSA.state.carriers = {}
-LSA.state.carriers.red = {}
-LSA.state.carriers.blue = {}
 
 LSA.state.bases = {}
 LSA.state.faction = {}
@@ -1262,7 +1259,7 @@ function LSA.initializeTasks()
 end
 
 function LSA.carriers(_, time)
-    for _, carrierGroup in ipairs(LSA.state.carriers2) do
+    for _, carrierGroup in ipairs(LSA.state.carriers) do
         -- a carrier group is eligible to "repair" if it is dead
         -- but there is a new carrier available
         if CarrierGroup.isDead(carrierGroup) and CarrierGroup.isAvailable(carrierGroup) then
@@ -1888,8 +1885,8 @@ function LSA.getYearLengthInSeconds(year)
     return endYear - startYear
 end
 
-function LSA.populateShips2()
-    for _, carrier in ipairs(LSA.state.carriers2) do
+function LSA.populateShips()
+    for _, carrier in ipairs(LSA.state.carriers) do
         CarrierGroup.spawn(carrier)
     end
 end
@@ -1913,7 +1910,7 @@ function LSA.populateMissionFromState()
     LSA.populateLandBases()
 
     -- populate ships
-    LSA.populateShips2()
+    LSA.populateShips()
 
     -- populate ground units (non-base)
     LSA.populateAssets()
