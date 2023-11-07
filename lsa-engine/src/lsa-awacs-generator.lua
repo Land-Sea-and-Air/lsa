@@ -1,6 +1,8 @@
 AwacsGenerator = {}
 
 function AwacsGenerator.generate(base)
+    if not LSA.settings.awacsEnabled then return {} end
+
     local templates = AwacsGenerator.__getTemplates(base)
 
     local zones = BaseZoneTypeMapper.__getZonesMap(base, templates)

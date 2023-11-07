@@ -1,6 +1,8 @@
 BomberGenerator = {}
 
 function BomberGenerator.generate(base)
+    if not LSA.settings.bombersEnabled then return {} end
+    
     local templates = BomberGenerator.__getTemplates(base)
 
     local zones = BaseZoneTypeMapper.__getZonesMap(base, templates)

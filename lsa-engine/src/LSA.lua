@@ -7,7 +7,8 @@ LSA.dev = os.getenv("LSA_DEV") == "true"
 LSA.settings = {}
 LSA.settings.path = os.getenv("LSA_MISSION_PATH")
 LSA.settings.soundFilesPath = "l10n\\DEFAULT"
-LSA.settings.stateFileName = "LSA.state.json"
+LSA.settings.bombersEnabled = false
+LSA.settings.awacsEnabled = false
 LSA.settings.sessionLengthSeconds = 6 * 60 * 60
 LSA.settings.baseCaptureTimeDelay = 10 * 60
 LSA.settings.outsidePerimeterDelay = 30
