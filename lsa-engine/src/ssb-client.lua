@@ -14,7 +14,7 @@ Version history
 
 
 --]]
-                      --
+--
 
 CfxGroups.groups = {} -- all groups, indexed by name
 
@@ -30,7 +30,7 @@ CfxGroups.groups = {} -- all groups, indexed by name
     }
 
 --]]
-     --
+--
 
 function CfxGroups.fetchAllGroupsFromDCS()
     -- a mission is a lua table that is loaded by executing the miz. it builds
@@ -50,16 +50,16 @@ function CfxGroups.fetchAllGroupsFromDCS()
 
         if type(coa_data) == 'table' then
             if coa_data.country then                                                                                                                                                -- make sure there a country table for this coalition
-                for _, cntry_data in pairs(coa_data.country) do                                                                                                              -- iterate all countries for this
+                for _, cntry_data in pairs(coa_data.country) do                                                                                                                     -- iterate all countries for this
                     if type(cntry_data) == 'table' then                                                                                                                             --just making sure
                         for obj_type_name, obj_type_data in pairs(cntry_data) do
                             if obj_type_name == "helicopter" or obj_type_name == "ship" or obj_type_name == "plane" or obj_type_name == "vehicle" or obj_type_name == "static" then --should be an unncessary check
                                 local category = obj_type_name
                                 if ((type(obj_type_data) == 'table') and obj_type_data.group and (type(obj_type_data.group) == 'table') and (#obj_type_data.group > 0)) then        --there's a group!
                                     for _, group_data in pairs(obj_type_data.group) do
-                                        if group_data and group_data.units and type(group_data.units) == 'table' then --making sure again- this is a valid group
+                                        if group_data and group_data.units and type(group_data.units) == 'table' then                                                               --making sure again- this is a valid group
                                             local groupName = group_data.name
-                                            if env.mission.version > 7 then                                           -- translate raw to actual
+                                            if env.mission.version > 7 then                                                                                                         -- translate raw to actual
                                                 groupName = env.getValueDictByKey(groupName)
                                             end
                                             local hasPlayer = false
@@ -191,7 +191,7 @@ YOU DO NOT NEED TO ACTIVATE SBB, THIS SCRIPT DOES SO AUTOMAGICALLY
 
 
 --]]
-     --
+--
 
 -- below value for enabled MUST BE THE SAME AS THE VALUE OF THE SAME NAME
 -- IN SSB. DEFAULT IS ZERO, AND THIS WILL WORK
@@ -256,7 +256,7 @@ function CfxSSBClient.getClosestAirbaseTo(thePoint)
     local delta = math.huge
     local allYourBase = world.getAirbases() -- get em all
     local closestBase = nil
-    for idx, aBase in pairs(allYourBase) do
+    for _, aBase in pairs(allYourBase) do
         -- iterate them all
         local abPoint = aBase:getPoint()
         local newDelta = CfxSSBClient.dist(thePoint, { x = abPoint.x, y = 0, z = abPoint.z })
@@ -265,6 +265,12 @@ function CfxSSBClient.getClosestAirbaseTo(thePoint)
             closestBase = aBase
         end
     end
+
+    -- store the airbase object and not the table object returned
+    -- by world.getAirbases
+    if closestBase ~= nil then
+        closestBase = Airbase.getByName(closestBase:getName())
+    end
     return closestBase, delta
 end
 
@@ -272,6 +278,7 @@ function CfxSSBClient.setSlotAccessByAirfieldOwner()
     -- get all groups that have a player-controlled aircraft
     -- now uses cached, reduced set of player planes
     local pGroups = CfxSSBClient.playerGroups -- cfxGroups.getPlayerGroup() -- we want the group.name attribute
+
     for _, theGroup in pairs(pGroups) do
         local theName = theGroup.name
         -- airfield was attached at startup to group
@@ -332,9 +339,6 @@ function CfxSSBClient.setSlotAccessByAirfieldOwner()
 end
 
 function CfxSSBClient.update()
-    -- first, re-schedule me in one minute
-    timer.scheduleFunction(CfxSSBClient.update, {}, timer.getTime() + 60)
-
     -- now establish all slot blocks
     CfxSSBClient.setSlotAccessByAirfieldOwner()
 end
@@ -374,7 +378,7 @@ function CfxSSBClient.processGroupData()
                 local afName = theAirfield:getName()
                 if CfxSSBClient.verbose then
                     Log.debug(
-                    "+++SSB: group: " .. theGroup.name .. " closest to AF " .. afName .. ": " .. delta .. "m")
+                        "+++SSB: group: " .. theGroup.name .. " closest to AF " .. afName .. ": " .. delta .. "m")
                 end
                 if delta > CfxSSBClient.maxAirfieldRange then
                     -- forget airfield
@@ -385,7 +389,7 @@ function CfxSSBClient.processGroupData()
         else
             if CfxSSBClient.verbose then
                 Log.debug(
-                "+++SSB: group: " .. theGroup.name .. " action " .. action .. " does not concern SSB")
+                    "+++SSB: group: " .. theGroup.name .. " action " .. action .. " does not concern SSB")
             end
         end
     end
