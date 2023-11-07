@@ -1523,7 +1523,7 @@ function LSA.nextMission()
     -- [TODO] other weather related elements (fog, turbulence, visibility, ice halo...)
 
     -- serialize the mission so it can be written to the .miz
-    local missionString = LSA.serializeWithCycles("mission", mission)
+    local missionString = "mission=" .. Serializer.compact(mission)
 
     -- write the mission file
     WriteFile(outputPath .. "\\mission", missionString)
@@ -1540,41 +1540,6 @@ function LSA.nextMission()
     local command = string.format("a_load_mission(\"%s\")", newFileName)
     Log.debug("Calling mission scripting command: " .. command)
     net.dostring_in('mission', command)
-end
-
-function LSA.serializeWithCycles(name, value, saved)
-    local serialized = {}
-    saved = saved or {}
-    if type(value) == "number" or type(value) == "string" or type(value) == "boolean" or type(value) == "table" then
-        serialized[#serialized + 1] = name .. " = "
-        if type(value) == "number" or type(value) == "string" or type(value) == "boolean" then
-            serialized[#serialized + 1] = LSA.basicSerialize(value) .. "\n"
-        else
-            if saved[value] then
-                serialized[#serialized + 1] = saved[value] .. "\n"
-            else
-                saved[value] = name
-                serialized[#serialized + 1] = "{}\n"
-                for k, v in pairs(value) do
-                    local fieldname = string.format("%s[%s]", name, LSA.basicSerialize(k))
-                    serialized[#serialized + 1] = LSA.serializeWithCycles(fieldname, v, saved)
-                end
-            end
-        end
-        return table.concat(serialized)
-    else
-        return ""
-    end
-end
-
-function LSA.basicSerialize(value)
-    if type(value) == "number" then
-        return tostring(value)
-    elseif type(value) == "boolean" then
-        return tostring(value)
-    else
-        return string.format("%q", value)
-    end
 end
 
 function LSA.removeDebris(_, time)
@@ -2291,7 +2256,9 @@ function LSA.saveState()
     snapshot.theatre = env.mission.theatre
     snapshot.createdOn = os.date("!%c")
     snapshot.version = LSA.version
+
     local contents = net.lua2json(snapshot)
+
     local path = LSA.settings.path .. "\\" .. snapshot.theatre .. ".state.json"
     WriteFile(path, contents)
 

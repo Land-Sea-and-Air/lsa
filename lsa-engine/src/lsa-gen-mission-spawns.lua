@@ -24,7 +24,7 @@ function SlotGenerator.newPlayerSpawn(airbaseName, spawnName, spawn, parking)
 
     local zone = LSA.getZone(parkingZoneName)
     assert(zone ~= nil)
-    Dump(zone)
+
     local parkingPos = zone.location
 
     aircraft.route.points[1].x = parkingPos.x
@@ -162,6 +162,6 @@ function SlotGenerator.generate()
         end
     end
 
-    local contents = LSA.serializeWithCycles("mission", env.mission)
+    local contents = "mission=" .. Serializer.compact(env.mission)
     WriteFile(LSA.settings.path .. "\\mission", contents)
 end

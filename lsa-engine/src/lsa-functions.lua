@@ -15,54 +15,10 @@ function ToVec3(vec2)
 end
 
 ---Prints a table in the log.
----@param obj table
----@param print boolean|nil
----@return string|nil
-function Dump(obj, print)
-    if print == nil then
-        env.info(Log.prefix .. Serialize(obj))
-        return nil
-    end
-
-    return Log.prefix .. Serialize(obj)
-end
-
----Serializes a table.
 ---@param t table
----@return string
-function Serialize(t)
-    local function pk(key)
-        if type(key) == "string" then
-            return '["' .. key .. '"]'
-        end
-        return "[" .. key .. "]"
-    end
-
-    local function pv(value)
-        if type(value) == "number" then
-            return tostring(value)
-        elseif type(value) == "boolean" then
-            return tostring(value)
-        end
-        return '"' .. tostring(value) .. '"'
-    end
-
-    local function pt(tbl, indent)
-        indent = indent or 2
-        if type(tbl) == "table" then
-            local out = "\n" .. string.rep(" ", indent - 2) .. "{\n"
-
-            for key, value in pairs(tbl) do
-                out = out .. string.rep(" ", indent) .. pk(key) .. " = " .. pt(value, indent + 2) .. ", \n"
-            end
-
-            return out .. string.rep(" ", indent - 2) .. "}"
-        else
-            return pv(tbl)
-        end
-    end
-
-    return pt(t)
+---@return string|nil
+function Dump(t)
+    Serializer.block(t)
 end
 
 ---Checks if the given file exists.

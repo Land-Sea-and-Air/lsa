@@ -8,7 +8,7 @@ function BullsGenerator.centerMapNeutralBulls()
     mapCenter.centerY = neutralBulls.y
     mapCenter.centerX = neutralBulls.x
 
-    local contents = LSA.serializeWithCycles("mission", mission)
+    local contents = "mission=" .. Serializer.compact(mission)
     WriteFile(LSA.settings.path .. "\\mission", contents)
 end
 
@@ -69,6 +69,6 @@ function BullsGenerator.generate()
         end
     end
 
-    local contents = LSA.serializeWithCycles("mission", mission)
+    local contents = "mission=" .. Serializer.compact(mission)
     WriteFile(LSA.settings.path .. "\\mission", contents)
 end

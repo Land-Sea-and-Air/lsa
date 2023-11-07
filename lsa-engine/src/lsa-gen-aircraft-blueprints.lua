@@ -92,6 +92,6 @@ function AircraftBluePrintGenerator.generate()
         end
     end
 
-    local contents = Serialize(aircraftBlueprints)
+    local contents = Serializer.compact(aircraftBlueprints)
     WriteFile(LSA.settings.path .. "\\lsa-aircraft-blueprints-tmp.lua", contents)
 end

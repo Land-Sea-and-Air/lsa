@@ -44,17 +44,17 @@ function TriggerZoneExporter.export()
 end
 
 function TriggerZoneExporter.removeTriggerZonesFromMission()
-    local contents = LSA.serializeWithCycles("mission", env.mission)
+    local contents = "mission=" .. Serializer.compact(env.mission)
     local backupFilePath = string.format("%s\\%s.%s.backup", LSA.settings.path, "mission", os.time())
     WriteFile(backupFilePath, contents)
 
     env.mission.triggers.zones = {}
-    contents = LSA.serializeWithCycles("mission", env.mission)
+    contents = "mission=" .. Serializer.compact(env.mission)
     WriteFile(LSA.settings.path .. "\\mission", contents)
 end
 
 function TriggerZoneExporter.exportToFile(exportedZones)
-    local contents = Serialize(exportedZones)
+    local contents = Serializer.compact(exportedZones)
     local filePath = string.format("%s\\%s", LSA.settings.path, "lsa-zones-tmp.lua")
     WriteFile(filePath, contents)
 end

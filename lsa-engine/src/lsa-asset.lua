@@ -186,9 +186,7 @@ function Asset.remove(assetName)
     group:destroy()
 
     Log.debug(assetName)
-    Dump(Asset.assets[assetName])
     Asset.assets[assetName] = nil
-    Dump(Asset.assets[assetName])
 end
 
 function Asset.updateLocations()

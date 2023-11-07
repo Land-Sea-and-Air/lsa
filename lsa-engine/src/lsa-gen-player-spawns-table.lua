@@ -395,6 +395,6 @@ function PlayerSpawnsGenerator.generate()
         end
     end
 
-    local contents = "return" .. Serialize(templates)
+    local contents = "return" .. Serializer.block(templates, {comment=false})
     WriteFile(LSA.settings.path .. "\\lsa-player-spawns-tmp.lua", contents)
 end
