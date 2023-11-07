@@ -313,8 +313,16 @@ function Base.capture(base)
     return newOwner, previousOwner
 end
 
+function Base.__toogleBaseCoalition(base)
+    local newSide = LSA.theOtherSide(base.side)
+    local airbase = Airbase.getByName(base.name)
+    
+    base.side = newSide
+    airbase:setCoalition(base.side)
+end
+
 function Base.occupy(base)
-    Base.__setBaseCoalition(base)
+    Base.__toogleBaseCoalition(base)
     LSA.paintBasePerimeter(base)
     base.lastAttackAt = nil
     LSA.BaseCaptureFunctionIds[base.name] = nil
@@ -336,10 +344,6 @@ function Base.rebuildRepairs(baseName)
     for _, repairs in ipairs(base.repairs) do
         StaticWrp.respawn(repairs)
     end
-end
-
-function Base.__setBaseCoalition(base)
-    Airbase.getByName(base.name):setCoalition(base.side)
 end
 
 function Base.find(baseName)
