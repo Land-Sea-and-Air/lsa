@@ -1,296 +1,5 @@
 AircraftBlueprints =
 {
-    ["Su-25T"] =
-    {
-        ["frequency"] = 124,
-        ["uncontrollable"] = false,
-        ["modulation"] = 0,
-        ["tasks"] =
-        {
-        },
-        ["route"] =
-        {
-            ["points"] =
-            {
-                [1] =
-                {
-                    ["alt"] = 2000,
-                    ["type"] = "TakeOffGround",
-                    ["action"] = "From Ground Area",
-                    ["alt_type"] = "BARO",
-                    ["y"] = 0,
-                    ["x"] = 0,
-                    ["speed_locked"] = true,
-                    ["formation_template"] = "",
-                    ["speed"] = 125,
-                    ["ETA_locked"] = true,
-                    ["task"] =
-                    {
-                        ["id"] = "ComboTask",
-                        ["params"] =
-                        {
-                            ["tasks"] =
-                            {
-                            },
-                        },
-                    },
-                    ["ETA"] = 0,
-                },
-            },
-        },
-        ["hidden"] = false,
-        ["units"] =
-        {
-            [1] =
-            {
-                ["alt"] = 2000,
-                ["type"] = "Su-25T",
-                ["alt_type"] = "BARO",
-                ["psi"] = -3.1939525311496,
-                ["livery_id"] = "af standard 1",
-                ["skill"] = "Client",
-                ["onboard_num"] = "021",
-                ["y"] = 0,
-                ["x"] = 0,
-                ["name"] = "",
-                ["payload"] =
-                {
-                    ["pylons"] =
-                    {
-                    },
-                    ["fuel"] = 3032,
-                    ["flare"] = 128,
-                    ["chaff"] = 128,
-                    ["gun"] = 100,
-                    ["restricted"] =
-                    {
-                        [1] =
-                        {
-                            [6] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B4}",
-                            [2] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B3}",
-                            [3] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B5}",
-                            [1] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B1}",
-                            [4] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B2}",
-                            [5] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B6}",
-                        },
-                        [10] =
-                        {
-                            [6] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B4}",
-                            [2] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B3}",
-                            [3] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B5}",
-                            [1] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B1}",
-                            [4] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B2}",
-                            [5] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B6}",
-                        },
-                    },
-                },
-                ["speed"] = 180.55555555556,
-                ["heading"] = 3.1939525311496,
-            },
-        },
-        ["y"] = 0,
-        ["radioSet"] = false,
-        ["name"] = "",
-        ["communication"] = true,
-        ["x"] = 0,
-        ["start_time"] = 0,
-        ["task"] = "CAS",
-        ["uncontrolled"] = false,
-    },
-    ["JF-17"] =
-    {
-        ["frequency"] = 243,
-        ["uncontrollable"] = false,
-        ["modulation"] = 0,
-        ["tasks"] =
-        {
-        },
-        ["route"] =
-        {
-            ["points"] =
-            {
-                [1] =
-                {
-                    ["alt"] = 2000,
-                    ["type"] = "TakeOffGround",
-                    ["action"] = "From Ground Area",
-                    ["alt_type"] = "BARO",
-                    ["y"] = 0,
-                    ["x"] = 0,
-                    ["speed_locked"] = true,
-                    ["formation_template"] = "",
-                    ["speed"] = 125,
-                    ["ETA_locked"] = true,
-                    ["task"] =
-                    {
-                        ["id"] = "ComboTask",
-                        ["params"] =
-                        {
-                            ["tasks"] =
-                            {
-                            },
-                        },
-                    },
-                    ["ETA"] = 0,
-                },
-            },
-        },
-        ["hidden"] = false,
-        ["units"] =
-        {
-            [1] =
-            {
-                ["alt"] = 2000,
-                ["alt_type"] = "BARO",
-                ["livery_id"] = "plaaf 111th ab (fictional)",
-                ["skill"] = "Client",
-                ["speed"] = 219.44444444444,
-                ["AddPropAircraft"] =
-                {
-                    ["LaserCode1"] = 8,
-                    ["LaserCode100"] = 6,
-                    ["AARProbe"] = false,
-                    ["LaserCode10"] = 8,
-                },
-                ["type"] = "JF-17",
-                ["Radio"] =
-                {
-                    [1] =
-                    {
-                        ["channelsNames"] =
-                        {
-                        },
-                        ["modulations"] =
-                        {
-                            [1] = 0,
-                            [2] = 0,
-                            [4] = 0,
-                            [8] = 0,
-                            [16] = 0,
-                            [17] = 0,
-                            [9] = 0,
-                            [18] = 0,
-                            [5] = 0,
-                            [10] = 0,
-                            [20] = 0,
-                            [11] = 0,
-                            [3] = 0,
-                            [6] = 0,
-                            [12] = 0,
-                            [13] = 0,
-                            [7] = 0,
-                            [14] = 0,
-                            [15] = 0,
-                            [19] = 0,
-                        },
-                        ["channels"] =
-                        {
-                            [1] = 108,
-                            [2] = 108.5,
-                            [4] = 109.5,
-                            [8] = 111.5,
-                            [16] = 115.5,
-                            [17] = 116,
-                            [9] = 112,
-                            [18] = 116.5,
-                            [5] = 110,
-                            [10] = 112.5,
-                            [20] = 117.5,
-                            [11] = 113,
-                            [3] = 109,
-                            [6] = 110.5,
-                            [12] = 113.5,
-                            [13] = 114,
-                            [7] = 111,
-                            [14] = 114.5,
-                            [15] = 115,
-                            [19] = 117,
-                        },
-                    },
-                },
-                ["psi"] = -3.1939525311496,
-                ["y"] = 0,
-                ["x"] = 0,
-                ["name"] = "",
-                ["payload"] =
-                {
-                    ["pylons"] =
-                    {
-                    },
-                    ["fuel"] = 1860,
-                    ["flare"] = 32,
-                    ["chaff"] = 36,
-                    ["gun"] = 100,
-                    ["restricted"] =
-                    {
-                        [6] =
-                        {
-                            [7] = "DIS_SMOKE_GENERATOR_Y",
-                            [1] = "DIS_SMOKE_GENERATOR_G",
-                            [2] = "DIS_SD-10",
-                            [4] = "DIS_LD-10_DUAL_R",
-                            [8] = "DIS_SMOKE_GENERATOR_W",
-                            [9] = "DIS_SMOKE_GENERATOR_O",
-                            [5] = "DIS_SMOKE_GENERATOR_R",
-                            [10] = "DIS_SMOKE_GENERATOR_B",
-                            [3] = "DIS_LD-10",
-                            [6] = "DIS_SD-10_DUAL_R",
-                        },
-                        [2] =
-                        {
-                            [7] = "DIS_SMOKE_GENERATOR_W",
-                            [1] = "DIS_SMOKE_GENERATOR_G",
-                            [2] = "DIS_SD-10",
-                            [4] = "DIS_LD-10",
-                            [8] = "DIS_SD-10_DUAL_L",
-                            [9] = "DIS_SMOKE_GENERATOR_O",
-                            [5] = "DIS_SMOKE_GENERATOR_R",
-                            [10] = "DIS_SMOKE_GENERATOR_B",
-                            [3] = "DIS_LD-10_DUAL_L",
-                            [6] = "DIS_SMOKE_GENERATOR_Y",
-                        },
-                        [1] =
-                        {
-                            [6] = "DIS_SMOKE_GENERATOR_B",
-                            [2] = "DIS_SMOKE_GENERATOR_R",
-                            [3] = "DIS_SMOKE_GENERATOR_Y",
-                            [1] = "DIS_SMOKE_GENERATOR_G",
-                            [4] = "DIS_SMOKE_GENERATOR_W",
-                            [5] = "DIS_SMOKE_GENERATOR_O",
-                        },
-                        [4] =
-                        {
-                            [6] = "DIS_SMOKE_GENERATOR_B",
-                            [2] = "DIS_SMOKE_GENERATOR_R",
-                            [3] = "DIS_SMOKE_GENERATOR_Y",
-                            [1] = "DIS_SMOKE_GENERATOR_G",
-                            [4] = "DIS_SMOKE_GENERATOR_W",
-                            [5] = "DIS_SMOKE_GENERATOR_O",
-                        },
-                        [7] =
-                        {
-                            [6] = "DIS_SMOKE_GENERATOR_B",
-                            [2] = "DIS_SMOKE_GENERATOR_R",
-                            [3] = "DIS_SMOKE_GENERATOR_Y",
-                            [1] = "DIS_SMOKE_GENERATOR_G",
-                            [4] = "DIS_SMOKE_GENERATOR_W",
-                            [5] = "DIS_SMOKE_GENERATOR_O",
-                        },
-                    },
-                },
-                ["onboard_num"] = "013",
-                ["heading"] = 3.1939525311496,
-            },
-        },
-        ["y"] = 0,
-        ["radioSet"] = false,
-        ["name"] = "",
-        ["communication"] = true,
-        ["x"] = 0,
-        ["start_time"] = 0,
-        ["task"] = "CAP",
-        ["uncontrolled"] = false,
-    },
     ["AH-64D_BLK_II"] =
     {
         ["frequency"] = 225,
@@ -1326,156 +1035,6 @@ AircraftBlueprints =
         ["task"] = "CAS",
         ["uncontrolled"] = false,
     },
-    ["Ka-50"] =
-    {
-        ["frequency"] = 124,
-        ["uncontrollable"] = false,
-        ["modulation"] = 0,
-        ["tasks"] =
-        {
-        },
-        ["route"] =
-        {
-            ["points"] =
-            {
-                [1] =
-                {
-                    ["alt"] = 2000,
-                    ["type"] = "TakeOffGround",
-                    ["action"] = "From Ground Area",
-                    ["alt_type"] = "BARO",
-                    ["y"] = 0,
-                    ["x"] = 0,
-                    ["speed_locked"] = true,
-                    ["formation_template"] = "",
-                    ["speed"] = 125,
-                    ["ETA_locked"] = true,
-                    ["task"] =
-                    {
-                        ["id"] = "ComboTask",
-                        ["params"] =
-                        {
-                            ["tasks"] =
-                            {
-                            },
-                        },
-                    },
-                    ["ETA"] = 0,
-                },
-            },
-        },
-        ["hidden"] = false,
-        ["units"] =
-        {
-            [1] =
-            {
-                ["alt"] = 554.82553703204,
-                ["hardpoint_racks"] = true,
-                ["alt_type"] = "BARO",
-                ["livery_id"] = "russia standard army",
-                ["skill"] = "Client",
-                ["ropeLength"] = 15,
-                ["speed"] = 44.444444444444,
-                ["type"] = "Ka-50",
-                ["Radio"] =
-                {
-                    [1] =
-                    {
-                        ["channels"] =
-                        {
-                            [7] = 40,
-                            [1] = 21.5,
-                            [2] = 25.7,
-                            [4] = 28,
-                            [8] = 50,
-                            [9] = 55.5,
-                            [5] = 30,
-                            [10] = 59.9,
-                            [3] = 27,
-                            [6] = 32,
-                        },
-                        ["modulations"] =
-                        {
-                        },
-                        ["channelsNames"] =
-                        {
-                        },
-                    },
-                    [2] =
-                    {
-                        ["channels"] =
-                        {
-                            [4] = 0.591,
-                            [13] = 0.583,
-                            [7] = 0.443,
-                            [1] = 0.625,
-                            [2] = 0.303,
-                            [15] = 0.995,
-                            [8] = 0.215,
-                            [16] = 1.21,
-                            [9] = 0.525,
-                            [5] = 0.408,
-                            [10] = 1.065,
-                            [3] = 0.289,
-                            [11] = 0.718,
-                            [6] = 0.803,
-                            [12] = 0.35,
-                            [14] = 0.283,
-                        },
-                        ["modulations"] =
-                        {
-                        },
-                        ["channelsNames"] =
-                        {
-                        },
-                    },
-                },
-                ["psi"] = 0,
-                ["y"] = 0,
-                ["x"] = 0,
-                ["name"] = "",
-                ["payload"] =
-                {
-                    ["pylons"] =
-                    {
-                    },
-                    ["fuel"] = 1160,
-                    ["flare"] = 128,
-                    ["chaff"] = 0,
-                    ["gun"] = 100,
-                    ["restricted"] =
-                    {
-                        [3] =
-                        {
-                            [1] = "B_8V20A_CM",
-                        },
-                        [2] =
-                        {
-                            [1] = "B_8V20A_CM",
-                        },
-                        [4] =
-                        {
-                            [1] = "B_8V20A_CM",
-                        },
-                        [5] =
-                        {
-                            [1] = "B_8V20A_CM",
-                        },
-                    },
-                },
-                ["onboard_num"] = "019",
-                ["heading"] = 0.83246482671542,
-            },
-        },
-        ["y"] = 0,
-        ["radioSet"] = false,
-        ["name"] = "",
-        ["communication"] = true,
-        ["x"] = 0,
-        ["start_time"] = 0,
-        ["task"] = "CAS",
-        ["uncontrolled"] = false,
-    },
     ["F-15C"] =
     {
         ["frequency"] = 124,
@@ -1595,448 +1154,6 @@ AircraftBlueprints =
                     },
                 },
                 ["speed"] = 219.44444444444,
-                ["heading"] = 3.1939525311496,
-            },
-        },
-        ["y"] = 0,
-        ["radioSet"] = false,
-        ["name"] = "",
-        ["communication"] = true,
-        ["x"] = 0,
-        ["start_time"] = 0,
-        ["task"] = "CAP",
-        ["uncontrolled"] = false,
-    },
-    ["MiG-21Bis"] =
-    {
-        ["frequency"] = 121,
-        ["uncontrollable"] = false,
-        ["modulation"] = 0,
-        ["tasks"] =
-        {
-        },
-        ["route"] =
-        {
-            ["points"] =
-            {
-                [1] =
-                {
-                    ["alt"] = 2000,
-                    ["type"] = "TakeOffGround",
-                    ["action"] = "From Ground Area",
-                    ["alt_type"] = "BARO",
-                    ["y"] = 0,
-                    ["x"] = 0,
-                    ["speed_locked"] = true,
-                    ["formation_template"] = "",
-                    ["speed"] = 125,
-                    ["ETA_locked"] = true,
-                    ["task"] =
-                    {
-                        ["id"] = "ComboTask",
-                        ["params"] =
-                        {
-                            ["tasks"] =
-                            {
-                            },
-                        },
-                    },
-                    ["ETA"] = 0,
-                },
-            },
-        },
-        ["hidden"] = false,
-        ["units"] =
-        {
-            [1] =
-            {
-                ["alt"] = 2000,
-                ["type"] = "MiG-21Bis",
-                ["Radio"] =
-                {
-                    [1] =
-                    {
-                        ["channelsNames"] =
-                        {
-                        },
-                        ["modulations"] =
-                        {
-                            [1] = 0,
-                            [2] = 0,
-                            [3] = 0,
-                            [4] = 0,
-                            [5] = 0,
-                            [6] = 0,
-                            [7] = 0,
-                            [8] = 0,
-                            [9] = 0,
-                            [10] = 0,
-                            [11] = 0,
-                            [12] = 0,
-                            [13] = 0,
-                            [14] = 0,
-                            [15] = 0,
-                            [16] = 0,
-                            [17] = 0,
-                            [18] = 0,
-                            [19] = 0,
-                            [20] = 0,
-                        },
-                        ["channels"] =
-                        {
-                            [1] = 121,
-                            [2] = 122,
-                            [3] = 123,
-                            [4] = 124,
-                            [5] = 125,
-                            [6] = 126,
-                            [7] = 127,
-                            [8] = 128,
-                            [9] = 129,
-                            [10] = 130,
-                            [11] = 131,
-                            [12] = 132,
-                            [13] = 133,
-                            [14] = 134,
-                            [15] = 135,
-                            [16] = 136,
-                            [17] = 137,
-                            [18] = 138,
-                            [19] = 139,
-                            [20] = 140,
-                        },
-                    },
-                },
-                ["alt_type"] = "BARO",
-                ["psi"] = -3.1939525311496,
-                ["livery_id"] = "vvs - 185th gviap",
-                ["skill"] = "Client",
-                ["onboard_num"] = "016",
-                ["y"] = 0,
-                ["x"] = 0,
-                ["name"] = "",
-                ["payload"] =
-                {
-                    ["pylons"] =
-                    {
-                    },
-                    ["fuel"] = 1824,
-                    ["flare"] = 40,
-                    ["ammo_type"] = 1,
-                    ["chaff"] = 18,
-                    ["gun"] = 100,
-                    ["restricted"] =
-                    {
-                        [3] =
-                        {
-                            [1] = "{RN-28}",
-                            [2] = "{RN-24}",
-                        },
-                        [7] =
-                        {
-                            [1] = "{MIG21_SMOKE_WHITE}",
-                        },
-                    },
-                },
-                ["speed"] = 222.22222222222,
-                ["heading"] = 3.1939525311496,
-            },
-        },
-        ["y"] = 0,
-        ["radioSet"] = false,
-        ["name"] = "",
-        ["communication"] = true,
-        ["x"] = 0,
-        ["start_time"] = 0,
-        ["task"] = "CAP",
-        ["uncontrolled"] = false,
-    },
-    ["MiG-29S"] =
-    {
-        ["frequency"] = 124,
-        ["uncontrollable"] = false,
-        ["modulation"] = 0,
-        ["tasks"] =
-        {
-        },
-        ["route"] =
-        {
-            ["points"] =
-            {
-                [1] =
-                {
-                    ["alt"] = 2000,
-                    ["type"] = "TakeOffGround",
-                    ["action"] = "From Ground Area",
-                    ["alt_type"] = "BARO",
-                    ["y"] = 0,
-                    ["x"] = 0,
-                    ["speed_locked"] = true,
-                    ["formation_template"] = "",
-                    ["speed"] = 125,
-                    ["ETA_locked"] = true,
-                    ["task"] =
-                    {
-                        ["id"] = "ComboTask",
-                        ["params"] =
-                        {
-                            ["tasks"] =
-                            {
-                            },
-                        },
-                    },
-                    ["ETA"] = 0,
-                },
-            },
-        },
-        ["hidden"] = false,
-        ["units"] =
-        {
-            [1] =
-            {
-                ["alt"] = 2000,
-                ["type"] = "MiG-29S",
-                ["alt_type"] = "BARO",
-                ["psi"] = -3.1939525311496,
-                ["livery_id"] = "773 IAP_Damgarten",
-                ["skill"] = "Client",
-                ["onboard_num"] = "013",
-                ["y"] = 0,
-                ["x"] = 0,
-                ["name"] = "",
-                ["payload"] =
-                {
-                    ["pylons"] =
-                    {
-                    },
-                    ["fuel"] = 2794,
-                    ["flare"] = 30,
-                    ["chaff"] = 30,
-                    ["gun"] = 100,
-                    ["restricted"] =
-                    {
-                        [6] =
-                        {
-                            [6] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B1}",
-                            [2] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B6}",
-                            [3] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B4}",
-                            [1] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B5}",
-                            [4] = "{B4C01D60-A8A3-4237-BD72-CA7655BC0FE9}",
-                            [5] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B3}",
-                            [7] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B2}",
-                        },
-                        [2] =
-                        {
-                            [6] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B1}",
-                            [2] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B6}",
-                            [3] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B4}",
-                            [1] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B5}",
-                            [4] = "{B4C01D60-A8A3-4237-BD72-CA7655BC0FE9}",
-                            [5] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B3}",
-                            [7] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B2}",
-                        },
-                        [3] =
-                        {
-                            [7] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B3}",
-                            [1] = "{B79C379A-9E87-4E50-A1EE-7F7E29C2E87A}",
-                            [2] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B5}",
-                            [4] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B4}",
-                            [8] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B1}",
-                            [9] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B2}",
-                            [5] = "{B4C01D60-A8A3-4237-BD72-CA7655BC0FE9}",
-                            [3] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B6}",
-                            [6] = "{E8069896-8435-4B90-95C0-01A03AE6E400}",
-                        },
-                        [1] =
-                        {
-                            [6] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B1}",
-                            [2] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B6}",
-                            [3] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B4}",
-                            [1] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B5}",
-                            [4] = "{B4C01D60-A8A3-4237-BD72-CA7655BC0FE9}",
-                            [5] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B3}",
-                            [7] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B2}",
-                        },
-                        [4] =
-                        {
-                            [6] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B2}",
-                            [2] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B6}",
-                            [3] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B4}",
-                            [1] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B5}",
-                            [4] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B3}",
-                            [5] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B1}",
-                        },
-                        [5] =
-                        {
-                            [7] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B3}",
-                            [1] = "{B79C379A-9E87-4E50-A1EE-7F7E29C2E87A}",
-                            [2] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B5}",
-                            [4] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B4}",
-                            [8] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B1}",
-                            [9] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B2}",
-                            [5] = "{B4C01D60-A8A3-4237-BD72-CA7655BC0FE9}",
-                            [3] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B6}",
-                            [6] = "{E8069896-8435-4B90-95C0-01A03AE6E400}",
-                        },
-                        [7] =
-                        {
-                            [6] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B1}",
-                            [2] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B6}",
-                            [3] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B4}",
-                            [1] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B5}",
-                            [4] = "{B4C01D60-A8A3-4237-BD72-CA7655BC0FE9}",
-                            [5] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B3}",
-                            [7] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B2}",
-                        },
-                    },
-                },
-                ["speed"] = 222.22222222222,
-                ["heading"] = 3.1939525311496,
-            },
-        },
-        ["y"] = 0,
-        ["radioSet"] = false,
-        ["name"] = "",
-        ["communication"] = true,
-        ["x"] = 0,
-        ["start_time"] = 0,
-        ["task"] = "CAP",
-        ["uncontrolled"] = false,
-    },
-    ["MiG-29A"] =
-    {
-        ["frequency"] = 124,
-        ["uncontrollable"] = false,
-        ["modulation"] = 0,
-        ["tasks"] =
-        {
-        },
-        ["route"] =
-        {
-            ["points"] =
-            {
-                [1] =
-                {
-                    ["alt"] = 2000,
-                    ["type"] = "TakeOffGround",
-                    ["action"] = "From Ground Area",
-                    ["alt_type"] = "BARO",
-                    ["y"] = 0,
-                    ["x"] = 0,
-                    ["speed_locked"] = true,
-                    ["formation_template"] = "",
-                    ["speed"] = 125,
-                    ["ETA_locked"] = true,
-                    ["task"] =
-                    {
-                        ["id"] = "ComboTask",
-                        ["params"] =
-                        {
-                            ["tasks"] =
-                            {
-                            },
-                        },
-                    },
-                    ["ETA"] = 0,
-                },
-            },
-        },
-        ["hidden"] = false,
-        ["units"] =
-        {
-            [1] =
-            {
-                ["alt"] = 2000,
-                ["type"] = "MiG-29A",
-                ["alt_type"] = "BARO",
-                ["psi"] = -3.1939525311496,
-                ["livery_id"] = "air force standard",
-                ["skill"] = "Client",
-                ["onboard_num"] = "010",
-                ["y"] = 0,
-                ["x"] = 0,
-                ["name"] = "",
-                ["payload"] =
-                {
-                    ["pylons"] =
-                    {
-                    },
-                    ["fuel"] = 2701,
-                    ["flare"] = 30,
-                    ["chaff"] = 30,
-                    ["gun"] = 100,
-                    ["restricted"] =
-                    {
-                        [6] =
-                        {
-                            [6] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B2}",
-                            [2] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B4}",
-                            [3] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B6}",
-                            [1] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B5}",
-                            [4] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B3}",
-                            [5] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B1}",
-                        },
-                        [2] =
-                        {
-                            [6] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B2}",
-                            [2] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B4}",
-                            [3] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B6}",
-                            [1] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B5}",
-                            [4] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B3}",
-                            [5] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B1}",
-                        },
-                        [3] =
-                        {
-                            [6] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B3}",
-                            [2] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B5}",
-                            [8] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B2}",
-                            [3] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B4}",
-                            [1] = "{B79C379A-9E87-4E50-A1EE-7F7E29C2E87A}",
-                            [4] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B6}",
-                            [5] = "{E8069896-8435-4B90-95C0-01A03AE6E400}",
-                            [7] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B1}",
-                        },
-                        [1] =
-                        {
-                            [6] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B2}",
-                            [2] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B4}",
-                            [3] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B6}",
-                            [1] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B5}",
-                            [4] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B3}",
-                            [5] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B1}",
-                        },
-                        [4] =
-                        {
-                            [6] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B2}",
-                            [2] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B4}",
-                            [3] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B6}",
-                            [1] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B5}",
-                            [4] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B3}",
-                            [5] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B1}",
-                        },
-                        [5] =
-                        {
-                            [6] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B3}",
-                            [2] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B5}",
-                            [8] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B2}",
-                            [3] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B4}",
-                            [1] = "{B79C379A-9E87-4E50-A1EE-7F7E29C2E87A}",
-                            [4] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B6}",
-                            [5] = "{E8069896-8435-4B90-95C0-01A03AE6E400}",
-                            [7] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B1}",
-                        },
-                        [7] =
-                        {
-                            [6] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B2}",
-                            [2] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B4}",
-                            [3] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B6}",
-                            [1] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B5}",
-                            [4] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B3}",
-                            [5] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B1}",
-                        },
-                    },
-                },
-                ["speed"] = 222.22222222222,
                 ["heading"] = 3.1939525311496,
             },
         },
@@ -2671,275 +1788,6 @@ AircraftBlueprints =
         ["task"] = "CAS",
         ["uncontrolled"] = false,
     },
-    ["Su-25"] =
-    {
-        ["frequency"] = 124,
-        ["uncontrollable"] = false,
-        ["modulation"] = 0,
-        ["tasks"] =
-        {
-        },
-        ["route"] =
-        {
-            ["points"] =
-            {
-                [1] =
-                {
-                    ["alt"] = 2000,
-                    ["type"] = "TakeOffGround",
-                    ["action"] = "From Ground Area",
-                    ["alt_type"] = "BARO",
-                    ["y"] = 0,
-                    ["x"] = 0,
-                    ["speed_locked"] = true,
-                    ["formation_template"] = "",
-                    ["speed"] = 125,
-                    ["ETA_locked"] = true,
-                    ["task"] =
-                    {
-                        ["id"] = "ComboTask",
-                        ["params"] =
-                        {
-                            ["tasks"] =
-                            {
-                            },
-                        },
-                    },
-                    ["ETA"] = 0,
-                },
-            },
-        },
-        ["hidden"] = false,
-        ["units"] =
-        {
-            [1] =
-            {
-                ["alt"] = 2000,
-                ["type"] = "Su-25",
-                ["alt_type"] = "BARO",
-                ["psi"] = -3.1939525311496,
-                ["livery_id"] = "forest camo scheme #1 (native)",
-                ["skill"] = "Client",
-                ["onboard_num"] = "014",
-                ["y"] = 0,
-                ["x"] = 0,
-                ["name"] = "",
-                ["payload"] =
-                {
-                    ["pylons"] =
-                    {
-                    },
-                    ["fuel"] = 2268,
-                    ["flare"] = 128,
-                    ["chaff"] = 128,
-                    ["gun"] = 100,
-                    ["restricted"] =
-                    {
-                        [1] =
-                        {
-                            [6] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B4}",
-                            [2] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B3}",
-                            [3] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B5}",
-                            [1] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B1}",
-                            [4] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B2}",
-                            [5] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B6}",
-                        },
-                        [10] =
-                        {
-                            [6] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B4}",
-                            [2] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B3}",
-                            [3] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B5}",
-                            [1] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B1}",
-                            [4] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B2}",
-                            [5] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B6}",
-                        },
-                    },
-                },
-                ["speed"] = 180.55555555556,
-                ["heading"] = 3.1939525311496,
-            },
-        },
-        ["y"] = 0,
-        ["radioSet"] = false,
-        ["name"] = "",
-        ["communication"] = true,
-        ["x"] = 0,
-        ["start_time"] = 0,
-        ["task"] = "CAS",
-        ["uncontrolled"] = false,
-    },
-    ["Mi-24P"] =
-    {
-        ["frequency"] = 127.5,
-        ["uncontrollable"] = false,
-        ["modulation"] = 0,
-        ["tasks"] =
-        {
-        },
-        ["route"] =
-        {
-            ["points"] =
-            {
-                [1] =
-                {
-                    ["alt"] = 2000,
-                    ["type"] = "TakeOffGround",
-                    ["action"] = "From Ground Area",
-                    ["alt_type"] = "BARO",
-                    ["y"] = 0,
-                    ["x"] = 0,
-                    ["speed_locked"] = true,
-                    ["formation_template"] = "",
-                    ["speed"] = 125,
-                    ["ETA_locked"] = true,
-                    ["task"] =
-                    {
-                        ["id"] = "ComboTask",
-                        ["params"] =
-                        {
-                            ["tasks"] =
-                            {
-                            },
-                        },
-                    },
-                    ["ETA"] = 0,
-                },
-            },
-        },
-        ["hidden"] = false,
-        ["units"] =
-        {
-            [1] =
-            {
-                ["alt"] = 554.82547599683,
-                ["hardpoint_racks"] = true,
-                ["alt_type"] = "BARO",
-                ["livery_id"] = "russian air force",
-                ["skill"] = "Client",
-                ["ropeLength"] = 15,
-                ["speed"] = 44.444444444444,
-                ["AddPropAircraft"] =
-                {
-                    ["LeftEngineResource"] = 90,
-                    ["RightEngineResource"] = 90,
-                    ["PilotNVG"] = true,
-                    ["NetCrewControlPriority"] = 0,
-                    ["GunnersAISkill"] = 90,
-                    ["R60equipment"] = true,
-                    ["HumanOrchestra"] = false,
-                    ["OperatorNVG"] = true,
-                    ["SimplifiedAI"] = false,
-                    ["ExhaustScreen"] = true,
-                    ["HideAngleBoxes"] = false,
-                    ["OverrideIFF"] = 0,
-                    ["TrackAirTargets"] = true,
-                    ["NS430allow"] = true,
-                },
-                ["type"] = "Mi-24P",
-                ["Radio"] =
-                {
-                    [1] =
-                    {
-                        ["channels"] =
-                        {
-                            [1] = 127.5,
-                            [2] = 135,
-                            [4] = 127,
-                            [8] = 128,
-                            [16] = 132,
-                            [17] = 138,
-                            [9] = 126,
-                            [18] = 122,
-                            [5] = 125,
-                            [10] = 133,
-                            [20] = 137,
-                            [11] = 130,
-                            [3] = 136,
-                            [6] = 121,
-                            [12] = 129,
-                            [13] = 123,
-                            [7] = 141,
-                            [14] = 131,
-                            [19] = 124,
-                            [15] = 134,
-                        },
-                        ["modulations"] =
-                        {
-                        },
-                        ["channelsNames"] =
-                        {
-                        },
-                    },
-                    [2] =
-                    {
-                        ["channels"] =
-                        {
-                            [7] = 40,
-                            [1] = 21.5,
-                            [2] = 25.7,
-                            [4] = 28,
-                            [8] = 50,
-                            [9] = 55.5,
-                            [5] = 30,
-                            [10] = 59.9,
-                            [3] = 27,
-                            [6] = 32,
-                        },
-                        ["modulations"] =
-                        {
-                        },
-                        ["channelsNames"] =
-                        {
-                        },
-                    },
-                },
-                ["psi"] = 0,
-                ["y"] = 0,
-                ["x"] = 0,
-                ["name"] = "",
-                ["payload"] =
-                {
-                    ["pylons"] =
-                    {
-                    },
-                    ["fuel"] = 1361,
-                    ["flare"] = 192,
-                    ["ammo_type"] = 1,
-                    ["chaff"] = 0,
-                    ["gun"] = 100,
-                    ["restricted"] =
-                    {
-                        [3] =
-                        {
-                            [1] = "B_8V20A_CM",
-                        },
-                        [2] =
-                        {
-                            [1] = "B_8V20A_CM",
-                        },
-                        [4] =
-                        {
-                            [1] = "B_8V20A_CM",
-                        },
-                        [5] =
-                        {
-                            [1] = "B_8V20A_CM",
-                        },
-                    },
-                },
-                ["onboard_num"] = "017",
-                ["heading"] = 0.83246482671542,
-            },
-        },
-        ["y"] = 0,
-        ["radioSet"] = false,
-        ["name"] = "",
-        ["communication"] = true,
-        ["x"] = 0,
-        ["start_time"] = 0,
-        ["task"] = "CAS",
-        ["uncontrolled"] = false,
-    },
     ["A-10A"] =
     {
         ["frequency"] = 124,
@@ -3039,216 +1887,6 @@ AircraftBlueprints =
         ["x"] = 0,
         ["start_time"] = 0,
         ["task"] = "CAS",
-        ["uncontrolled"] = false,
-    },
-    ["Mi-8MT"] =
-    {
-        ["frequency"] = 127.5,
-        ["uncontrollable"] = false,
-        ["modulation"] = 0,
-        ["tasks"] =
-        {
-        },
-        ["route"] =
-        {
-            ["points"] =
-            {
-                [1] =
-                {
-                    ["alt"] = 2000,
-                    ["type"] = "TakeOffGround",
-                    ["action"] = "From Ground Area",
-                    ["alt_type"] = "BARO",
-                    ["y"] = 0,
-                    ["x"] = 0,
-                    ["speed_locked"] = true,
-                    ["formation_template"] = "",
-                    ["speed"] = 125,
-                    ["ETA_locked"] = true,
-                    ["task"] =
-                    {
-                        ["id"] = "ComboTask",
-                        ["params"] =
-                        {
-                            ["tasks"] =
-                            {
-                            },
-                        },
-                    },
-                    ["ETA"] = 0,
-                },
-            },
-        },
-        ["hidden"] = false,
-        ["units"] =
-        {
-            [1] =
-            {
-                ["alt"] = 525,
-                ["hardpoint_racks"] = true,
-                ["alt_type"] = "BARO",
-                ["livery_id"] = "russia_vvs_standard",
-                ["skill"] = "Client",
-                ["ropeLength"] = 15,
-                ["speed"] = 44.444444444444,
-                ["AddPropAircraft"] =
-                {
-                    ["LeftEngineResource"] = 90,
-                    ["RightEngineResource"] = 90,
-                    ["CargoHalfdoor"] = true,
-                    ["GunnersAISkill"] = 90,
-                    ["ExhaustScreen"] = true,
-                    ["HumanOrchestra"] = false,
-                    ["NetCrewControlPriority"] = 0,
-                    ["AdditionalArmor"] = true,
-                    ["NS430allow"] = true,
-                },
-                ["type"] = "Mi-8MT",
-                ["Radio"] =
-                {
-                    [1] =
-                    {
-                        ["channels"] =
-                        {
-                            [1] = 127.5,
-                            [2] = 135,
-                            [4] = 127,
-                            [8] = 128,
-                            [16] = 132,
-                            [17] = 138,
-                            [9] = 126,
-                            [18] = 122,
-                            [5] = 125,
-                            [10] = 133,
-                            [20] = 137,
-                            [11] = 130,
-                            [3] = 136,
-                            [6] = 121,
-                            [12] = 129,
-                            [13] = 123,
-                            [7] = 141,
-                            [14] = 131,
-                            [19] = 124,
-                            [15] = 134,
-                        },
-                        ["modulations"] =
-                        {
-                        },
-                        ["channelsNames"] =
-                        {
-                        },
-                    },
-                    [2] =
-                    {
-                        ["channels"] =
-                        {
-                            [7] = 40,
-                            [1] = 21.5,
-                            [2] = 25.7,
-                            [4] = 28,
-                            [8] = 50,
-                            [9] = 55.5,
-                            [5] = 30,
-                            [10] = 59.9,
-                            [3] = 27,
-                            [6] = 32,
-                        },
-                        ["modulations"] =
-                        {
-                        },
-                        ["channelsNames"] =
-                        {
-                        },
-                    },
-                },
-                ["psi"] = 0,
-                ["y"] = 0,
-                ["x"] = 0,
-                ["name"] = "",
-                ["payload"] =
-                {
-                    ["pylons"] =
-                    {
-                    },
-                    ["fuel"] = 1543,
-                    ["flare"] = 128,
-                    ["chaff"] = 0,
-                    ["gun"] = 100,
-                    ["restricted"] =
-                    {
-                        [6] =
-                        {
-                            [6] = "B_8V20A_CM_VT",
-                            [2] = "B_8V20A_CM_WH",
-                            [3] = "B_8V20A_CM_YE",
-                            [1] = "B_8V20A_CM_RD",
-                            [4] = "B_8V20A_CM_BU",
-                            [5] = "B_8V20A_CM_GN",
-                            [7] = "B_8V20A_CM",
-                        },
-                        [2] =
-                        {
-                            [6] = "B_8V20A_CM_VT",
-                            [2] = "B_8V20A_CM_WH",
-                            [3] = "B_8V20A_CM_YE",
-                            [1] = "B_8V20A_CM_RD",
-                            [4] = "B_8V20A_CM_BU",
-                            [5] = "B_8V20A_CM_GN",
-                            [7] = "B_8V20A_CM",
-                        },
-                        [3] =
-                        {
-                            [6] = "B_8V20A_CM_VT",
-                            [2] = "B_8V20A_CM_WH",
-                            [3] = "B_8V20A_CM_YE",
-                            [1] = "B_8V20A_CM_RD",
-                            [4] = "B_8V20A_CM_BU",
-                            [5] = "B_8V20A_CM_GN",
-                            [7] = "B_8V20A_CM",
-                        },
-                        [1] =
-                        {
-                            [6] = "B_8V20A_CM_VT",
-                            [2] = "B_8V20A_CM_WH",
-                            [3] = "B_8V20A_CM_YE",
-                            [1] = "B_8V20A_CM_RD",
-                            [4] = "B_8V20A_CM_BU",
-                            [5] = "B_8V20A_CM_GN",
-                            [7] = "B_8V20A_CM",
-                        },
-                        [4] =
-                        {
-                            [6] = "B_8V20A_CM_VT",
-                            [2] = "B_8V20A_CM_WH",
-                            [3] = "B_8V20A_CM_YE",
-                            [1] = "B_8V20A_CM_RD",
-                            [4] = "B_8V20A_CM_BU",
-                            [5] = "B_8V20A_CM_GN",
-                            [7] = "B_8V20A_CM",
-                        },
-                        [5] =
-                        {
-                            [6] = "B_8V20A_CM_VT",
-                            [2] = "B_8V20A_CM_WH",
-                            [3] = "B_8V20A_CM_YE",
-                            [1] = "B_8V20A_CM_RD",
-                            [4] = "B_8V20A_CM_BU",
-                            [5] = "B_8V20A_CM_GN",
-                            [7] = "B_8V20A_CM",
-                        },
-                    },
-                },
-                ["onboard_num"] = "025",
-                ["heading"] = 0.83246482671542,
-            },
-        },
-        ["y"] = 0,
-        ["radioSet"] = false,
-        ["name"] = "",
-        ["communication"] = true,
-        ["x"] = 0,
-        ["start_time"] = 0,
-        ["task"] = "Transport",
         ["uncontrolled"] = false,
     },
     ["M-2000C"] =
@@ -3468,207 +2106,6 @@ AircraftBlueprints =
                     },
                 },
                 ["onboard_num"] = "010",
-                ["heading"] = 3.1939525311496,
-            },
-        },
-        ["y"] = 0,
-        ["radioSet"] = false,
-        ["name"] = "",
-        ["communication"] = true,
-        ["x"] = 0,
-        ["start_time"] = 0,
-        ["task"] = "CAP",
-        ["uncontrolled"] = false,
-    },
-    ["Mirage-F1EE"] =
-    {
-        ["frequency"] = 127.5,
-        ["uncontrollable"] = false,
-        ["modulation"] = 0,
-        ["tasks"] =
-        {
-        },
-        ["route"] =
-        {
-            ["points"] =
-            {
-                [1] =
-                {
-                    ["alt"] = 2000,
-                    ["type"] = "TakeOffGround",
-                    ["action"] = "From Ground Area",
-                    ["alt_type"] = "BARO",
-                    ["y"] = 0,
-                    ["x"] = 0,
-                    ["speed_locked"] = true,
-                    ["formation_template"] = "",
-                    ["speed"] = 125,
-                    ["ETA_locked"] = true,
-                    ["task"] =
-                    {
-                        ["id"] = "ComboTask",
-                        ["params"] =
-                        {
-                            ["tasks"] =
-                            {
-                            },
-                        },
-                    },
-                    ["ETA"] = 0,
-                },
-            },
-        },
-        ["hidden"] = false,
-        ["units"] =
-        {
-            [1] =
-            {
-                ["alt"] = 2000,
-                ["alt_type"] = "BARO",
-                ["livery_id"] = "aerges camo",
-                ["skill"] = "Client",
-                ["speed"] = 300,
-                ["AddPropAircraft"] =
-                {
-                    ["GunBurstSettings"] = 1,
-                    ["RocketSalvoF1"] = 1,
-                    ["RWR_type"] = "ALR_300",
-                    ["RadarCoverSettings"] = 1,
-                    ["ChaffMultiTime"] = 1,
-                    ["FlareMultiNumber"] = 1,
-                    ["ChaffMultiNumber"] = 1,
-                    ["LaserCode1"] = 8,
-                    ["RocketSalvoF4"] = 1,
-                    ["LaserCode100"] = 6,
-                    ["FlareMultiTime"] = 1,
-                    ["ChaffProgramTime"] = 1,
-                    ["MissSimplLock"] = 1,
-                    ["ChaffProgramNumber"] = 1,
-                    ["LaserCode10"] = 8,
-                    ["INSStartMode"] = 1,
-                },
-                ["type"] = "Mirage-F1EE",
-                ["Radio"] =
-                {
-                    [1] =
-                    {
-                        ["channelsNames"] =
-                        {
-                        },
-                        ["modulations"] =
-                        {
-                        },
-                        ["channels"] =
-                        {
-                            [1] = 127.5,
-                            [2] = 119.25,
-                            [4] = 126.5,
-                            [8] = 133,
-                            [16] = 261,
-                            [17] = 262,
-                            [9] = 141,
-                            [18] = 263,
-                            [5] = 127,
-                            [10] = 250.5,
-                            [20] = 270,
-                            [11] = 251,
-                            [3] = 122,
-                            [6] = 129,
-                            [12] = 253,
-                            [13] = 254,
-                            [7] = 131,
-                            [14] = 257,
-                            [15] = 260,
-                            [19] = 267,
-                        },
-                    },
-                    [2] =
-                    {
-                        ["channelsNames"] =
-                        {
-                        },
-                        ["modulations"] =
-                        {
-                        },
-                        ["channels"] =
-                        {
-                            [1] = 225,
-                            [2] = 230,
-                            [4] = 250.5,
-                            [8] = 262,
-                            [16] = 252,
-                            [17] = 268,
-                            [9] = 263,
-                            [18] = 271,
-                            [5] = 251,
-                            [10] = 267,
-                            [20] = 360,
-                            [11] = 270,
-                            [3] = 240,
-                            [6] = 256,
-                            [12] = 254,
-                            [13] = 264,
-                            [7] = 257,
-                            [14] = 266,
-                            [15] = 265,
-                            [19] = 275,
-                        },
-                    },
-                },
-                ["psi"] = -3.1939525311496,
-                ["y"] = 0,
-                ["x"] = 0,
-                ["name"] = "",
-                ["payload"] =
-                {
-                    ["pylons"] =
-                    {
-                    },
-                    ["fuel"] = 3246,
-                    ["flare"] = 15,
-                    ["chaff"] = 30,
-                    ["gun"] = 100,
-                    ["restricted"] =
-                    {
-                        [3] =
-                        {
-                            [6] = "{MATRA_F1_SNEBT254_RED}",
-                            [2] = "{MATRA_F1_SNEBT254_GREEN}",
-                            [3] = "{MATRA_F1_SNEBT254_YELLOW}",
-                            [1] = "{MATRA_F4_SNEBT254_GREEN}",
-                            [4] = "{MATRA_F4_SNEBT254_RED}",
-                            [5] = "{MATRA_F4_SNEBT254_YELLOW}",
-                        },
-                        [2] =
-                        {
-                            [6] = "{MATRA_F1_SNEBT254_RED}",
-                            [2] = "{MATRA_F1_SNEBT254_GREEN}",
-                            [3] = "{MATRA_F1_SNEBT254_YELLOW}",
-                            [1] = "{MATRA_F4_SNEBT254_GREEN}",
-                            [4] = "{MATRA_F4_SNEBT254_RED}",
-                            [5] = "{MATRA_F4_SNEBT254_YELLOW}",
-                        },
-                        [5] =
-                        {
-                            [6] = "{MATRA_F1_SNEBT254_RED}",
-                            [2] = "{MATRA_F1_SNEBT254_GREEN}",
-                            [3] = "{MATRA_F1_SNEBT254_YELLOW}",
-                            [1] = "{MATRA_F4_SNEBT254_GREEN}",
-                            [4] = "{MATRA_F4_SNEBT254_RED}",
-                            [5] = "{MATRA_F4_SNEBT254_YELLOW}",
-                        },
-                        [6] =
-                        {
-                            [6] = "{MATRA_F1_SNEBT254_RED}",
-                            [2] = "{MATRA_F1_SNEBT254_GREEN}",
-                            [3] = "{MATRA_F1_SNEBT254_YELLOW}",
-                            [1] = "{MATRA_F4_SNEBT254_GREEN}",
-                            [4] = "{MATRA_F4_SNEBT254_RED}",
-                            [5] = "{MATRA_F4_SNEBT254_YELLOW}",
-                        },
-                    },
-                },
-                ["onboard_num"] = "015",
                 ["heading"] = 3.1939525311496,
             },
         },
@@ -4737,164 +3174,6 @@ AircraftBlueprints =
         ["task"] = "CAP",
         ["uncontrolled"] = false,
     },
-    ["Ka-50_3"] =
-    {
-        ["frequency"] = 124,
-        ["uncontrollable"] = false,
-        ["modulation"] = 0,
-        ["tasks"] =
-        {
-        },
-        ["route"] =
-        {
-            ["points"] =
-            {
-                [1] =
-                {
-                    ["alt"] = 2000,
-                    ["type"] = "TakeOffGround",
-                    ["action"] = "From Ground Area",
-                    ["alt_type"] = "BARO",
-                    ["y"] = 0,
-                    ["x"] = 0,
-                    ["speed_locked"] = true,
-                    ["formation_template"] = "",
-                    ["speed"] = 125,
-                    ["ETA_locked"] = true,
-                    ["task"] =
-                    {
-                        ["id"] = "ComboTask",
-                        ["params"] =
-                        {
-                            ["tasks"] =
-                            {
-                            },
-                        },
-                    },
-                    ["ETA"] = 0,
-                },
-            },
-        },
-        ["hidden"] = false,
-        ["units"] =
-        {
-            [1] =
-            {
-                ["alt"] = 554.82553703204,
-                ["hardpoint_racks"] = true,
-                ["alt_type"] = "BARO",
-                ["livery_id"] = "default",
-                ["skill"] = "Client",
-                ["ropeLength"] = 15,
-                ["speed"] = 44.444444444444,
-                ["AddPropAircraft"] =
-                {
-                    ["IMU alignment type"] = 3,
-                    ["Helmet-mounted device"] = 0,
-                    ["ExhaustScreen"] = true,
-                    ["modification"] = "Ka-50_3",
-                    ["Realistic INS"] = 1,
-                },
-                ["type"] = "Ka-50_3",
-                ["Radio"] =
-                {
-                    [1] =
-                    {
-                        ["channels"] =
-                        {
-                            [7] = 40,
-                            [1] = 21.5,
-                            [2] = 25.7,
-                            [4] = 28,
-                            [8] = 50,
-                            [9] = 55.5,
-                            [5] = 30,
-                            [10] = 59.9,
-                            [3] = 27,
-                            [6] = 32,
-                        },
-                        ["modulations"] =
-                        {
-                        },
-                        ["channelsNames"] =
-                        {
-                        },
-                    },
-                    [2] =
-                    {
-                        ["channels"] =
-                        {
-                            [4] = 0.591,
-                            [13] = 0.583,
-                            [7] = 0.443,
-                            [1] = 0.625,
-                            [2] = 0.303,
-                            [15] = 0.995,
-                            [8] = 0.215,
-                            [16] = 1.21,
-                            [9] = 0.525,
-                            [5] = 0.408,
-                            [10] = 1.065,
-                            [3] = 0.289,
-                            [11] = 0.718,
-                            [6] = 0.803,
-                            [12] = 0.35,
-                            [14] = 0.283,
-                        },
-                        ["modulations"] =
-                        {
-                        },
-                        ["channelsNames"] =
-                        {
-                        },
-                    },
-                },
-                ["psi"] = 0,
-                ["y"] = 0,
-                ["x"] = 0,
-                ["name"] = "",
-                ["payload"] =
-                {
-                    ["pylons"] =
-                    {
-                    },
-                    ["fuel"] = 1160,
-                    ["flare"] = 128,
-                    ["chaff"] = 0,
-                    ["gun"] = 100,
-                    ["restricted"] =
-                    {
-                        [3] =
-                        {
-                            [1] = "B_8V20A_CM",
-                        },
-                        [2] =
-                        {
-                            [1] = "B_8V20A_CM",
-                        },
-                        [4] =
-                        {
-                            [1] = "B_8V20A_CM",
-                        },
-                        [5] =
-                        {
-                            [1] = "B_8V20A_CM",
-                        },
-                    },
-                },
-                ["onboard_num"] = "018",
-                ["heading"] = 0.83246482671542,
-            },
-        },
-        ["y"] = 0,
-        ["radioSet"] = false,
-        ["name"] = "",
-        ["communication"] = true,
-        ["x"] = 0,
-        ["start_time"] = 0,
-        ["task"] = "CAS",
-        ["uncontrolled"] = false,
-    },
     ["F-5E-3"] =
     {
         ["frequency"] = 305,
@@ -5888,6 +4167,207 @@ AircraftBlueprints =
         ["task"] = "CAP",
         ["uncontrolled"] = false,
     },
+    ["Mirage-F1EE"] =
+    {
+        ["frequency"] = 127.5,
+        ["uncontrollable"] = false,
+        ["modulation"] = 0,
+        ["tasks"] =
+        {
+        },
+        ["route"] =
+        {
+            ["points"] =
+            {
+                [1] =
+                {
+                    ["alt"] = 2000,
+                    ["type"] = "TakeOffGround",
+                    ["action"] = "From Ground Area",
+                    ["alt_type"] = "BARO",
+                    ["y"] = 0,
+                    ["x"] = 0,
+                    ["speed_locked"] = true,
+                    ["formation_template"] = "",
+                    ["speed"] = 125,
+                    ["ETA_locked"] = true,
+                    ["task"] =
+                    {
+                        ["id"] = "ComboTask",
+                        ["params"] =
+                        {
+                            ["tasks"] =
+                            {
+                            },
+                        },
+                    },
+                    ["ETA"] = 0,
+                },
+            },
+        },
+        ["hidden"] = false,
+        ["units"] =
+        {
+            [1] =
+            {
+                ["alt"] = 2000,
+                ["alt_type"] = "BARO",
+                ["livery_id"] = "aerges camo",
+                ["skill"] = "Client",
+                ["speed"] = 300,
+                ["AddPropAircraft"] =
+                {
+                    ["GunBurstSettings"] = 1,
+                    ["RocketSalvoF1"] = 1,
+                    ["RWR_type"] = "ALR_300",
+                    ["RadarCoverSettings"] = 1,
+                    ["ChaffMultiTime"] = 1,
+                    ["FlareMultiNumber"] = 1,
+                    ["ChaffMultiNumber"] = 1,
+                    ["LaserCode1"] = 8,
+                    ["RocketSalvoF4"] = 1,
+                    ["LaserCode100"] = 6,
+                    ["FlareMultiTime"] = 1,
+                    ["ChaffProgramTime"] = 1,
+                    ["MissSimplLock"] = 1,
+                    ["ChaffProgramNumber"] = 1,
+                    ["LaserCode10"] = 8,
+                    ["INSStartMode"] = 1,
+                },
+                ["type"] = "Mirage-F1EE",
+                ["Radio"] =
+                {
+                    [1] =
+                    {
+                        ["channelsNames"] =
+                        {
+                        },
+                        ["modulations"] =
+                        {
+                        },
+                        ["channels"] =
+                        {
+                            [1] = 127.5,
+                            [2] = 119.25,
+                            [4] = 126.5,
+                            [8] = 133,
+                            [16] = 261,
+                            [17] = 262,
+                            [9] = 141,
+                            [18] = 263,
+                            [5] = 127,
+                            [10] = 250.5,
+                            [20] = 270,
+                            [11] = 251,
+                            [3] = 122,
+                            [6] = 129,
+                            [12] = 253,
+                            [13] = 254,
+                            [7] = 131,
+                            [14] = 257,
+                            [15] = 260,
+                            [19] = 267,
+                        },
+                    },
+                    [2] =
+                    {
+                        ["channelsNames"] =
+                        {
+                        },
+                        ["modulations"] =
+                        {
+                        },
+                        ["channels"] =
+                        {
+                            [1] = 225,
+                            [2] = 230,
+                            [4] = 250.5,
+                            [8] = 262,
+                            [16] = 252,
+                            [17] = 268,
+                            [9] = 263,
+                            [18] = 271,
+                            [5] = 251,
+                            [10] = 267,
+                            [20] = 360,
+                            [11] = 270,
+                            [3] = 240,
+                            [6] = 256,
+                            [12] = 254,
+                            [13] = 264,
+                            [7] = 257,
+                            [14] = 266,
+                            [15] = 265,
+                            [19] = 275,
+                        },
+                    },
+                },
+                ["psi"] = -3.1939525311496,
+                ["y"] = 0,
+                ["x"] = 0,
+                ["name"] = "",
+                ["payload"] =
+                {
+                    ["pylons"] =
+                    {
+                    },
+                    ["fuel"] = 3246,
+                    ["flare"] = 15,
+                    ["chaff"] = 30,
+                    ["gun"] = 100,
+                    ["restricted"] =
+                    {
+                        [3] =
+                        {
+                            [6] = "{MATRA_F1_SNEBT254_RED}",
+                            [2] = "{MATRA_F1_SNEBT254_GREEN}",
+                            [3] = "{MATRA_F1_SNEBT254_YELLOW}",
+                            [1] = "{MATRA_F4_SNEBT254_GREEN}",
+                            [4] = "{MATRA_F4_SNEBT254_RED}",
+                            [5] = "{MATRA_F4_SNEBT254_YELLOW}",
+                        },
+                        [2] =
+                        {
+                            [6] = "{MATRA_F1_SNEBT254_RED}",
+                            [2] = "{MATRA_F1_SNEBT254_GREEN}",
+                            [3] = "{MATRA_F1_SNEBT254_YELLOW}",
+                            [1] = "{MATRA_F4_SNEBT254_GREEN}",
+                            [4] = "{MATRA_F4_SNEBT254_RED}",
+                            [5] = "{MATRA_F4_SNEBT254_YELLOW}",
+                        },
+                        [5] =
+                        {
+                            [6] = "{MATRA_F1_SNEBT254_RED}",
+                            [2] = "{MATRA_F1_SNEBT254_GREEN}",
+                            [3] = "{MATRA_F1_SNEBT254_YELLOW}",
+                            [1] = "{MATRA_F4_SNEBT254_GREEN}",
+                            [4] = "{MATRA_F4_SNEBT254_RED}",
+                            [5] = "{MATRA_F4_SNEBT254_YELLOW}",
+                        },
+                        [6] =
+                        {
+                            [6] = "{MATRA_F1_SNEBT254_RED}",
+                            [2] = "{MATRA_F1_SNEBT254_GREEN}",
+                            [3] = "{MATRA_F1_SNEBT254_YELLOW}",
+                            [1] = "{MATRA_F4_SNEBT254_GREEN}",
+                            [4] = "{MATRA_F4_SNEBT254_RED}",
+                            [5] = "{MATRA_F4_SNEBT254_YELLOW}",
+                        },
+                    },
+                },
+                ["onboard_num"] = "015",
+                ["heading"] = 3.1939525311496,
+            },
+        },
+        ["y"] = 0,
+        ["radioSet"] = false,
+        ["name"] = "",
+        ["communication"] = true,
+        ["x"] = 0,
+        ["start_time"] = 0,
+        ["task"] = "CAP",
+        ["uncontrolled"] = false,
+    },
     ["Su-27"] =
     {
         ["frequency"] = 127.5,
@@ -6409,6 +4889,1526 @@ AircraftBlueprints =
         ["x"] = 0,
         ["start_time"] = 0,
         ["task"] = "CAP",
+        ["uncontrolled"] = false,
+    },
+    ["Su-25T"] =
+    {
+        ["frequency"] = 124,
+        ["uncontrollable"] = false,
+        ["modulation"] = 0,
+        ["tasks"] =
+        {
+        },
+        ["route"] =
+        {
+            ["points"] =
+            {
+                [1] =
+                {
+                    ["alt"] = 2000,
+                    ["type"] = "TakeOffGround",
+                    ["action"] = "From Ground Area",
+                    ["alt_type"] = "BARO",
+                    ["y"] = 0,
+                    ["x"] = 0,
+                    ["speed_locked"] = true,
+                    ["formation_template"] = "",
+                    ["speed"] = 125,
+                    ["ETA_locked"] = true,
+                    ["task"] =
+                    {
+                        ["id"] = "ComboTask",
+                        ["params"] =
+                        {
+                            ["tasks"] =
+                            {
+                            },
+                        },
+                    },
+                    ["ETA"] = 0,
+                },
+            },
+        },
+        ["hidden"] = false,
+        ["units"] =
+        {
+            [1] =
+            {
+                ["alt"] = 2000,
+                ["type"] = "Su-25T",
+                ["alt_type"] = "BARO",
+                ["psi"] = -3.1939525311496,
+                ["livery_id"] = "af standard 1",
+                ["skill"] = "Client",
+                ["onboard_num"] = "021",
+                ["y"] = 0,
+                ["x"] = 0,
+                ["name"] = "",
+                ["payload"] =
+                {
+                    ["pylons"] =
+                    {
+                    },
+                    ["fuel"] = 3032,
+                    ["flare"] = 128,
+                    ["chaff"] = 128,
+                    ["gun"] = 100,
+                    ["restricted"] =
+                    {
+                        [1] =
+                        {
+                            [6] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B4}",
+                            [2] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B3}",
+                            [3] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B5}",
+                            [1] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B1}",
+                            [4] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B2}",
+                            [5] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B6}",
+                        },
+                        [10] =
+                        {
+                            [6] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B4}",
+                            [2] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B3}",
+                            [3] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B5}",
+                            [1] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B1}",
+                            [4] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B2}",
+                            [5] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B6}",
+                        },
+                    },
+                },
+                ["speed"] = 180.55555555556,
+                ["heading"] = 3.1939525311496,
+            },
+        },
+        ["y"] = 0,
+        ["radioSet"] = false,
+        ["name"] = "",
+        ["communication"] = true,
+        ["x"] = 0,
+        ["start_time"] = 0,
+        ["task"] = "CAS",
+        ["uncontrolled"] = false,
+    },
+    ["Su-25"] =
+    {
+        ["frequency"] = 124,
+        ["uncontrollable"] = false,
+        ["modulation"] = 0,
+        ["tasks"] =
+        {
+        },
+        ["route"] =
+        {
+            ["points"] =
+            {
+                [1] =
+                {
+                    ["alt"] = 2000,
+                    ["type"] = "TakeOffGround",
+                    ["action"] = "From Ground Area",
+                    ["alt_type"] = "BARO",
+                    ["y"] = 0,
+                    ["x"] = 0,
+                    ["speed_locked"] = true,
+                    ["formation_template"] = "",
+                    ["speed"] = 125,
+                    ["ETA_locked"] = true,
+                    ["task"] =
+                    {
+                        ["id"] = "ComboTask",
+                        ["params"] =
+                        {
+                            ["tasks"] =
+                            {
+                            },
+                        },
+                    },
+                    ["ETA"] = 0,
+                },
+            },
+        },
+        ["hidden"] = false,
+        ["units"] =
+        {
+            [1] =
+            {
+                ["alt"] = 2000,
+                ["type"] = "Su-25",
+                ["alt_type"] = "BARO",
+                ["psi"] = -3.1939525311496,
+                ["livery_id"] = "forest camo scheme #1 (native)",
+                ["skill"] = "Client",
+                ["onboard_num"] = "014",
+                ["y"] = 0,
+                ["x"] = 0,
+                ["name"] = "",
+                ["payload"] =
+                {
+                    ["pylons"] =
+                    {
+                    },
+                    ["fuel"] = 2268,
+                    ["flare"] = 128,
+                    ["chaff"] = 128,
+                    ["gun"] = 100,
+                    ["restricted"] =
+                    {
+                        [1] =
+                        {
+                            [6] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B4}",
+                            [2] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B3}",
+                            [3] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B5}",
+                            [1] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B1}",
+                            [4] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B2}",
+                            [5] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B6}",
+                        },
+                        [10] =
+                        {
+                            [6] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B4}",
+                            [2] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B3}",
+                            [3] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B5}",
+                            [1] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B1}",
+                            [4] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B2}",
+                            [5] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B6}",
+                        },
+                    },
+                },
+                ["speed"] = 180.55555555556,
+                ["heading"] = 3.1939525311496,
+            },
+        },
+        ["y"] = 0,
+        ["radioSet"] = false,
+        ["name"] = "",
+        ["communication"] = true,
+        ["x"] = 0,
+        ["start_time"] = 0,
+        ["task"] = "CAS",
+        ["uncontrolled"] = false,
+    },
+    ["JF-17"] =
+    {
+        ["frequency"] = 243,
+        ["uncontrollable"] = false,
+        ["modulation"] = 0,
+        ["tasks"] =
+        {
+        },
+        ["route"] =
+        {
+            ["points"] =
+            {
+                [1] =
+                {
+                    ["alt"] = 2000,
+                    ["type"] = "TakeOffGround",
+                    ["action"] = "From Ground Area",
+                    ["alt_type"] = "BARO",
+                    ["y"] = 0,
+                    ["x"] = 0,
+                    ["speed_locked"] = true,
+                    ["formation_template"] = "",
+                    ["speed"] = 125,
+                    ["ETA_locked"] = true,
+                    ["task"] =
+                    {
+                        ["id"] = "ComboTask",
+                        ["params"] =
+                        {
+                            ["tasks"] =
+                            {
+                            },
+                        },
+                    },
+                    ["ETA"] = 0,
+                },
+            },
+        },
+        ["hidden"] = false,
+        ["units"] =
+        {
+            [1] =
+            {
+                ["alt"] = 2000,
+                ["alt_type"] = "BARO",
+                ["livery_id"] = "plaaf 111th ab (fictional)",
+                ["skill"] = "Client",
+                ["speed"] = 219.44444444444,
+                ["AddPropAircraft"] =
+                {
+                    ["LaserCode1"] = 8,
+                    ["LaserCode100"] = 6,
+                    ["AARProbe"] = false,
+                    ["LaserCode10"] = 8,
+                },
+                ["type"] = "JF-17",
+                ["Radio"] =
+                {
+                    [1] =
+                    {
+                        ["channelsNames"] =
+                        {
+                        },
+                        ["modulations"] =
+                        {
+                            [1] = 0,
+                            [2] = 0,
+                            [4] = 0,
+                            [8] = 0,
+                            [16] = 0,
+                            [17] = 0,
+                            [9] = 0,
+                            [18] = 0,
+                            [5] = 0,
+                            [10] = 0,
+                            [20] = 0,
+                            [11] = 0,
+                            [3] = 0,
+                            [6] = 0,
+                            [12] = 0,
+                            [13] = 0,
+                            [7] = 0,
+                            [14] = 0,
+                            [15] = 0,
+                            [19] = 0,
+                        },
+                        ["channels"] =
+                        {
+                            [1] = 108,
+                            [2] = 108.5,
+                            [4] = 109.5,
+                            [8] = 111.5,
+                            [16] = 115.5,
+                            [17] = 116,
+                            [9] = 112,
+                            [18] = 116.5,
+                            [5] = 110,
+                            [10] = 112.5,
+                            [20] = 117.5,
+                            [11] = 113,
+                            [3] = 109,
+                            [6] = 110.5,
+                            [12] = 113.5,
+                            [13] = 114,
+                            [7] = 111,
+                            [14] = 114.5,
+                            [15] = 115,
+                            [19] = 117,
+                        },
+                    },
+                },
+                ["psi"] = -3.1939525311496,
+                ["y"] = 0,
+                ["x"] = 0,
+                ["name"] = "",
+                ["payload"] =
+                {
+                    ["pylons"] =
+                    {
+                    },
+                    ["fuel"] = 1860,
+                    ["flare"] = 32,
+                    ["chaff"] = 36,
+                    ["gun"] = 100,
+                    ["restricted"] =
+                    {
+                        [6] =
+                        {
+                            [7] = "DIS_SMOKE_GENERATOR_Y",
+                            [1] = "DIS_SMOKE_GENERATOR_G",
+                            [2] = "DIS_SD-10",
+                            [4] = "DIS_LD-10_DUAL_R",
+                            [8] = "DIS_SMOKE_GENERATOR_W",
+                            [9] = "DIS_SMOKE_GENERATOR_O",
+                            [5] = "DIS_SMOKE_GENERATOR_R",
+                            [10] = "DIS_SMOKE_GENERATOR_B",
+                            [3] = "DIS_LD-10",
+                            [6] = "DIS_SD-10_DUAL_R",
+                        },
+                        [2] =
+                        {
+                            [7] = "DIS_SMOKE_GENERATOR_W",
+                            [1] = "DIS_SMOKE_GENERATOR_G",
+                            [2] = "DIS_SD-10",
+                            [4] = "DIS_LD-10",
+                            [8] = "DIS_SD-10_DUAL_L",
+                            [9] = "DIS_SMOKE_GENERATOR_O",
+                            [5] = "DIS_SMOKE_GENERATOR_R",
+                            [10] = "DIS_SMOKE_GENERATOR_B",
+                            [3] = "DIS_LD-10_DUAL_L",
+                            [6] = "DIS_SMOKE_GENERATOR_Y",
+                        },
+                        [1] =
+                        {
+                            [6] = "DIS_SMOKE_GENERATOR_B",
+                            [2] = "DIS_SMOKE_GENERATOR_R",
+                            [3] = "DIS_SMOKE_GENERATOR_Y",
+                            [1] = "DIS_SMOKE_GENERATOR_G",
+                            [4] = "DIS_SMOKE_GENERATOR_W",
+                            [5] = "DIS_SMOKE_GENERATOR_O",
+                        },
+                        [4] =
+                        {
+                            [6] = "DIS_SMOKE_GENERATOR_B",
+                            [2] = "DIS_SMOKE_GENERATOR_R",
+                            [3] = "DIS_SMOKE_GENERATOR_Y",
+                            [1] = "DIS_SMOKE_GENERATOR_G",
+                            [4] = "DIS_SMOKE_GENERATOR_W",
+                            [5] = "DIS_SMOKE_GENERATOR_O",
+                        },
+                        [7] =
+                        {
+                            [6] = "DIS_SMOKE_GENERATOR_B",
+                            [2] = "DIS_SMOKE_GENERATOR_R",
+                            [3] = "DIS_SMOKE_GENERATOR_Y",
+                            [1] = "DIS_SMOKE_GENERATOR_G",
+                            [4] = "DIS_SMOKE_GENERATOR_W",
+                            [5] = "DIS_SMOKE_GENERATOR_O",
+                        },
+                    },
+                },
+                ["onboard_num"] = "013",
+                ["heading"] = 3.1939525311496,
+            },
+        },
+        ["y"] = 0,
+        ["radioSet"] = false,
+        ["name"] = "",
+        ["communication"] = true,
+        ["x"] = 0,
+        ["start_time"] = 0,
+        ["task"] = "CAP",
+        ["uncontrolled"] = false,
+    },
+    ["MiG-21Bis"] =
+    {
+        ["frequency"] = 121,
+        ["uncontrollable"] = false,
+        ["modulation"] = 0,
+        ["tasks"] =
+        {
+        },
+        ["route"] =
+        {
+            ["points"] =
+            {
+                [1] =
+                {
+                    ["alt"] = 2000,
+                    ["type"] = "TakeOffGround",
+                    ["action"] = "From Ground Area",
+                    ["alt_type"] = "BARO",
+                    ["y"] = 0,
+                    ["x"] = 0,
+                    ["speed_locked"] = true,
+                    ["formation_template"] = "",
+                    ["speed"] = 125,
+                    ["ETA_locked"] = true,
+                    ["task"] =
+                    {
+                        ["id"] = "ComboTask",
+                        ["params"] =
+                        {
+                            ["tasks"] =
+                            {
+                            },
+                        },
+                    },
+                    ["ETA"] = 0,
+                },
+            },
+        },
+        ["hidden"] = false,
+        ["units"] =
+        {
+            [1] =
+            {
+                ["alt"] = 2000,
+                ["type"] = "MiG-21Bis",
+                ["Radio"] =
+                {
+                    [1] =
+                    {
+                        ["channelsNames"] =
+                        {
+                        },
+                        ["modulations"] =
+                        {
+                            [1] = 0,
+                            [2] = 0,
+                            [3] = 0,
+                            [4] = 0,
+                            [5] = 0,
+                            [6] = 0,
+                            [7] = 0,
+                            [8] = 0,
+                            [9] = 0,
+                            [10] = 0,
+                            [11] = 0,
+                            [12] = 0,
+                            [13] = 0,
+                            [14] = 0,
+                            [15] = 0,
+                            [16] = 0,
+                            [17] = 0,
+                            [18] = 0,
+                            [19] = 0,
+                            [20] = 0,
+                        },
+                        ["channels"] =
+                        {
+                            [1] = 121,
+                            [2] = 122,
+                            [3] = 123,
+                            [4] = 124,
+                            [5] = 125,
+                            [6] = 126,
+                            [7] = 127,
+                            [8] = 128,
+                            [9] = 129,
+                            [10] = 130,
+                            [11] = 131,
+                            [12] = 132,
+                            [13] = 133,
+                            [14] = 134,
+                            [15] = 135,
+                            [16] = 136,
+                            [17] = 137,
+                            [18] = 138,
+                            [19] = 139,
+                            [20] = 140,
+                        },
+                    },
+                },
+                ["alt_type"] = "BARO",
+                ["psi"] = -3.1939525311496,
+                ["livery_id"] = "vvs - 185th gviap",
+                ["skill"] = "Client",
+                ["onboard_num"] = "016",
+                ["y"] = 0,
+                ["x"] = 0,
+                ["name"] = "",
+                ["payload"] =
+                {
+                    ["pylons"] =
+                    {
+                    },
+                    ["fuel"] = 1824,
+                    ["flare"] = 40,
+                    ["ammo_type"] = 1,
+                    ["chaff"] = 18,
+                    ["gun"] = 100,
+                    ["restricted"] =
+                    {
+                        [3] =
+                        {
+                            [1] = "{RN-28}",
+                            [2] = "{RN-24}",
+                        },
+                        [7] =
+                        {
+                            [1] = "{MIG21_SMOKE_WHITE}",
+                        },
+                    },
+                },
+                ["speed"] = 222.22222222222,
+                ["heading"] = 3.1939525311496,
+            },
+        },
+        ["y"] = 0,
+        ["radioSet"] = false,
+        ["name"] = "",
+        ["communication"] = true,
+        ["x"] = 0,
+        ["start_time"] = 0,
+        ["task"] = "CAP",
+        ["uncontrolled"] = false,
+    },
+    ["MiG-29S"] =
+    {
+        ["frequency"] = 124,
+        ["uncontrollable"] = false,
+        ["modulation"] = 0,
+        ["tasks"] =
+        {
+        },
+        ["route"] =
+        {
+            ["points"] =
+            {
+                [1] =
+                {
+                    ["alt"] = 2000,
+                    ["type"] = "TakeOffGround",
+                    ["action"] = "From Ground Area",
+                    ["alt_type"] = "BARO",
+                    ["y"] = 0,
+                    ["x"] = 0,
+                    ["speed_locked"] = true,
+                    ["formation_template"] = "",
+                    ["speed"] = 125,
+                    ["ETA_locked"] = true,
+                    ["task"] =
+                    {
+                        ["id"] = "ComboTask",
+                        ["params"] =
+                        {
+                            ["tasks"] =
+                            {
+                            },
+                        },
+                    },
+                    ["ETA"] = 0,
+                },
+            },
+        },
+        ["hidden"] = false,
+        ["units"] =
+        {
+            [1] =
+            {
+                ["alt"] = 2000,
+                ["type"] = "MiG-29S",
+                ["alt_type"] = "BARO",
+                ["psi"] = -3.1939525311496,
+                ["livery_id"] = "773 IAP_Damgarten",
+                ["skill"] = "Client",
+                ["onboard_num"] = "013",
+                ["y"] = 0,
+                ["x"] = 0,
+                ["name"] = "",
+                ["payload"] =
+                {
+                    ["pylons"] =
+                    {
+                    },
+                    ["fuel"] = 2794,
+                    ["flare"] = 30,
+                    ["chaff"] = 30,
+                    ["gun"] = 100,
+                    ["restricted"] =
+                    {
+                        [6] =
+                        {
+                            [6] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B1}",
+                            [2] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B6}",
+                            [3] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B4}",
+                            [1] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B5}",
+                            [4] = "{B4C01D60-A8A3-4237-BD72-CA7655BC0FE9}",
+                            [5] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B3}",
+                            [7] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B2}",
+                        },
+                        [2] =
+                        {
+                            [6] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B1}",
+                            [2] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B6}",
+                            [3] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B4}",
+                            [1] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B5}",
+                            [4] = "{B4C01D60-A8A3-4237-BD72-CA7655BC0FE9}",
+                            [5] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B3}",
+                            [7] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B2}",
+                        },
+                        [3] =
+                        {
+                            [7] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B3}",
+                            [1] = "{B79C379A-9E87-4E50-A1EE-7F7E29C2E87A}",
+                            [2] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B5}",
+                            [4] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B4}",
+                            [8] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B1}",
+                            [9] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B2}",
+                            [5] = "{B4C01D60-A8A3-4237-BD72-CA7655BC0FE9}",
+                            [3] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B6}",
+                            [6] = "{E8069896-8435-4B90-95C0-01A03AE6E400}",
+                        },
+                        [1] =
+                        {
+                            [6] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B1}",
+                            [2] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B6}",
+                            [3] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B4}",
+                            [1] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B5}",
+                            [4] = "{B4C01D60-A8A3-4237-BD72-CA7655BC0FE9}",
+                            [5] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B3}",
+                            [7] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B2}",
+                        },
+                        [4] =
+                        {
+                            [6] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B2}",
+                            [2] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B6}",
+                            [3] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B4}",
+                            [1] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B5}",
+                            [4] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B3}",
+                            [5] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B1}",
+                        },
+                        [5] =
+                        {
+                            [7] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B3}",
+                            [1] = "{B79C379A-9E87-4E50-A1EE-7F7E29C2E87A}",
+                            [2] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B5}",
+                            [4] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B4}",
+                            [8] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B1}",
+                            [9] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B2}",
+                            [5] = "{B4C01D60-A8A3-4237-BD72-CA7655BC0FE9}",
+                            [3] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B6}",
+                            [6] = "{E8069896-8435-4B90-95C0-01A03AE6E400}",
+                        },
+                        [7] =
+                        {
+                            [6] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B1}",
+                            [2] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B6}",
+                            [3] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B4}",
+                            [1] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B5}",
+                            [4] = "{B4C01D60-A8A3-4237-BD72-CA7655BC0FE9}",
+                            [5] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B3}",
+                            [7] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B2}",
+                        },
+                    },
+                },
+                ["speed"] = 222.22222222222,
+                ["heading"] = 3.1939525311496,
+            },
+        },
+        ["y"] = 0,
+        ["radioSet"] = false,
+        ["name"] = "",
+        ["communication"] = true,
+        ["x"] = 0,
+        ["start_time"] = 0,
+        ["task"] = "CAP",
+        ["uncontrolled"] = false,
+    },
+    ["MiG-29A"] =
+    {
+        ["frequency"] = 124,
+        ["uncontrollable"] = false,
+        ["modulation"] = 0,
+        ["tasks"] =
+        {
+        },
+        ["route"] =
+        {
+            ["points"] =
+            {
+                [1] =
+                {
+                    ["alt"] = 2000,
+                    ["type"] = "TakeOffGround",
+                    ["action"] = "From Ground Area",
+                    ["alt_type"] = "BARO",
+                    ["y"] = 0,
+                    ["x"] = 0,
+                    ["speed_locked"] = true,
+                    ["formation_template"] = "",
+                    ["speed"] = 125,
+                    ["ETA_locked"] = true,
+                    ["task"] =
+                    {
+                        ["id"] = "ComboTask",
+                        ["params"] =
+                        {
+                            ["tasks"] =
+                            {
+                            },
+                        },
+                    },
+                    ["ETA"] = 0,
+                },
+            },
+        },
+        ["hidden"] = false,
+        ["units"] =
+        {
+            [1] =
+            {
+                ["alt"] = 2000,
+                ["type"] = "MiG-29A",
+                ["alt_type"] = "BARO",
+                ["psi"] = -3.1939525311496,
+                ["livery_id"] = "air force standard",
+                ["skill"] = "Client",
+                ["onboard_num"] = "010",
+                ["y"] = 0,
+                ["x"] = 0,
+                ["name"] = "",
+                ["payload"] =
+                {
+                    ["pylons"] =
+                    {
+                    },
+                    ["fuel"] = 2701,
+                    ["flare"] = 30,
+                    ["chaff"] = 30,
+                    ["gun"] = 100,
+                    ["restricted"] =
+                    {
+                        [6] =
+                        {
+                            [6] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B2}",
+                            [2] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B4}",
+                            [3] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B6}",
+                            [1] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B5}",
+                            [4] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B3}",
+                            [5] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B1}",
+                        },
+                        [2] =
+                        {
+                            [6] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B2}",
+                            [2] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B4}",
+                            [3] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B6}",
+                            [1] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B5}",
+                            [4] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B3}",
+                            [5] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B1}",
+                        },
+                        [3] =
+                        {
+                            [6] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B3}",
+                            [2] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B5}",
+                            [8] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B2}",
+                            [3] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B4}",
+                            [1] = "{B79C379A-9E87-4E50-A1EE-7F7E29C2E87A}",
+                            [4] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B6}",
+                            [5] = "{E8069896-8435-4B90-95C0-01A03AE6E400}",
+                            [7] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B1}",
+                        },
+                        [1] =
+                        {
+                            [6] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B2}",
+                            [2] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B4}",
+                            [3] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B6}",
+                            [1] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B5}",
+                            [4] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B3}",
+                            [5] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B1}",
+                        },
+                        [4] =
+                        {
+                            [6] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B2}",
+                            [2] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B4}",
+                            [3] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B6}",
+                            [1] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B5}",
+                            [4] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B3}",
+                            [5] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B1}",
+                        },
+                        [5] =
+                        {
+                            [6] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B3}",
+                            [2] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B5}",
+                            [8] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B2}",
+                            [3] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B4}",
+                            [1] = "{B79C379A-9E87-4E50-A1EE-7F7E29C2E87A}",
+                            [4] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B6}",
+                            [5] = "{E8069896-8435-4B90-95C0-01A03AE6E400}",
+                            [7] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B1}",
+                        },
+                        [7] =
+                        {
+                            [6] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B2}",
+                            [2] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B4}",
+                            [3] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B6}",
+                            [1] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B5}",
+                            [4] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B3}",
+                            [5] = "{D3F65166-1AB8-490f-AF2F-2FB6E22568B1}",
+                        },
+                    },
+                },
+                ["speed"] = 222.22222222222,
+                ["heading"] = 3.1939525311496,
+            },
+        },
+        ["y"] = 0,
+        ["radioSet"] = false,
+        ["name"] = "",
+        ["communication"] = true,
+        ["x"] = 0,
+        ["start_time"] = 0,
+        ["task"] = "CAP",
+        ["uncontrolled"] = false,
+    },
+    ["Ka-50"] =
+    {
+        ["frequency"] = 124,
+        ["uncontrollable"] = false,
+        ["modulation"] = 0,
+        ["tasks"] =
+        {
+        },
+        ["route"] =
+        {
+            ["points"] =
+            {
+                [1] =
+                {
+                    ["alt"] = 2000,
+                    ["type"] = "TakeOffGround",
+                    ["action"] = "From Ground Area",
+                    ["alt_type"] = "BARO",
+                    ["y"] = 0,
+                    ["x"] = 0,
+                    ["speed_locked"] = true,
+                    ["formation_template"] = "",
+                    ["speed"] = 125,
+                    ["ETA_locked"] = true,
+                    ["task"] =
+                    {
+                        ["id"] = "ComboTask",
+                        ["params"] =
+                        {
+                            ["tasks"] =
+                            {
+                            },
+                        },
+                    },
+                    ["ETA"] = 0,
+                },
+            },
+        },
+        ["hidden"] = false,
+        ["units"] =
+        {
+            [1] =
+            {
+                ["alt"] = 554.82553703204,
+                ["hardpoint_racks"] = true,
+                ["alt_type"] = "BARO",
+                ["livery_id"] = "russia standard army",
+                ["skill"] = "Client",
+                ["ropeLength"] = 15,
+                ["speed"] = 44.444444444444,
+                ["type"] = "Ka-50",
+                ["Radio"] =
+                {
+                    [1] =
+                    {
+                        ["channels"] =
+                        {
+                            [7] = 40,
+                            [1] = 21.5,
+                            [2] = 25.7,
+                            [4] = 28,
+                            [8] = 50,
+                            [9] = 55.5,
+                            [5] = 30,
+                            [10] = 59.9,
+                            [3] = 27,
+                            [6] = 32,
+                        },
+                        ["modulations"] =
+                        {
+                        },
+                        ["channelsNames"] =
+                        {
+                        },
+                    },
+                    [2] =
+                    {
+                        ["channels"] =
+                        {
+                            [4] = 0.591,
+                            [13] = 0.583,
+                            [7] = 0.443,
+                            [1] = 0.625,
+                            [2] = 0.303,
+                            [15] = 0.995,
+                            [8] = 0.215,
+                            [16] = 1.21,
+                            [9] = 0.525,
+                            [5] = 0.408,
+                            [10] = 1.065,
+                            [3] = 0.289,
+                            [11] = 0.718,
+                            [6] = 0.803,
+                            [12] = 0.35,
+                            [14] = 0.283,
+                        },
+                        ["modulations"] =
+                        {
+                        },
+                        ["channelsNames"] =
+                        {
+                        },
+                    },
+                },
+                ["psi"] = 0,
+                ["y"] = 0,
+                ["x"] = 0,
+                ["name"] = "",
+                ["payload"] =
+                {
+                    ["pylons"] =
+                    {
+                    },
+                    ["fuel"] = 1160,
+                    ["flare"] = 128,
+                    ["chaff"] = 0,
+                    ["gun"] = 100,
+                    ["restricted"] =
+                    {
+                        [3] =
+                        {
+                            [1] = "B_8V20A_CM",
+                        },
+                        [2] =
+                        {
+                            [1] = "B_8V20A_CM",
+                        },
+                        [4] =
+                        {
+                            [1] = "B_8V20A_CM",
+                        },
+                        [5] =
+                        {
+                            [1] = "B_8V20A_CM",
+                        },
+                    },
+                },
+                ["onboard_num"] = "019",
+                ["heading"] = 0.83246482671542,
+            },
+        },
+        ["y"] = 0,
+        ["radioSet"] = false,
+        ["name"] = "",
+        ["communication"] = true,
+        ["x"] = 0,
+        ["start_time"] = 0,
+        ["task"] = "CAS",
+        ["uncontrolled"] = false,
+    },
+    ["Mi-24P"] =
+    {
+        ["frequency"] = 127.5,
+        ["uncontrollable"] = false,
+        ["modulation"] = 0,
+        ["tasks"] =
+        {
+        },
+        ["route"] =
+        {
+            ["points"] =
+            {
+                [1] =
+                {
+                    ["alt"] = 2000,
+                    ["type"] = "TakeOffGround",
+                    ["action"] = "From Ground Area",
+                    ["alt_type"] = "BARO",
+                    ["y"] = 0,
+                    ["x"] = 0,
+                    ["speed_locked"] = true,
+                    ["formation_template"] = "",
+                    ["speed"] = 125,
+                    ["ETA_locked"] = true,
+                    ["task"] =
+                    {
+                        ["id"] = "ComboTask",
+                        ["params"] =
+                        {
+                            ["tasks"] =
+                            {
+                            },
+                        },
+                    },
+                    ["ETA"] = 0,
+                },
+            },
+        },
+        ["hidden"] = false,
+        ["units"] =
+        {
+            [1] =
+            {
+                ["alt"] = 554.82547599683,
+                ["hardpoint_racks"] = true,
+                ["alt_type"] = "BARO",
+                ["livery_id"] = "russian air force",
+                ["skill"] = "Client",
+                ["ropeLength"] = 15,
+                ["speed"] = 44.444444444444,
+                ["AddPropAircraft"] =
+                {
+                    ["LeftEngineResource"] = 90,
+                    ["RightEngineResource"] = 90,
+                    ["PilotNVG"] = true,
+                    ["NetCrewControlPriority"] = 0,
+                    ["GunnersAISkill"] = 90,
+                    ["R60equipment"] = true,
+                    ["HumanOrchestra"] = false,
+                    ["OperatorNVG"] = true,
+                    ["SimplifiedAI"] = false,
+                    ["ExhaustScreen"] = true,
+                    ["HideAngleBoxes"] = false,
+                    ["OverrideIFF"] = 0,
+                    ["TrackAirTargets"] = true,
+                    ["NS430allow"] = true,
+                },
+                ["type"] = "Mi-24P",
+                ["Radio"] =
+                {
+                    [1] =
+                    {
+                        ["channels"] =
+                        {
+                            [1] = 127.5,
+                            [2] = 135,
+                            [4] = 127,
+                            [8] = 128,
+                            [16] = 132,
+                            [17] = 138,
+                            [9] = 126,
+                            [18] = 122,
+                            [5] = 125,
+                            [10] = 133,
+                            [20] = 137,
+                            [11] = 130,
+                            [3] = 136,
+                            [6] = 121,
+                            [12] = 129,
+                            [13] = 123,
+                            [7] = 141,
+                            [14] = 131,
+                            [19] = 124,
+                            [15] = 134,
+                        },
+                        ["modulations"] =
+                        {
+                        },
+                        ["channelsNames"] =
+                        {
+                        },
+                    },
+                    [2] =
+                    {
+                        ["channels"] =
+                        {
+                            [7] = 40,
+                            [1] = 21.5,
+                            [2] = 25.7,
+                            [4] = 28,
+                            [8] = 50,
+                            [9] = 55.5,
+                            [5] = 30,
+                            [10] = 59.9,
+                            [3] = 27,
+                            [6] = 32,
+                        },
+                        ["modulations"] =
+                        {
+                        },
+                        ["channelsNames"] =
+                        {
+                        },
+                    },
+                },
+                ["psi"] = 0,
+                ["y"] = 0,
+                ["x"] = 0,
+                ["name"] = "",
+                ["payload"] =
+                {
+                    ["pylons"] =
+                    {
+                    },
+                    ["fuel"] = 1361,
+                    ["flare"] = 192,
+                    ["ammo_type"] = 1,
+                    ["chaff"] = 0,
+                    ["gun"] = 100,
+                    ["restricted"] =
+                    {
+                        [3] =
+                        {
+                            [1] = "B_8V20A_CM",
+                        },
+                        [2] =
+                        {
+                            [1] = "B_8V20A_CM",
+                        },
+                        [4] =
+                        {
+                            [1] = "B_8V20A_CM",
+                        },
+                        [5] =
+                        {
+                            [1] = "B_8V20A_CM",
+                        },
+                    },
+                },
+                ["onboard_num"] = "017",
+                ["heading"] = 0.83246482671542,
+            },
+        },
+        ["y"] = 0,
+        ["radioSet"] = false,
+        ["name"] = "",
+        ["communication"] = true,
+        ["x"] = 0,
+        ["start_time"] = 0,
+        ["task"] = "CAS",
+        ["uncontrolled"] = false,
+    },
+    ["Mi-8MT"] =
+    {
+        ["frequency"] = 127.5,
+        ["uncontrollable"] = false,
+        ["modulation"] = 0,
+        ["tasks"] =
+        {
+        },
+        ["route"] =
+        {
+            ["points"] =
+            {
+                [1] =
+                {
+                    ["alt"] = 2000,
+                    ["type"] = "TakeOffGround",
+                    ["action"] = "From Ground Area",
+                    ["alt_type"] = "BARO",
+                    ["y"] = 0,
+                    ["x"] = 0,
+                    ["speed_locked"] = true,
+                    ["formation_template"] = "",
+                    ["speed"] = 125,
+                    ["ETA_locked"] = true,
+                    ["task"] =
+                    {
+                        ["id"] = "ComboTask",
+                        ["params"] =
+                        {
+                            ["tasks"] =
+                            {
+                            },
+                        },
+                    },
+                    ["ETA"] = 0,
+                },
+            },
+        },
+        ["hidden"] = false,
+        ["units"] =
+        {
+            [1] =
+            {
+                ["alt"] = 525,
+                ["hardpoint_racks"] = true,
+                ["alt_type"] = "BARO",
+                ["livery_id"] = "russia_vvs_standard",
+                ["skill"] = "Client",
+                ["ropeLength"] = 15,
+                ["speed"] = 44.444444444444,
+                ["AddPropAircraft"] =
+                {
+                    ["LeftEngineResource"] = 90,
+                    ["RightEngineResource"] = 90,
+                    ["CargoHalfdoor"] = true,
+                    ["GunnersAISkill"] = 90,
+                    ["ExhaustScreen"] = true,
+                    ["HumanOrchestra"] = false,
+                    ["NetCrewControlPriority"] = 0,
+                    ["AdditionalArmor"] = true,
+                    ["NS430allow"] = true,
+                },
+                ["type"] = "Mi-8MT",
+                ["Radio"] =
+                {
+                    [1] =
+                    {
+                        ["channels"] =
+                        {
+                            [1] = 127.5,
+                            [2] = 135,
+                            [4] = 127,
+                            [8] = 128,
+                            [16] = 132,
+                            [17] = 138,
+                            [9] = 126,
+                            [18] = 122,
+                            [5] = 125,
+                            [10] = 133,
+                            [20] = 137,
+                            [11] = 130,
+                            [3] = 136,
+                            [6] = 121,
+                            [12] = 129,
+                            [13] = 123,
+                            [7] = 141,
+                            [14] = 131,
+                            [19] = 124,
+                            [15] = 134,
+                        },
+                        ["modulations"] =
+                        {
+                        },
+                        ["channelsNames"] =
+                        {
+                        },
+                    },
+                    [2] =
+                    {
+                        ["channels"] =
+                        {
+                            [7] = 40,
+                            [1] = 21.5,
+                            [2] = 25.7,
+                            [4] = 28,
+                            [8] = 50,
+                            [9] = 55.5,
+                            [5] = 30,
+                            [10] = 59.9,
+                            [3] = 27,
+                            [6] = 32,
+                        },
+                        ["modulations"] =
+                        {
+                        },
+                        ["channelsNames"] =
+                        {
+                        },
+                    },
+                },
+                ["psi"] = 0,
+                ["y"] = 0,
+                ["x"] = 0,
+                ["name"] = "",
+                ["payload"] =
+                {
+                    ["pylons"] =
+                    {
+                    },
+                    ["fuel"] = 1543,
+                    ["flare"] = 128,
+                    ["chaff"] = 0,
+                    ["gun"] = 100,
+                    ["restricted"] =
+                    {
+                        [6] =
+                        {
+                            [6] = "B_8V20A_CM_VT",
+                            [2] = "B_8V20A_CM_WH",
+                            [3] = "B_8V20A_CM_YE",
+                            [1] = "B_8V20A_CM_RD",
+                            [4] = "B_8V20A_CM_BU",
+                            [5] = "B_8V20A_CM_GN",
+                            [7] = "B_8V20A_CM",
+                        },
+                        [2] =
+                        {
+                            [6] = "B_8V20A_CM_VT",
+                            [2] = "B_8V20A_CM_WH",
+                            [3] = "B_8V20A_CM_YE",
+                            [1] = "B_8V20A_CM_RD",
+                            [4] = "B_8V20A_CM_BU",
+                            [5] = "B_8V20A_CM_GN",
+                            [7] = "B_8V20A_CM",
+                        },
+                        [3] =
+                        {
+                            [6] = "B_8V20A_CM_VT",
+                            [2] = "B_8V20A_CM_WH",
+                            [3] = "B_8V20A_CM_YE",
+                            [1] = "B_8V20A_CM_RD",
+                            [4] = "B_8V20A_CM_BU",
+                            [5] = "B_8V20A_CM_GN",
+                            [7] = "B_8V20A_CM",
+                        },
+                        [1] =
+                        {
+                            [6] = "B_8V20A_CM_VT",
+                            [2] = "B_8V20A_CM_WH",
+                            [3] = "B_8V20A_CM_YE",
+                            [1] = "B_8V20A_CM_RD",
+                            [4] = "B_8V20A_CM_BU",
+                            [5] = "B_8V20A_CM_GN",
+                            [7] = "B_8V20A_CM",
+                        },
+                        [4] =
+                        {
+                            [6] = "B_8V20A_CM_VT",
+                            [2] = "B_8V20A_CM_WH",
+                            [3] = "B_8V20A_CM_YE",
+                            [1] = "B_8V20A_CM_RD",
+                            [4] = "B_8V20A_CM_BU",
+                            [5] = "B_8V20A_CM_GN",
+                            [7] = "B_8V20A_CM",
+                        },
+                        [5] =
+                        {
+                            [6] = "B_8V20A_CM_VT",
+                            [2] = "B_8V20A_CM_WH",
+                            [3] = "B_8V20A_CM_YE",
+                            [1] = "B_8V20A_CM_RD",
+                            [4] = "B_8V20A_CM_BU",
+                            [5] = "B_8V20A_CM_GN",
+                            [7] = "B_8V20A_CM",
+                        },
+                    },
+                },
+                ["onboard_num"] = "025",
+                ["heading"] = 0.83246482671542,
+            },
+        },
+        ["y"] = 0,
+        ["radioSet"] = false,
+        ["name"] = "",
+        ["communication"] = true,
+        ["x"] = 0,
+        ["start_time"] = 0,
+        ["task"] = "Transport",
+        ["uncontrolled"] = false,
+    },
+    ["Ka-50_3"] =
+    {
+        ["frequency"] = 124,
+        ["uncontrollable"] = false,
+        ["modulation"] = 0,
+        ["tasks"] =
+        {
+        },
+        ["route"] =
+        {
+            ["points"] =
+            {
+                [1] =
+                {
+                    ["alt"] = 2000,
+                    ["type"] = "TakeOffGround",
+                    ["action"] = "From Ground Area",
+                    ["alt_type"] = "BARO",
+                    ["y"] = 0,
+                    ["x"] = 0,
+                    ["speed_locked"] = true,
+                    ["formation_template"] = "",
+                    ["speed"] = 125,
+                    ["ETA_locked"] = true,
+                    ["task"] =
+                    {
+                        ["id"] = "ComboTask",
+                        ["params"] =
+                        {
+                            ["tasks"] =
+                            {
+                            },
+                        },
+                    },
+                    ["ETA"] = 0,
+                },
+            },
+        },
+        ["hidden"] = false,
+        ["units"] =
+        {
+            [1] =
+            {
+                ["alt"] = 554.82553703204,
+                ["hardpoint_racks"] = true,
+                ["alt_type"] = "BARO",
+                ["livery_id"] = "default",
+                ["skill"] = "Client",
+                ["ropeLength"] = 15,
+                ["speed"] = 44.444444444444,
+                ["AddPropAircraft"] =
+                {
+                    ["IMU alignment type"] = 3,
+                    ["Helmet-mounted device"] = 0,
+                    ["ExhaustScreen"] = true,
+                    ["modification"] = "Ka-50_3",
+                    ["Realistic INS"] = 1,
+                },
+                ["type"] = "Ka-50_3",
+                ["Radio"] =
+                {
+                    [1] =
+                    {
+                        ["channels"] =
+                        {
+                            [7] = 40,
+                            [1] = 21.5,
+                            [2] = 25.7,
+                            [4] = 28,
+                            [8] = 50,
+                            [9] = 55.5,
+                            [5] = 30,
+                            [10] = 59.9,
+                            [3] = 27,
+                            [6] = 32,
+                        },
+                        ["modulations"] =
+                        {
+                        },
+                        ["channelsNames"] =
+                        {
+                        },
+                    },
+                    [2] =
+                    {
+                        ["channels"] =
+                        {
+                            [4] = 0.591,
+                            [13] = 0.583,
+                            [7] = 0.443,
+                            [1] = 0.625,
+                            [2] = 0.303,
+                            [15] = 0.995,
+                            [8] = 0.215,
+                            [16] = 1.21,
+                            [9] = 0.525,
+                            [5] = 0.408,
+                            [10] = 1.065,
+                            [3] = 0.289,
+                            [11] = 0.718,
+                            [6] = 0.803,
+                            [12] = 0.35,
+                            [14] = 0.283,
+                        },
+                        ["modulations"] =
+                        {
+                        },
+                        ["channelsNames"] =
+                        {
+                        },
+                    },
+                },
+                ["psi"] = 0,
+                ["y"] = 0,
+                ["x"] = 0,
+                ["name"] = "",
+                ["payload"] =
+                {
+                    ["pylons"] =
+                    {
+                    },
+                    ["fuel"] = 1160,
+                    ["flare"] = 128,
+                    ["chaff"] = 0,
+                    ["gun"] = 100,
+                    ["restricted"] =
+                    {
+                        [3] =
+                        {
+                            [1] = "B_8V20A_CM",
+                        },
+                        [2] =
+                        {
+                            [1] = "B_8V20A_CM",
+                        },
+                        [4] =
+                        {
+                            [1] = "B_8V20A_CM",
+                        },
+                        [5] =
+                        {
+                            [1] = "B_8V20A_CM",
+                        },
+                    },
+                },
+                ["onboard_num"] = "018",
+                ["heading"] = 0.83246482671542,
+            },
+        },
+        ["y"] = 0,
+        ["radioSet"] = false,
+        ["name"] = "",
+        ["communication"] = true,
+        ["x"] = 0,
+        ["start_time"] = 0,
+        ["task"] = "CAS",
         ["uncontrolled"] = false,
     },
 }

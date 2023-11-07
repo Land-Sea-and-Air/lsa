@@ -15,28 +15,38 @@ end
 ---@param airbaseName string
 ---@param spawnName string
 ---@param spawn table
----@param parking table
+---@param parking number
 ---@return table
 function SlotGenerator.newPlayerSpawn(airbaseName, spawnName, spawn, parking)
-    local parkingZoneName = Dashed(airbaseName, "Parking", parking.parking)
+    local parkingZoneName = Dashed(airbaseName, "Parking", parking)
     local aircraft = DeepCopy(aircraftBlueprints[spawn.type])
     aircraft.name = spawnName
-    aircraft.units[1].name = spawnName
-    aircraft.units[1].heading = math.rad(parking.heading)
 
     local zone = LSA.getZone(parkingZoneName)
     assert(zone ~= nil)
+    Dump(zone)
     local parkingPos = zone.location
 
     aircraft.route.points[1].x = parkingPos.x
     aircraft.route.points[1].y = parkingPos.y
+    aircraft.units[1].name = spawnName
     aircraft.units[1].x = parkingPos.x
     aircraft.units[1].y = parkingPos.y
+    aircraft.units[1].heading = SlotGenerator.headingFromZoneRadians(zone)
     aircraft.units[1].callsign = SlotGenerator.makeCallsign(aircraft.units[1].type)
     aircraft.x = parkingPos.x
     aircraft.y = parkingPos.y
 
     return aircraft
+end
+
+function SlotGenerator.headingFromZoneRadians(zone)
+    for _, property in ipairs(zone.properties) do
+        if property.key == "Heading" then
+            return math.rad(property.value)
+        end
+    end
+    return math.rad(0)
 end
 
 ---Returns a valid callsign for the slot.
@@ -59,12 +69,10 @@ function SlotGenerator.newShipPlayerSpawn(airbaseName, spawnName, spawn)
     point1.y = parkingPos.y
     point1.action = "From Parking Area"
     point1.type = "TakeOffParking"
-    Log.debug("Carrier name: %s id: %s", carrier:getName(), carrier:getID())
+
     point1["linkUnit"] = tonumber(carrier:getID())
     point1["helipadId"] = tonumber(carrier:getID())
 
-    Log.debug("linkUnit %s", aircraft.route.points[1]["linkUnit"])
-    Log.debug("helipadId %s", aircraft.route.points[1]["helipadId"])
     local unit1 = aircraft.units[1]
     unit1.x = parkingPos.x
     unit1.y = parkingPos.y
