@@ -1,3 +1,4 @@
+---@diagnostic disable: redundant-parameter, undefined-global
 -- Source: https://github.com/pkulchenko/serpent
 
 -- Serpent source is released under the MIT License
