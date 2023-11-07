@@ -1259,7 +1259,7 @@ function LSA.initializeTasks()
 end
 
 function LSA.carriers(_, time)
-    for _, carrierGroup in ipairs(LSA.state.carriers) do
+    for _, carrierGroup in pairs(LSA.state.carriers) do
         -- a carrier group is eligible to "repair" if it is dead
         -- but there is a new carrier available
         if CarrierGroup.isDead(carrierGroup) and CarrierGroup.isAvailable(carrierGroup) then
@@ -1886,7 +1886,7 @@ function LSA.getYearLengthInSeconds(year)
 end
 
 function LSA.populateShips()
-    for _, carrier in ipairs(LSA.state.carriers) do
+    for _, carrier in pairs(LSA.state.carriers) do
         CarrierGroup.spawn(carrier)
     end
 end
