@@ -140,7 +140,7 @@ function LSA.start()
         weather.season.temperature, weather.clouds.preset, weather.clouds.base, weather.qnh)
 
     CfxGroups.start()
-    CfxSSBClient.start() -- we need to call the ssb client after all spawnings from the state populating have occured
+    CfxSSBClient.start() -- we need to call the ssb client after all spawning from the state populating have occurred
 
     local finish = os.time()
     Log.info("Started in %s seconds", (finish - start))
@@ -210,7 +210,7 @@ function LSA.getQuad(zoneName)
                 location = ToVec2(tz.point),
                 radius = tz.radius,
                 properties = tz.properties or {},
-                verticies = tz.verticies or {}
+                vertices = tz.verticies or {}
             }
         end
     end
@@ -243,7 +243,7 @@ function LSA.getZone(zoneName)
     return zone
 end
 
-function LSA.groupTaskings()
+function LSA.groupTasking()
     return {
         EWR = function(group)
             Log.debug("Assigning group %s with EWR task", group:getName())
@@ -1056,13 +1056,13 @@ function LSA.logisticsMenuEntries(player)
             args = { player = player }
         })
 
-    local deployables = LSA.byCoalition(player.side, DeployableTemplates.red, DeployableTemplates.blue)
-    for _, deployable in ipairs(deployables) do
+    local assets = LSA.byCoalition(player.side, DeployableTemplates.red, DeployableTemplates.blue)
+    for _, deployable in ipairs(assets) do
         local category = deployable.category
         for _, item in ipairs(deployable.items) do
             local menuEntry = {
                 path = "Logistics.Deploy." .. category .. "." .. item.name,
-                handler = LSA.onDeployablesMenu,
+                handler = LSA.onAssetsMenu,
                 args = {
                     player = player,
                     deployable = item,
@@ -1077,7 +1077,7 @@ function LSA.logisticsMenuEntries(player)
     return menus
 end
 
-function LSA.onDeployablesMenu(args)
+function LSA.onAssetsMenu(args)
     local deployable = args.deployable
     local player = args.player
     local category = args.category
@@ -1421,7 +1421,7 @@ function LSA.players(_, time)
         local ucid = net.get_player_info(playerId, 'ucid')
 
         -- check if can regenerate a life
-        if Player.canRegenLife(ucid) then
+        if Player.canWinLife(ucid) then
             Player.winLife(ucid)
         end
 
@@ -1630,7 +1630,7 @@ function LSA.captureZoneBaseStatus(base)
         LSA.outSoundForCoalition(defender, "beep.ogg")
 
         local attacker = LSA.theOtherSide(base.side)
-        local attackerMessage = string.format(Text.BASE_CAPTURE_IN_PROGESS, base.name, delay)
+        local attackerMessage = string.format(Text.BASE_CAPTURE_IN_PROGRESS, base.name, delay)
         trigger.action.outTextForCoalition(attacker, attackerMessage, 10, true)
         LSA.outSoundForCoalition(attacker, "beep.ogg")
     end
@@ -1979,7 +1979,7 @@ function LSA.getAirbaseOrientation(airbase, airbaseType)
     end
 
     if airbaseType == Airbase.Category.HELIPAD then
-        -- for farps we use the FARP heading
+        -- use the FARP heading
         local position = airbase:getPosition()
         local heading = math.floor(math.deg(math.atan2(position.x.z, position.x.x)))
         if heading < 0 then
@@ -2024,9 +2024,9 @@ function LSA.getApronPolygons(airbaseName)
         local zone = LSA.getQuad(Dashed(airbaseName, "Apron", apronIndex))
         if zone ~= nil then
             local apronPolygon = {}
-            for _, vertice in ipairs(zone.verticies) do
-                table.insert(apronPolygon, vertice.x)
-                table.insert(apronPolygon, vertice.y)
+            for _, vertex in ipairs(zone.vertices) do
+                table.insert(apronPolygon, vertex.x)
+                table.insert(apronPolygon, vertex.y)
             end
             table.insert(apronPolygons, apronPolygon)
         end
@@ -2416,8 +2416,8 @@ function LSA.spawnAircraft(scheme, side)
     assert(side ~= nil, "side can't be nil")
     assert(side ~= coalition.side.NEUTRAL, "side can't be neutral")
 
-    local cntry = LSA.byCoalition(side, country.id.CJTF_RED, country.id.CJTF_BLUE)
-    coalition.addGroup(cntry, Group.Category.AIRPLANE, scheme)
+    local country = LSA.byCoalition(side, country.id.CJTF_RED, country.id.CJTF_BLUE)
+    coalition.addGroup(country, Group.Category.AIRPLANE, scheme)
     local group = LSA.getGroup(scheme.name)
 
     return group
@@ -2427,8 +2427,8 @@ function LSA.spawnGroup2(scheme, side)
     assert(side ~= nil, "side can't be nil")
     assert(side ~= coalition.side.NEUTRAL, "side can't be neutral")
 
-    local cntry = LSA.byCoalition(side, country.id.CJTF_RED, country.id.CJTF_BLUE)
-    coalition.addGroup(cntry, Group.Category.GROUND, scheme)
+    local country = LSA.byCoalition(side, country.id.CJTF_RED, country.id.CJTF_BLUE)
+    coalition.addGroup(country, Group.Category.GROUND, scheme)
     local group = LSA.getGroup(scheme.name)
     assert(group ~= nil)
     return group
@@ -2438,8 +2438,8 @@ function LSA.spawnShip2(scheme, side)
     assert(side ~= nil, "side can't be nil")
     assert(side ~= coalition.side.NEUTRAL, "side can't be neutral")
 
-    local cntry = LSA.byCoalition(side, country.id.CJTF_RED, country.id.CJTF_BLUE)
-    coalition.addGroup(cntry, Group.Category.SHIP, scheme)
+    local country = LSA.byCoalition(side, country.id.CJTF_RED, country.id.CJTF_BLUE)
+    coalition.addGroup(country, Group.Category.SHIP, scheme)
     local group = LSA.getGroup(scheme.name)
     assert(group ~= nil)
     return group
@@ -2458,9 +2458,9 @@ function LSA.clearAndSpawnStatic(building, side)
 end
 
 function LSA.spawnStatic2(static, side)
-    local cntry = LSA.byCoalition(side, country.id.CJTF_RED, coalition.side.BLUE)
+    local country = LSA.byCoalition(side, country.id.CJTF_RED, coalition.side.BLUE)
 
-    coalition.addStaticObject(cntry, static)
+    coalition.addStaticObject(country, static)
 
     return LSA.getStatic(static.name)
 end
@@ -2891,10 +2891,10 @@ function LSA.paintQuad(zone, color, fill, scope)
     local args = {
         scope, -- coalition
         id,    -- id
-        ToVec3(zone.verticies[1]),
-        ToVec3(zone.verticies[2]),
-        ToVec3(zone.verticies[3]),
-        ToVec3(zone.verticies[4]),
+        ToVec3(zone.vertices[1]),
+        ToVec3(zone.vertices[2]),
+        ToVec3(zone.vertices[3]),
+        ToVec3(zone.vertices[4]),
         color,                    -- color
         fill,                     -- fill
         LSA.markups.lines.Dashed, -- line type
@@ -3279,7 +3279,7 @@ Player = {
     ejected = {} -- stores information on ejections
 }
 
-function Player.canRegenLife(ucid)
+function Player.canWinLife(ucid)
     local state = Player.state(ucid)
     if #state.queue > 0 then
         local nextLifeDate = state.queue[1]
@@ -3550,7 +3550,7 @@ function Player.loseLife(ucid)
         state.lives = state.lives - 1
     end
 
-    -- calculate next life regen time
+    -- calculate next life regeneration time
     local deathUTC = LSA.getDateUTC() + LSA.settings.timeToNewLife
     table.insert(state.queue, deathUTC)
 

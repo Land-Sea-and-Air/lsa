@@ -4,7 +4,7 @@ Text.BASE_LOST = "We have lost %s."
 Text.BASE_SAFE = "Well done. %s is now safe. Make sure to keep it that way."
 Text.BASE_CAPTURE_IMMINENT =
 "Base %s is about to be captured. Kill the enemies inside the capture zone or we will lose the base. You have %s seconds."
-Text.BASE_CAPTURE_IN_PROGESS = "We're starting the capture of the base. Give us %s seconds."
+Text.BASE_CAPTURE_IN_PROGRESS = "We're starting the capture of the base. Give us %s seconds."
 Text.GARRISON_LEAVING_PERIMETER =
 "You're leaving the base perimeter. Return to the perimeter immediately or you will be destroyed. You have %s seconds."
 Text.GARRISON_RETURNING_PERIMETER =

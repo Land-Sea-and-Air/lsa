@@ -53,7 +53,7 @@ function GroupWrp.spawn(groupWrp)
     end
 
     if groupWrp.taskName ~= nil then
-        local tasking = LSA.groupTaskings()
+        local tasking = LSA.groupTasking()
         tasking[groupWrp.taskName](group)
     end
 

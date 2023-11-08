@@ -54,7 +54,7 @@ function Asset.spawn(asset)
     local group = LSA.spawnGroup2(scheme, asset.side)
     
     if asset.taskName ~= nil then
-        local tasking = LSA.groupTaskings()
+        local tasking = LSA.groupTasking()
         tasking[asset.taskName](group)
     end
 

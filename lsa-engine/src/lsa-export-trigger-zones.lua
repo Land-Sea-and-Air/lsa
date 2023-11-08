@@ -34,7 +34,7 @@ function TriggerZoneExporter.export()
             location = { x = missionZone.x, y = missionZone.y },
             radius = missionZone.radius,
             properties = missionZone.properties or {},
-            verticies = missionZone.verticies or {}
+            vertices = missionZone.verticies or {}
         }
 
         exportedZones[exportedZone.name] = exportedZone
