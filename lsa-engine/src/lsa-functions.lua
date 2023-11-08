@@ -18,7 +18,7 @@ end
 ---@param t table
 ---@return string|nil
 function Dump(t)
-    Serializer.block(t)
+    Log.debug(Log.prefix .. Serializer.block(t))
 end
 
 ---Checks if the given file exists.
