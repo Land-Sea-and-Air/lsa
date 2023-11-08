@@ -137,7 +137,7 @@ function LSA.start()
 
     local weather = env.mission.weather
     Log.info("Weather - Temperature: %s, Clouds: %s, Base: %s, Qnh: %s",
-        weather.season.temperature, weather.clouds.preset, weather.clouds.base, weather.qnh)
+        weather.season.temperature, weather.clouds.preset or "none", weather.clouds.base, weather.qnh)
 
     CfxGroups.start()
     CfxSSBClient.start() -- we need to call the ssb client after all spawning from the state populating have occurred
@@ -905,7 +905,13 @@ function LSA.addPlayerMenu(player)
             path = "Lives",
             handler = LSA.onPlayerLivesMenu,
             args = { player = player }
+        },
+        {
+            path = "ATIS.Listen",
+            handler = LSA.onATIS,
+            args = { player = player }
         }
+
     }
 
     if LSA.canLogistics(player) then
@@ -937,6 +943,36 @@ function LSA.addPlayerMenu(player)
     })
 
     LSA.addMenuTree(playerMenu, nil, "group", player.groupId)
+end
+
+function LSA.onATIS(args)
+    local player = args.player
+
+    local unit = LSA.getUnit(player.unitName)
+    if unit ~= nil then
+        local unitPoint = unit:getPoint()
+        local groundLevel = land.getHeight(ToVec2(unitPoint))
+        unitPoint.y = groundLevel + 10
+        local wind = atmosphere.getWind(unitPoint)
+        local temperatureK, pressureP = atmosphere.getTemperatureAndPressure(unitPoint)
+        local windSpeed = Round(math.sqrt(wind.x ^ 2 + wind.y ^ 2 + wind.z ^ 2))
+        local windDir = Round(math.deg(math.atan2(wind.z, wind.x)))
+        local temperatureC = Round(temperatureK / 274.15)
+        local pressureHp = Round(pressureP * 0.01)
+        
+        if windDir < 0 then
+            windDir = 360 + windDir
+        end
+
+        local message = string.format(
+            "Weather information Zulu, winds %s degrees at %s meters per second, few clouds at 4000 meters, temperature %s degrees Celsius, Q N H %s Hectopascal, all aircraft announce intention on common frequency.",
+            windDir, windSpeed, temperatureC, pressureHp
+        )
+        STTS.TextToSpeech(
+            message,
+            "251", "AM", "1.0", "ATIS", player.side)
+        Log.debug(message)
+    end
 end
 
 function LSA.onFacOverview(args)
@@ -1507,6 +1543,25 @@ function LSA.nextMission()
     mission.weather.season.temperature = math.random(weather.minTemp, weather.maxTemp)
     mission.weather.qnh = math.random(weather.minQnh, weather.maxQnh)
 
+    -- set the wind speed and direction
+    local maxGroundWindSpeed = 6
+    local minGroundWindSpeed = 0
+    local groundWindSpeed = math.random(minGroundWindSpeed, maxGroundWindSpeed)
+    local groundWindDir = math.random(0, 359)
+    mission.weather.wind.atGround = { speed = groundWindSpeed, dir = groundWindDir }
+    
+    local maxWindSpeedAtTwo = 17
+    local minWindSpeedAtTwo = 6
+    local windSpeedAtTwo = math.random(minWindSpeedAtTwo, maxWindSpeedAtTwo)
+    local windDirAtTwo = math.random(0, 359)
+    mission.weather.wind.at2000 = { speed = windSpeedAtTwo, dir = windDirAtTwo }
+    
+    local maxWindSpeedAtEight = 25
+    local minWindSpeedAtEight = 17
+    local windSpeedAtEight = math.random(minWindSpeedAtEight, maxWindSpeedAtEight)
+    local windDirAtEight = math.random(0, 359)
+    mission.weather.wind.at8000 = { speed = windSpeedAtEight, dir = windDirAtEight }
+    
     -- set clouds and base
     local randomIndex = math.random(1, #weather.clouds)
     mission.weather.clouds.preset = weather.clouds[randomIndex]
