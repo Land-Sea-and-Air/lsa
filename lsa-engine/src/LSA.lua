@@ -687,7 +687,7 @@ function LSA.onEngineShutdownEvent(event)
         else
             local position = ToVec2(unit:getPoint())
             local base = Base.find(place:getName())
-            Base.isApronArea(base, position)
+            isAtApron = Base.isApronArea(base, position)
         end
 
         if isAtApron then
@@ -762,14 +762,6 @@ function LSA.onMarkChanged(event)
     if MarkCommands.isCommand(event) then
         MarkCommands.run(event)
     end
-end
-
-function LSA.tokens(s, pattern)
-    local tokens = {}
-    for token in string.gmatch(s, pattern) do
-        table.insert(tokens, token)
-    end
-    return tokens
 end
 
 function LSA.onHitEvent(event)

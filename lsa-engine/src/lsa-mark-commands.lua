@@ -31,7 +31,7 @@ function MarkCommands.run(event)
     local text = event.text
     if text == nil or #text == 0 then return end
 
-    local parts = LSA.tokens(text, "%S+")
+    local parts = MarkCommands.__parse(text)
     local commandName = parts[2]
 
     local command = MarkCommands.getCommand(commandName)
@@ -45,6 +45,30 @@ function MarkCommands.run(event)
     if success then
         trigger.action.removeMark(idx)
     end
+end
+
+function MarkCommands.__parse(text)
+    local parts = {}
+    local single = {}
+    local quoted = false
+    for x in string.gmatch(text, ".") do
+        if x == " " and not quoted then
+            table.insert(parts, table.concat(single))
+            single = {}
+        end
+        if x == " " and quoted then
+            table.insert(single, x)
+        end
+        if x == "\"" then
+            quoted = not quoted
+        end
+        if x ~= " " and x ~= "\"" then
+            table.insert(single, x)
+        end
+    end
+
+    table.insert(parts, table.concat(single))
+    return parts
 end
 
 function MarkCommands.getCommand(commandName)
