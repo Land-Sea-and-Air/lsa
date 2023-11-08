@@ -44,3 +44,4 @@
     - other...
   - Sets options (no external views, no F10 icon, etc...)
   - remove zones
+  - serialize compact
