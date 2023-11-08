@@ -71,6 +71,13 @@ DeployableTemplates.red = {
                     { type = "BMP-1", distance = 000, angle = 000, heading = 000 }
                 }
             },
+            {
+                name = "MBT T-55",
+                cost = 5,
+                units = {
+                    { type = "T-55", distance = 000, angle = 000, heading = 000 }
+                }
+            },
         }
     },
     {
@@ -149,6 +156,13 @@ DeployableTemplates.blue = {
                 cost = 2,
                 units = {
                     { type = "LAV-25", distance = 000, angle = 000, heading = 000 }
+                }
+            },
+            {
+                name = "MBT Leopard 1A3",
+                cost = 5,
+                units = {
+                    { type = "Leopard1A3", distance = 000, angle = 000, heading = 000 }
                 }
             },
         }
