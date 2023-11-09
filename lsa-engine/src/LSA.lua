@@ -975,6 +975,7 @@ function LSA.onATIS(args)
     if unit ~= nil then
         local unitPoint = unit:getPoint()
         local groundLevel = land.getHeight(ToVec2(unitPoint))
+        local cloudBase = env.mission.weather.clouds.base
         unitPoint.y = groundLevel + 10
         local wind = atmosphere.getWind(unitPoint)
         local temperatureK, pressureP = atmosphere.getTemperatureAndPressure(unitPoint)
@@ -988,14 +989,61 @@ function LSA.onATIS(args)
         end
 
         local message = string.format(
-            "Weather information Zulu, winds %s degrees at %s meters per second, few clouds at 4000 meters, temperature %s degrees Celsius, Q N H %s Hectopascal, all aircraft announce intention on common frequency.",
-            windDir, windSpeed, temperatureC, pressureHp
+            "Weather information Zulu, " ..
+            "winds %s degrees at %s meters per second, " ..
+            "cloud base at %s meters, " ..
+            "temperature %s degrees Celsius," ..
+            "Q N H %s Hectopascal, " ..
+            "all aircraft announce intentions on common frequency.",
+            LSA.spellNumbers(windDir),
+            LSA.spellNumbers(windSpeed),
+            LSA.spellAltitude(cloudBase),
+            LSA.spellNumbers(temperatureC),
+            LSA.spellNumbers(pressureHp)
         )
         STTS.TextToSpeech(
             message,
             "251", "AM", "1.0", "ATIS", player.side)
         Log.debug(message)
     end
+end
+
+function LSA.spellNumbers(num)
+    local phonetic = {
+        [0] = "zero",
+        [1] = "one",
+        [2] = "two",
+        [3] = "three",
+        [4] = "four",
+        [5] = "five",
+        [6] = "six",
+        [7] = "seven",
+        [8] = "eight",
+        [9] = "niner"
+    }
+
+    local spell = {}
+    repeat
+        local r = num % 10
+        table.insert(spell, phonetic[r])
+        num = math.floor(num / 10)
+    until num == 0
+
+    return table.concat(Reverse(spell), " ")
+end
+
+function LSA.spellAltitude(num)
+    local t = Thousands(num)
+    local h = Hundreds(num)
+
+    local spell = {}
+    if t > 0 then
+        table.insert(spell, t .. " thousand")
+    end
+    if h > 0 then
+        table.insert(spell, h .. " hundred")
+    end
+    return table.concat(spell, " ")
 end
 
 function LSA.onFacOverview(args)

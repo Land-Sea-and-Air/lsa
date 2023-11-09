@@ -201,3 +201,25 @@ function Angle(point1, point2)
 
     return math.floor(degree)
 end
+
+---Reverses a table (array).
+---Source: https://www.programming-idioms.org/idiom/19/reverse-a-list/1314/lua
+---@param t table
+---@return table
+function Reverse(t)
+    local n, m = #t, #t / 2
+    for i = 1, m do
+        t[i], t[n - i + 1] = t[n - i + 1], t[i]
+    end
+    return t
+end
+
+function Thousands(num)
+    local n = math.floor(num % 1000000 / 1000)
+    return n * 1000
+end
+
+function Hundreds(num)
+    local n = math.floor(num % 1000 / 100)
+    return n * 100
+end
