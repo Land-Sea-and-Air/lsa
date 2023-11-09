@@ -2,3 +2,5 @@
 mission
 lsa-pattern.lua
 *.state.json
+*.state.lua
+LSA_NEXT_*.miz

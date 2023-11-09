@@ -108,6 +108,29 @@ function LSA.start()
     Log.info("Working path set to: '%s'", LSA.settings.path)
     Log.info("Log debug is: %s, trace is: %s", Log.settings.debug, Log.settings.trace)
 
+    -- check if server state file exists
+    -- this file contains information about the previous running mission
+    -- in case of a server crash, it can be used to reload the correct mission
+    if FileExists(LSA.settings.path .. "\\server.state.lua") then
+        -- the file exists which means we have to check it for the
+        -- correct mission
+        local server = Loader.loadFile("server.state.lua")()
+        local year = env.mission.date.Year
+        local month = env.mission.date.Month
+        local day = env.mission.date.Day
+
+        if year ~= server.missionYear or month ~= server.missionMonth or day ~= server.missionDay then
+            Log.info("Found server state mission mismatch | Server State Date: %s-%s-%s | Mission Date: %s-%s-%s",
+                server.missionYear, server.missionMonth, server.missionDay, year, month, day
+            )
+            Log.info("Reloading server state | Miz File: %s", server.missionFile)
+            local mizFile = server.missionFile
+            local command = string.format("a_load_mission(\"%s\")", mizFile)
+            Log.debug("Calling mission scripting command: " .. command)
+            net.dostring_in('mission', command)
+        end
+    end
+
     local n = math.floor(os.time() % 100)
     Log.debug("Running %s iterations for random", n)
     for _ = 1, n do
@@ -959,7 +982,7 @@ function LSA.onATIS(args)
         local windDir = Round(math.deg(math.atan2(wind.z, wind.x)))
         local temperatureC = Round(temperatureK / 274.15)
         local pressureHp = Round(pressureP * 0.01)
-        
+
         if windDir < 0 then
             windDir = 360 + windDir
         end
@@ -1492,101 +1515,7 @@ function LSA.getDateUTC()
 end
 
 function LSA.nextMission()
-    LSA.saveState()
-    local outputPath = LSA.settings.path
-
-    -- we will calculate the "next day" for the mission
-    -- and set it in the mission table
-    -- we will then write the mission file and create a .miz file
-    -- that will contain the modified mission (effectively making the mission start on the next day)
-    local mission = env.mission
-    local day = mission.date.Day
-    local month = mission.date.Month
-    local year = mission.date.Year
-
-    -- calculate next day
-    local begin = os.time { year = year, month = month, day = day, hour = 0, minute = 0, second = 0 }
-    local h24 = 24 * (60 * 60)
-    local nextDay = os.date("*t", begin + h24)
-
-    day = tonumber(nextDay.day) or day
-    month = tonumber(nextDay.month) or month
-
-    -- re-assign to mission (note that the year does not move)
-    -- when reaching the end of year it will reset to the start of the year
-    mission.date.Day = day
-    mission.date.Month = month
-    mission.date.Year = year
-
-    local weatherTemplates = WeatherTemplates
-
-    local weather = weatherTemplates[month]
-    local sessionLengthSeconds = LSA.settings.sessionLengthSeconds
-    if day % 2 == 0 then
-        -- when the day is a multiple of 2
-        -- we will start the mission close to sunrise (morning)
-        local start_time = weather.sunrise
-        mission.start_time = start_time
-    elseif day % 3 == 0 then
-        -- when the day is a multiple of 3
-        -- we will start the mission the session length before sunset (evening)
-        local start_time = weather.sunset - sessionLengthSeconds
-        mission.start_time = start_time
-    else
-        -- when the day is neither a multiple of 2 or of 3
-        -- we will start the mission at 12:00 (midday)
-        local start_time = 43200
-        mission.start_time = start_time
-    end
-
-    -- set the temperature and qnh
-    mission.weather.season.temperature = math.random(weather.minTemp, weather.maxTemp)
-    mission.weather.qnh = math.random(weather.minQnh, weather.maxQnh)
-
-    -- set the wind speed and direction
-    local maxGroundWindSpeed = 6
-    local minGroundWindSpeed = 0
-    local groundWindSpeed = math.random(minGroundWindSpeed, maxGroundWindSpeed)
-    local groundWindDir = math.random(0, 359)
-    mission.weather.wind.atGround = { speed = groundWindSpeed, dir = groundWindDir }
-    
-    local maxWindSpeedAtTwo = 17
-    local minWindSpeedAtTwo = 6
-    local windSpeedAtTwo = math.random(minWindSpeedAtTwo, maxWindSpeedAtTwo)
-    local windDirAtTwo = math.random(0, 359)
-    mission.weather.wind.at2000 = { speed = windSpeedAtTwo, dir = windDirAtTwo }
-    
-    local maxWindSpeedAtEight = 25
-    local minWindSpeedAtEight = 17
-    local windSpeedAtEight = math.random(minWindSpeedAtEight, maxWindSpeedAtEight)
-    local windDirAtEight = math.random(0, 359)
-    mission.weather.wind.at8000 = { speed = windSpeedAtEight, dir = windDirAtEight }
-    
-    -- set clouds and base
-    local randomIndex = math.random(1, #weather.clouds)
-    mission.weather.clouds.preset = weather.clouds[randomIndex]
-    mission.weather.clouds.base = weather.base
-
-    -- [TODO] other weather related elements (fog, turbulence, visibility, ice halo...)
-
-    -- serialize the mission so it can be written to the .miz
-    local missionString = "mission=" .. Serializer.compact(mission)
-
-    -- write the mission file
-    WriteFile(outputPath .. "\\mission", missionString)
-
-    -- call a batch file that creates a copy of the original mission
-    -- the new file will have a _NEXT suffix, followed by the _day
-    -- then call 7zip to overwrite the original mission file
-    -- inside the copy file
-    local newFileName = "LSA_NEXT_" .. day .. ".miz"
-    local vm = "cmd /c \"call \"" .. outputPath .. "\\zip-mission.bat\" " .. newFileName .. " \""
-    os.execute(vm)
-
-    -- tell the mission scripting engine to load the new .miz file
-    local command = string.format("a_load_mission(\"%s\")", newFileName)
-    Log.debug("Calling mission scripting command: " .. command)
-    net.dostring_in('mission', command)
+    NextMissionGenerator.generate()
 end
 
 function LSA.removeDebris(_, time)
