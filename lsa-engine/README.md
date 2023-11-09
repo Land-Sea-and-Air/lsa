@@ -28,7 +28,7 @@
   - multiple of 3 mission is 13:00 - 21:00
   - everything else 12:00 - 18:00
 - Setup weather themes (bad and good) (done)
-- Add beacons with morse code to the FARPS (and non-airfield bases)
+- Add beacons with morse code to the FARPs (and non-airfield bases)
 - CSAR (done)
 - Move bulls by a command
 - Create polygon with trigger zones to create an ocean area where carriers can move (movement outside is denied) (done)
