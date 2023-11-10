@@ -37,6 +37,7 @@
 - Request FAC for illumination bombs at a target location (spawn an aircraft to go drop it)
 - Allow player to ask for an altitude and speed to the tanker (this will need to be between a certain threshold speed: 300 - 315; alt: 21 - 25)
 - Create system to detect if a later mission (e.g.: LSA_NEXT_2) already exists, and if so, load it
+- Announce tanker/bomber on mission start in SRS
 - Create "Compile mission" option
   - Sets FC3 bulls
   - Sets briefing information
