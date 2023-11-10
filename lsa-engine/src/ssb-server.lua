@@ -1,7 +1,7 @@
 local ssb = {}
 
 ssb.controlNonAircraftSlots = false -- if true, only unique DCS Player ids will be allowed for the Commander / GCI / Observer Slots
-ssb.checkPlayerLivesFeature = true  -- check if the player has remaining lifes to enter the slot
+ssb.checkPlayerLivesFeature = true  -- check if the player has remaining lives to enter the slot
 ssb.checkPlayerSideFeature = true   -- check if the player belongs to the same coalition of the slot he is trying to select
 ssb.checkClanSlotFeature = false    -- check if a slot belongs to a clan
 ssb.kickPlayers = true              -- Change to false if you want to disable to kick players.
@@ -52,23 +52,23 @@ ssb.prefixes = {}
 -- This will only take effect if: ssb.controlNonAircraftSlots = true
 -- ssb.commanderPlayerUCID = {
 --   "292d911c1b6f631476795cb80fd93b1f",
---   "some_uniqe_player_ucid",
+--   "some_unique_player_ucid",
 -- }
 ssb.commanderPlayerUCID = {}
 
 
 -- add UCID of Players to this list that you want to permanently block from all slots (slot flags do not matter)
--- ssb.permaBlockedPlayerUCID = {
+-- ssb.blockedList = {
 --   "a_unique_player_ucid",
 --   "another_unique_player_ucid"
 -- }
-ssb.permaBlockedPlayerUCID = {}
+ssb.blockedList = {}
 
 ssb.version = "1.4"
 
 
 function ssb.isBlocked(_ucid, _playerName, _slotID)
-    for _, _value in pairs(ssb.permaBlockedPlayerUCID) do -- added check for permaBlocked Player UCIDs (added by mobettameta)
+    for _, _value in pairs(ssb.blockedList) do -- added check for blocked player UCIDs (added by mobettameta)
         if _value == _ucid then
             ssb.log("Player blocked - Name: %s, Ucid: %s, Slot: %s", _playerName, _ucid, _slotID)
             return true
@@ -265,7 +265,7 @@ function ssb.checkClanSlot(_playerID, _unitName)
                     _playerName .. " is NOT clan member for " .. _value .. " for " .. _unitName .. " Rejecting")
             end
 
-            -- clan tag didnt match, quit!
+            -- clan tag didn't match, quit!
             return false
         end
     end
@@ -296,9 +296,9 @@ function ssb.setFlagValue(_flag, _number) -- Added by FlightControl
     return true
 end
 
-function ssb.split(text, delimeter)
+function ssb.split(text, delimiter)
     local tokens = {}
-    for token in string.gmatch(text, "[^" .. delimeter .. "]+") do
+    for token in string.gmatch(text, "[^" .. delimiter .. "]+") do
         table.insert(tokens, token)
     end
     return tokens
