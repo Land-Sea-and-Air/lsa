@@ -8,7 +8,7 @@ const config: Config = {
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
-  url: 'https://your-docusaurus-site.example.com',
+  url: 'https://lsa-psi.vercel.app',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
@@ -38,14 +38,14 @@ const config: Config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/mousepilot/lsa/tree/main/lsa-website',
+            'https://github.com/Land-Sea-and-Air/lsa/tree/main/lsa-website',
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/mousepilot/lsa/tree/main/lsa-website',
+            'https://github.com/Land-Sea-and-Air/lsa/tree/main/lsa-website',
         },
         theme: {
           customCss: './src/css/custom.css',
