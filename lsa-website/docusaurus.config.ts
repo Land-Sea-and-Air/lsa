@@ -55,7 +55,9 @@ const config: Config = {
   ],
 
   themeConfig: {
-    // Replace with your project's social card
+    metadata: [
+      {name: 'keywords', content: 'dcs, digital combat simulator, lsa, land sea air, multiplayer'}
+    ],
     image: 'img/lsa-social-card.jpg',
     navbar: {
       title: 'Land, Sea and Air',
