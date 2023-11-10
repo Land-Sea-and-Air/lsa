@@ -2625,8 +2625,8 @@ PlayerSpawns =
                     },
                 },
                 {
-                    ["nickname"] = "Flanker",
-                    ["type"] = "Su-27",
+                    ["nickname"] = "Fulcrum",
+                    ["type"] = "MiG-29A",
                     ["parkings"] =
                     {
                         7,
@@ -2634,39 +2634,12 @@ PlayerSpawns =
                     },
                 },
                 {
-                    ["nickname"] = "Fulcrum",
-                    ["type"] = "MiG-29A",
-                    ["parkings"] =
-                    {
-                        9,
-                        10,
-                    },
-                },
-                {
-                    ["nickname"] = "FlankerL",
-                    ["type"] = "J-11A",
-                    ["parkings"] =
-                    {
-                        11,
-                        12,
-                    },
-                },
-                {
                     ["nickname"] = "Fishbed",
                     ["type"] = "MiG-21Bis",
                     ["parkings"] =
                     {
-                        13,
-                        14,
-                    },
-                },
-                {
-                    ["nickname"] = "Thunder",
-                    ["type"] = "JF-17",
-                    ["parkings"] =
-                    {
-                        15,
-                        16,
+                        9,
+                        10,
                     },
                 },
             },
@@ -2677,8 +2650,9 @@ PlayerSpawns =
                     ["type"] = "Mi-8MT",
                     ["parkings"] =
                     {
-                        17,
-                        18,
+                        11,
+                        12,
+                        13,
                     },
                 },
                 {
@@ -2686,29 +2660,8 @@ PlayerSpawns =
                     ["type"] = "Mi-24P",
                     ["parkings"] =
                     {
-                        19,
-                        20,
-                        21,
-                    },
-                },
-                {
-                    ["nickname"] = "Shark",
-                    ["type"] = "Ka-50",
-                    ["parkings"] =
-                    {
-                        22,
-                        23,
-                        24,
-                    },
-                },
-                {
-                    ["nickname"] = "Shark3",
-                    ["type"] = "Ka-50_3",
-                    ["parkings"] =
-                    {
-                        25,
-                        26,
-                        27,
+                        14,
+                        15,
                     },
                 },
             },
@@ -5913,8 +5866,8 @@ PlayerSpawns =
                     },
                 },
                 {
-                    ["nickname"] = "Flanker",
-                    ["type"] = "Su-27",
+                    ["nickname"] = "Fulcrum",
+                    ["type"] = "MiG-29A",
                     ["parkings"] =
                     {
                         7,
@@ -5922,39 +5875,12 @@ PlayerSpawns =
                     },
                 },
                 {
-                    ["nickname"] = "Fulcrum",
-                    ["type"] = "MiG-29A",
-                    ["parkings"] =
-                    {
-                        9,
-                        10,
-                    },
-                },
-                {
-                    ["nickname"] = "FlankerL",
-                    ["type"] = "J-11A",
-                    ["parkings"] =
-                    {
-                        11,
-                        12,
-                    },
-                },
-                {
                     ["nickname"] = "Fishbed",
                     ["type"] = "MiG-21Bis",
                     ["parkings"] =
                     {
-                        13,
-                        14,
-                    },
-                },
-                {
-                    ["nickname"] = "Thunder",
-                    ["type"] = "JF-17",
-                    ["parkings"] =
-                    {
-                        15,
-                        16,
+                        9,
+                        10,
                     },
                 },
             },
@@ -5965,8 +5891,9 @@ PlayerSpawns =
                     ["type"] = "Mi-8MT",
                     ["parkings"] =
                     {
-                        17,
-                        18,
+                        11,
+                        12,
+                        13,
                     },
                 },
                 {
@@ -5974,29 +5901,8 @@ PlayerSpawns =
                     ["type"] = "Mi-24P",
                     ["parkings"] =
                     {
-                        19,
-                        20,
-                        21,
-                    },
-                },
-                {
-                    ["nickname"] = "Shark",
-                    ["type"] = "Ka-50",
-                    ["parkings"] =
-                    {
-                        22,
-                        23,
-                        24,
-                    },
-                },
-                {
-                    ["nickname"] = "Shark3",
-                    ["type"] = "Ka-50_3",
-                    ["parkings"] =
-                    {
-                        25,
-                        26,
-                        27,
+                        14,
+                        15,
                     },
                 },
             },
