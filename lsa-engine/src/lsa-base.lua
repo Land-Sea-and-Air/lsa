@@ -51,7 +51,7 @@ end
 
 function Base.hasRepairs(base)
     for _, static in ipairs(base.repairs) do
-        if StaticWrp.isAlive(static) and StaticWrp.isRepairs(static) then
+        if StaticWrp.isRepairs(static) and StaticWrp.isAlive(static)  then
             return true
         end
     end
