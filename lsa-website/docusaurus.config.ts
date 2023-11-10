@@ -56,7 +56,7 @@ const config: Config = {
 
   themeConfig: {
     // Replace with your project's social card
-    image: 'img/docusaurus-social-card.jpg',
+    image: 'img/lsa-social-card.jpg',
     navbar: {
       title: 'Land, Sea and Air',
       logo: {
@@ -125,7 +125,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: "Land, Sea and Air. Built with Docusaurus.",
+      copyright: "Land, Sea and Air | Built with Docusaurus.",
     },
     prism: {
       theme: prismThemes.github,
