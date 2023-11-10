@@ -1,5 +1,11 @@
 Bomber = {
-    bombers = {}
+    bombers = {},
+    speed = 1500,
+    altitude = 9000,
+    departureSpeed = 400,
+    departureAlt = 2000,
+    approachSpeed = 300,
+    approachAlt = 2000,
 }
 
 ---Creates a new bomber instance.
@@ -190,7 +196,7 @@ function Bomber.dispatch(side, from, to)
     Bomber.__setAsUsed(bomber)
 
     local scheme = Bomber.__scheme(bomber)
-    local schemeRoute = LSA.schemeBomberRoute(origin, bomber.location, destination.location, 1500, 9000)
+    local schemeRoute = Bomber.__schemeRoute(origin, bomber.location, destination.location)
     scheme.route = schemeRoute
 
     -- spawn the bomber
@@ -252,11 +258,11 @@ function Bomber.isAvailable(bomber)
     -- effectively moving the current date to next year
     -- then subtract the used date to the new current date
     -- and compare with the wait period
-    local yearLenghtInSeconds = LSA.getYearLengthInSeconds(env.mission.date.year)
-    return (today + yearLenghtInSeconds) - date > waitPeriod
+    local yearLengthInSeconds = LSA.getYearLengthInSeconds(env.mission.date.year)
+    return (today + yearLengthInSeconds) - date > waitPeriod
 end
 
----Despawns the supporting statics associated with the bomber.
+---Despawn the supporting statics associated with the bomber.
 ---@param bomber table
 function Bomber.__despawnStatics(bomber)
     for _, static in ipairs(bomber.statics) do
@@ -299,4 +305,35 @@ function Bomber.__scheme(bomber)
         ["communication"] = true,
         ["start_time"] = 0,
     }
+end
+
+---Creates a bombers route from an airdrome to a target point.
+---@param airdrome table
+---@param parkingLocation table
+---@param target table
+---@return table
+function Bomber.__schemeRoute(airdrome, parkingLocation, target)
+    local route = {
+        points = {}
+    }
+
+    local takeOffPoint = LSA.getTakeoffPoint(airdrome.id, parkingLocation)
+    local departurePoint = LSA.getDeparturePoint(airdrome.location, Bomber.departureSpeed, Bomber.departureAlt)
+    local attackPoint = LSA.getAttackPoint(target, Bomber.speed, Bomber.altitude)
+    local ingressPoint = LSA.getIngressPoint(target, Bomber.speed, Bomber.altitude)
+    local egressPoint = LSA.getEgressPoint(target, Bomber.speed, Bomber.altitude)
+    local approachPoint = LSA.getApproachPoint(airdrome.location, Bomber.approachSpeed, Bomber.approachAlt)
+    local descentPoint = LSA.getDescentPoint(approachPoint, Bomber.speed, Bomber.altitude)
+    local landPoint = LSA.getLandRunwayPoint(airdrome.id, airdrome.location, Bomber.approachSpeed, Bomber.approachAlt)
+
+    table.insert(route.points, takeOffPoint)
+    table.insert(route.points, departurePoint)
+    table.insert(route.points, ingressPoint)
+    table.insert(route.points, attackPoint)
+    table.insert(route.points, egressPoint)
+    table.insert(route.points, descentPoint)
+    table.insert(route.points, approachPoint)
+    table.insert(route.points, landPoint)
+
+    return route
 end

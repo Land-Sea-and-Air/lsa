@@ -1,11 +1,11 @@
 Tanker = {
     tankers = {},
-    speed = 600,
-    altitude = 9000,
     duration = 8100,
-    departureSpeed = 400,
+    speed = 560, --kmh
+    altitude = 9000,
+    departureSpeed = 400, --kmh
     departureAlt = 2000,
-    approachSpeed = 300,
+    approachSpeed = 300,  --kmh
     approachAlt = 2000
 }
 
@@ -169,8 +169,8 @@ function Tanker.isAvailable(tanker)
     -- effectively moving the current date to next year
     -- then subtract the used date to the new current date
     -- and compare with the wait period
-    local yearLenghtInSeconds = LSA.getYearLengthInSeconds(env.mission.date.year)
-    return (today + yearLenghtInSeconds) - date > waitPeriod
+    local yearLengthInSeconds = LSA.getYearLengthInSeconds(env.mission.date.year)
+    return (today + yearLengthInSeconds) - date > waitPeriod
 end
 
 ---Returns the tanker by the name.
@@ -246,7 +246,7 @@ function Tanker.dispatch(side, fromName, destination, method, track)
 
     -- spawn the tanker
     local scheme = Tanker.__scheme(tanker)
-    local schemeRoute = Tanker.__schemeRoute(origin, tanker.location, destination, 600, 9000, 8100, track, tanker.tacan)
+    local schemeRoute = Tanker.__schemeRoute(origin, tanker.location, destination, 8100, track, tanker.tacan)
     scheme.route = schemeRoute
 
     TS.task("spawn tanker", function()
@@ -314,7 +314,7 @@ function Tanker.relocate(callsign, markCoalition, destination, track)
     return true, string.format("Roger, %s relocating.", tanker.callsign.name)
 end
 
----Despawns the supporting statics associated with the tanker.
+---Despawn the supporting statics associated with the tanker.
 ---@param tanker table
 function Tanker.__despawnStatics(tanker)
     for _, static in ipairs(tanker.statics) do
@@ -373,32 +373,24 @@ end
 ---@param airdrome table
 ---@param parkingLocation table
 ---@param orbit table
----@param speed number
----@param altitude number
 ---@param duration number
 ---@param track number
 ---@param tacan table
 ---@return table
-function Tanker.__schemeRoute(airdrome, parkingLocation, orbit, speed, altitude, duration, track, tacan)
+function Tanker.__schemeRoute(airdrome, parkingLocation, orbit, duration, track, tacan)
     local route = {
         points = {}
     }
-
-    local departureAlt = Tanker.departureAlt
-    local approachAlt = Tanker.approachAlt
-    local departureSpeed = LSA.kmhToMps(Tanker.departureSpeed)
-    local approachSpeed = LSA.kmhToMps(Tanker.approachSpeed)
-    speed = LSA.kmhToMps(speed)
 
     local takeOffPoint = LSA.getTakeoffPoint(airdrome.id, parkingLocation)
     local tankerTask = LSA.getTankerTask()
     local tacanTask = LSA.getTacanTask(tacan.callsign, tacan.mode, tacan.channel, tacan.freq)
     takeOffPoint.task = LSA.getComboTask({ tankerTask, tacanTask })
-    local departurePoint = LSA.getDeparturePoint(airdrome.location, departureSpeed, departureAlt)
-    local tankerOrbitPoint = LSA.getOrbitPoint(orbit, speed, altitude, duration, track)
-    local approachPoint = LSA.getApproachPoint(airdrome.location, approachSpeed, approachAlt)
-    local descentPoint = LSA.getDescentPoint(approachPoint, speed, altitude)
-    local landPoint = LSA.getLandRunwayPoint(airdrome.id, airdrome.location, approachSpeed, approachAlt)
+    local departurePoint = LSA.getDeparturePoint(airdrome.location, Tanker.departureSpeed, Tanker.departureAlt)
+    local tankerOrbitPoint = LSA.getOrbitPoint(orbit, Tanker.speed, Tanker.altitude, duration, track)
+    local approachPoint = LSA.getApproachPoint(airdrome.location, Tanker.approachSpeed, Tanker.approachAlt)
+    local descentPoint = LSA.getDescentPoint(approachPoint, Tanker.speed, Tanker.altitude)
+    local landPoint = LSA.getLandRunwayPoint(airdrome.id, airdrome.location, Tanker.approachSpeed, Tanker.approachAlt)
 
     table.insert(route.points, takeOffPoint)
     table.insert(route.points, departurePoint)

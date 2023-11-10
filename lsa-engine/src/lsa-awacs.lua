@@ -239,7 +239,7 @@ function Awacs.dispatch(side, fromName, destination, track)
 
     -- spawn the awacs
     local scheme = Awacs.__scheme(awacs)
-    local schemeRoute = Awacs.__schemeRoute(origin, awacs.location, destination, 600, 9000, 8100, track)
+    local schemeRoute = Awacs.__schemeRoute(origin, awacs.location, destination, 8100, track)
     scheme.route = schemeRoute
 
     TS.task("spawn awacs", function()
@@ -275,17 +275,15 @@ function Awacs.relocate(callsign, markCoalition, destination, track)
     local airdrome = LSA.findBase(awacs.baseName)
     if airdrome == nil then return false, string.format("Unable, invalid awacs base.") end
 
-    local approachSpeed = LSA.kmhToMps(Awacs.approachSpeed)
-    local approachAlt = Awacs.approachAlt
     local tacan = awacs.tacan
     local awacsTask = LSA.getAwacsTask()
     local tacanTask = LSA.getTacanTask(tacan.callsign, tacan.mode, tacan.channel, tacan.freq)
     local currentPoint = LSA.getWaypoint(ToVec2(awacsUnit:getPoint()), Awacs.speed, Awacs.altitude)
     currentPoint.task = LSA.getComboTask({ awacsTask, tacanTask })
     local awacsOrbitPoint = LSA.getAwacsOrbitPoint(destination, Awacs.speed, Awacs.altitude, Awacs.duration, track)
-    local approachPoint = LSA.getApproachPoint(airdrome.location, approachSpeed, approachAlt)
+    local approachPoint = LSA.getApproachPoint(airdrome.location, Awacs.approachSpeed, Awacs.approachAlt)
     local descentPoint = LSA.getDescentPoint(approachPoint, Awacs.speed, Awacs.altitude)
-    local landPoint = LSA.getLandRunwayPoint(airdrome.id, airdrome.location, approachSpeed, approachAlt)
+    local landPoint = LSA.getLandRunwayPoint(airdrome.id, airdrome.location, Awacs.approachSpeed, Awacs.approachAlt)
 
     local route = { points = {} }
     table.insert(route.points, currentPoint)
@@ -366,30 +364,22 @@ end
 ---@param airdrome table
 ---@param parkingLocation table
 ---@param orbit table
----@param speed number
----@param altitude number
 ---@param duration number
 ---@param track number
 ---@return table
-function Awacs.__schemeRoute(airdrome, parkingLocation, orbit, speed, altitude, duration, track)
+function Awacs.__schemeRoute(airdrome, parkingLocation, orbit, duration, track)
     local route = {
         points = {}
     }
 
-    local departureAlt = Awacs.departureAlt
-    local approachAlt = Awacs.approachAlt
-    local departureSpeed = LSA.kmhToMps(Awacs.departureSpeed)
-    local approachSpeed = LSA.kmhToMps(Awacs.approachSpeed)
-    speed = LSA.kmhToMps(speed)
-
     local takeOffPoint = LSA.getTakeoffPoint(airdrome.id, parkingLocation)
     local awacsTask = LSA.getAwacsTask()
     takeOffPoint.task = LSA.getComboTask({ awacsTask })
-    local departurePoint = LSA.getDeparturePoint(airdrome.location, departureSpeed, departureAlt)
-    local awacsOrbitPoint = LSA.getOrbitPoint(orbit, speed, altitude, duration, track)
-    local approachPoint = LSA.getApproachPoint(airdrome.location, approachSpeed, approachAlt)
-    local descentPoint = LSA.getDescentPoint(approachPoint, speed, altitude)
-    local landPoint = LSA.getLandRunwayPoint(airdrome.id, airdrome.location, approachSpeed, approachAlt)
+    local departurePoint = LSA.getDeparturePoint(airdrome.location, Awacs.departureSpeed, Awacs.departureAlt)
+    local awacsOrbitPoint = LSA.getOrbitPoint(orbit, Awacs.speed, Awacs.altitude, duration, track)
+    local approachPoint = LSA.getApproachPoint(airdrome.location, Awacs.approachSpeed, Awacs.approachAlt)
+    local descentPoint = LSA.getDescentPoint(approachPoint, Awacs.speed, Awacs.altitude)
+    local landPoint = LSA.getLandRunwayPoint(airdrome.id, airdrome.location, Awacs.approachSpeed, Awacs.approachAlt)
 
     table.insert(route.points, takeOffPoint)
     table.insert(route.points, departurePoint)

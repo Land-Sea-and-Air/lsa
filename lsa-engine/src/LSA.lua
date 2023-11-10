@@ -3703,45 +3703,6 @@ end
 
 --#endregion
 
----Creates a bombers route from an airdrome to a target point.
----@param airdrome table
----@param parkingLocation table
----@param target table
----@param speed number
----@param altitude number
----@return table
-function LSA.schemeBomberRoute(airdrome, parkingLocation, target, speed, altitude)
-    local route = {
-        points = {}
-    }
-
-    speed = LSA.kmhToMps(speed)
-    local departureSpeed = LSA.kmhToMps(400)
-    local departureAlt = 2000
-    local approachSpeed = LSA.kmhToMps(300)
-    local approachAlt = 2000
-
-    local takeOffPoint = LSA.getTakeoffPoint(airdrome.id, parkingLocation)
-    local departurePoint = LSA.getDeparturePoint(airdrome.location, departureSpeed, departureAlt)
-    local attackPoint = LSA.getAttackPoint(target, speed, altitude)
-    local ingressPoint = LSA.getIngressPoint(target, speed, altitude)
-    local egressPoint = LSA.getEgressPoint(target, speed, altitude)
-    local approachPoint = LSA.getApproachPoint(airdrome.location, approachSpeed, approachAlt)
-    local descentPoint = LSA.getDescentPoint(approachPoint, speed, altitude)
-    local landPoint = LSA.getLandRunwayPoint(airdrome.id, airdrome.location, approachSpeed, approachAlt)
-
-    table.insert(route.points, takeOffPoint)
-    table.insert(route.points, departurePoint)
-    table.insert(route.points, ingressPoint)
-    table.insert(route.points, attackPoint)
-    table.insert(route.points, egressPoint)
-    table.insert(route.points, descentPoint)
-    table.insert(route.points, approachPoint)
-    table.insert(route.points, landPoint)
-
-    return route
-end
-
 function LSA.getIngressPoint(target, speed, altitude)
     local offset = { distance = 40000, angle = 285 }
     local point = LSA.newPos(target, offset)
@@ -3935,19 +3896,20 @@ end
 
 ---Returns a tanker orbit point.
 ---@param initialPoint table
----@param speed number
----@param altitude number
----@param duration number
----@param track number
+---@param speed number Kmh
+---@param altitude number Meters
+---@param duration number Seconds
+---@param track number Degrees
 ---@return table
 function LSA.getOrbitPoint(initialPoint, speed, altitude, duration, track)
-    local raceTrackPoint = LSA.newPos(initialPoint, { distance = 80000, angle = track })
+    local offset = { distance = 80000, angle = track }
+    local raceTrackPoint = LSA.newPos(initialPoint, offset)
 
     return {
         ["alt"] = altitude,
         ["action"] = "Turning Point",
         ["alt_type"] = "BARO",
-        ["speed"] = speed,
+        ["speed"] = LSA.kmhToMps(speed),
         ["task"] =
         {
             ["id"] = "ComboTask",
@@ -3970,7 +3932,7 @@ function LSA.getOrbitPoint(initialPoint, speed, altitude, duration, track)
                                 {
                                     ["speedEdited"] = true,
                                     ["pattern"] = "Race-Track",
-                                    ["speed"] = speed,
+                                    ["speed"] = LSA.kmhToMps(speed),
                                     ["altitude"] = altitude,
                                     ["altitudeEdited"] = true,
                                     ["point"] = initialPoint,
