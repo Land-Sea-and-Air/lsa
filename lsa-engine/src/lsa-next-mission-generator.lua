@@ -150,13 +150,14 @@ function NextMissionGenerator.__newMiz()
     -- write the mission file
     WriteFile(LSA.settings.path .. "\\mission", missionString)
 
-    -- call a batch file that creates a copy of the original mission
-    -- the new file will have a _NEXT suffix, followed by the _day
-    -- then call 7zip to overwrite the original mission file
-    -- inside the copy file
-    local newFileName = NextMissionGenerator.__newMizFileName()
-    local vm = "cmd /c \"call \"" .. LSA.settings.path .. "\\zip-mission.bat\" " .. newFileName .. " \""
-    os.execute(vm)
+    local newMizFileName = NextMissionGenerator.__newMizFileName()
+    -- copy original miz to a new file
+    local cmd = string.format("cd %s & copy %s %s", LSA.settings.path, "LSA.miz", newMizFileName)
+    Log.debug("Executing command: %s", cmd)
+    os.execute(cmd)
+
+    -- update the mission inside the new miz file
+    Zip.archive(newMizFileName, "mission")
 end
 
 function NextMissionGenerator.__serverInformationFile()
