@@ -3,12 +3,14 @@ NextMissionGenerator = {}
 function NextMissionGenerator.generate()
     -- save current state of the running mission
     LSA.saveState()
+    
+    -- extract mission from the original (template) miz
+    local mission = NextMissionGenerator.__getMissionTemplate()
 
     -- we will calculate the "next day" for the mission
     -- and set it in the mission table
     -- we will then write the mission file and create a .miz file
     -- that will contain the modified mission (effectively making the mission start on the next day)
-    local mission = env.mission
     local year, month, day = NextMissionGenerator.__nextDay()
 
     -- re-assign to mission (note that the year does not move)
@@ -46,6 +48,13 @@ function NextMissionGenerator.generate()
 
     -- tell the mission scripting engine to load the new .miz file
     NextMissionGenerator.__loadMission()
+end
+
+function NextMissionGenerator.__getMissionTemplate()
+    Zip.extract("LSA.miz", "mission")
+    local contents = ReadFile(LSA.settings.path .. "\\mission")
+    local getTemplateMission = Loader.loadString(string.format("local %s return mission", contents))
+    return getTemplateMission()
 end
 
 function NextMissionGenerator.__nextDay()

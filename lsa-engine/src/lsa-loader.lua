@@ -16,6 +16,13 @@ function Loader.loadFilePath(filePath)
     return assert(loadfile(filePath))
 end
 
+---Loads a string.
+---@param text string
+---@return function
+function Loader.loadString(text)
+    return assert(loadstring(text))
+end
+
 ---Loads all lua files in the src directory.
 function Loader.__loadAll()
     local src = string.format("%s\\%s", Loader.path, "src")
