@@ -1038,10 +1038,10 @@ function LSA.spellAltitude(num)
 
     local spell = {}
     if t > 0 then
-        table.insert(spell, t .. " thousand")
+        table.insert(spell, t)
     end
     if h > 0 then
-        table.insert(spell, h .. " hundred")
+        table.insert(spell, h)
     end
     return table.concat(spell, " ")
 end
