@@ -12,31 +12,31 @@
 - CSAR
 - Bombers
 - Tankers (basket and boom)
-
-# Roadmap
 - Auto-move garrison units between spawn zones (done - works by defining several patrol waypoints using trigger zones)
-- Rolling window play time
 - Supply based logistics (done)
 - F10 map deployment commands (done)
-- Enforce no taxiway takeoffs
 - Enforce re-arm and refuel at specific location (done)
-- Use IADS with SAMs (deployed)
-- Bases with lighter defenses designed for low level, high-drag bombing (cold war style)
 - Set all FC3 first waypoint to bulls of coalition (done)
 - Setup the start time of mission (done)
   - multiple of 2 mission is 07:00 - 13:00,
   - multiple of 3 mission is 13:00 - 21:00
   - everything else 12:00 - 18:00
 - Setup weather themes (bad and good) (done)
+- Create polygon with trigger zones to create an ocean area where carriers can move (movement outside is denied) (done)
+- Create mechanics for bombers, tankers and awacs (done)
+- Create system to auto recover and load last mission in case of server crash (done)
+
+# Roadmap
+- Rolling window play time
+- Enforce no taxiway takeoffs
+- Use IADS with SAMs (deployed)
+- Bases with lighter defenses designed for low level, high-drag bombing (cold war style)
 - Add beacons with morse code to the FARPs (and non-airfield bases)
 - CSAR (done)
 - Move bulls by a command
-- Create polygon with trigger zones to create an ocean area where carriers can move (movement outside is denied) (done)
-- Create mechanics for bombers, tankers and awacs (done)
 - Make units move if smoke is nearby
 - Request FAC for illumination bombs at a target location (spawn an aircraft to go drop it)
 - Allow player to ask for an altitude and speed to the tanker (this will need to be between a certain threshold speed: 300 - 315; alt: 21 - 25)
-- Create system to detect if a later mission (e.g.: LSA_NEXT_2) already exists, and if so, load it
 - Announce tanker/bomber on mission start in SRS
 - Create "Compile mission" option
   - Sets FC3 bulls
