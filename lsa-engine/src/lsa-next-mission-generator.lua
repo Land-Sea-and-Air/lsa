@@ -3,51 +3,55 @@ NextMissionGenerator = {}
 function NextMissionGenerator.generate()
     -- save current state of the running mission
     LSA.saveState()
-    
+
     -- extract mission from the original (template) miz
-    local mission = NextMissionGenerator.__getMissionTemplate()
+    local newMission = NextMissionGenerator.__getMissionTemplate()
 
     -- we will calculate the "next day" for the mission
     -- and set it in the mission table
     -- we will then write the mission file and create a .miz file
     -- that will contain the modified mission (effectively making the mission start on the next day)
-    local year, month, day = NextMissionGenerator.__nextDay()
+    local currentMission = env.mission
+    local year, month, day = NextMissionGenerator.__nextDay(currentMission)
 
     -- re-assign to mission (note that the year does not move)
     -- when reaching the end of year it will reset to the start of the year
-    mission.date.Day = day
-    mission.date.Month = month
-    mission.date.Year = year
+    newMission.date.Day = day
+    newMission.date.Month = month
+    newMission.date.Year = year
 
     -- set mission start time
-    mission.start_time = NextMissionGenerator.__startTime(month, day)
+    newMission.start_time = NextMissionGenerator.__startTime(month, day)
 
     -- set the temperature and qnh
     local temperature, qnh = NextMissionGenerator.__temperatureAndQnh(month)
-    mission.weather.season.temperature = temperature
-    mission.weather.qnh = qnh
+    newMission.weather.season.temperature = temperature
+    newMission.weather.qnh = qnh
 
     -- set the wind speed and direction
     local winds = NextMissionGenerator.__windSpeedAndDirection()
-    mission.weather.wind.atGround = winds.atGround
-    mission.weather.wind.at2000 = winds.at2000
-    mission.weather.wind.at8000 = winds.at8000
+    newMission.weather.wind.atGround = winds.atGround
+    newMission.weather.wind.at2000 = winds.at2000
+    newMission.weather.wind.at8000 = winds.at8000
 
     -- set clouds and base
     local preset, base = NextMissionGenerator.__cloudsAndBase(month)
-    mission.weather.clouds.preset = preset
-    mission.weather.clouds.base = base
+    newMission.weather.clouds.preset = preset
+    newMission.weather.clouds.base = base
 
     -- [TODO] other weather related elements (fog, turbulence, visibility, ice halo...)
 
+    -- get the new miz file name
+    local newMizFileName = NextMissionGenerator.__newMizFileName(newMission)
+    
     -- generate the new miz file with the modified settings
-    NextMissionGenerator.__newMiz()
+    NextMissionGenerator.__newMiz(newMizFileName, newMission)
 
     -- write server information file
-    NextMissionGenerator.__serverInformationFile()
+    NextMissionGenerator.__serverInformationFile(newMizFileName, newMission)
 
     -- tell the mission scripting engine to load the new .miz file
-    NextMissionGenerator.__loadMission()
+    NextMissionGenerator.__loadMission(newMizFileName)
 end
 
 function NextMissionGenerator.__getMissionTemplate()
@@ -57,8 +61,12 @@ function NextMissionGenerator.__getMissionTemplate()
     return getTemplateMission()
 end
 
-function NextMissionGenerator.__nextDay()
-    local mission = env.mission
+---Calculates the next day from a given mission.
+---@param mission table
+---@return number?
+---@return number
+---@return number
+function NextMissionGenerator.__nextDay(mission)
     local day = mission.date.Day
     local month = mission.date.Month
     local year = mission.date.Year
@@ -82,6 +90,10 @@ function NextMissionGenerator.__nextDay()
     return year, month, day
 end
 
+---Gets mission start time.
+---@param month number
+---@param day number
+---@return integer
 function NextMissionGenerator.__startTime(month, day)
     local weatherTemplates = WeatherTemplates
 
@@ -103,6 +115,10 @@ function NextMissionGenerator.__startTime(month, day)
     end
 end
 
+---Gets temperature and QNH.
+---@param month number
+---@return integer
+---@return integer
 function NextMissionGenerator.__temperatureAndQnh(month)
     local weatherTemplates = WeatherTemplates
     local weather = weatherTemplates[month]
@@ -112,6 +128,8 @@ function NextMissionGenerator.__temperatureAndQnh(month)
     return temperature, qnh
 end
 
+---Gets wind speed and direction.
+---@return table
 function NextMissionGenerator.__windSpeedAndDirection()
     local winds = {}
 
@@ -136,6 +154,10 @@ function NextMissionGenerator.__windSpeedAndDirection()
     return winds
 end
 
+---Gets new clouds and base.
+---@param month number
+---@return string
+---@return integer
 function NextMissionGenerator.__cloudsAndBase(month)
     local weatherTemplates = WeatherTemplates
     local weather = weatherTemplates[month]
@@ -147,46 +169,57 @@ function NextMissionGenerator.__cloudsAndBase(month)
     return preset, base
 end
 
-function NextMissionGenerator.__newMizFileName()
-    local day = env.mission.date.Day
+---Gets the new miz file name
+---@param mission table
+---@return string
+function NextMissionGenerator.__newMizFileName(mission)
+    local day = mission.date.Day
     return "LSA_NEXT_" .. day .. ".miz"
 end
 
-function NextMissionGenerator.__newMiz()
+---Creates the new miz file.
+---@param missionFileName string
+---@param mission table
+function NextMissionGenerator.__newMiz(missionFileName, mission)
     -- serialize the mission so it can be written to the .miz
-    local missionString = "mission=" .. Serializer.compact(env.mission)
+    local missionString = "mission=" .. Serializer.compact(mission)
 
     -- write the mission file
     WriteFile(LSA.settings.path .. "\\mission", missionString)
 
-    local newMizFileName = NextMissionGenerator.__newMizFileName()
+
     -- copy original miz to a new file
-    local cmd = string.format("cd %s & copy %s %s", LSA.settings.path, "LSA.miz", newMizFileName)
+    local cmd = string.format("cd %s & copy %s %s", LSA.settings.path, "LSA.miz", missionFileName)
     Log.debug("Executing command: %s", cmd)
     os.execute(cmd)
 
     -- update the mission inside the new miz file
-    Zip.archive(newMizFileName, "mission")
+    Zip.archive(missionFileName, "mission")
 end
 
-function NextMissionGenerator.__serverInformationFile()
-    local year = env.mission.date.Year
-    local month = env.mission.date.Month
-    local day = env.mission.date.Day
+---Writes the server information file.
+---@param missionFileName string
+---@param mission table
+function NextMissionGenerator.__serverInformationFile(missionFileName, mission)
+    local year = mission.date.Year
+    local month = mission.date.Month
+    local day = mission.date.Day
+    
     local serverInformation = {
         missionYear = year,
         missionMonth = month,
         missionDay = day,
-        missionFile = NextMissionGenerator.__newMizFileName()
+        missionFile = missionFileName
     }
 
     local serverInformationContents = "return " .. Serializer.compact(serverInformation)
     WriteFile(LSA.settings.path .. "\\server.state.lua", serverInformationContents)
 end
 
-function NextMissionGenerator.__loadMission()
-    local fileName = NextMissionGenerator.__newMizFileName()
-    local command = string.format("a_load_mission(\"%s\")", fileName)
+---Loads the new mission.
+---@param missionFileName string
+function NextMissionGenerator.__loadMission(missionFileName)
+    local command = string.format("a_load_mission(\"%s\")", missionFileName)
     Log.debug("Calling mission scripting command: " .. command)
     net.dostring_in('mission', command)
 end
