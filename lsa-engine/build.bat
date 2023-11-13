@@ -1,1 +1,1 @@
-.\7za.exe a -t7z .\LSA.7z .\sounds .\src .\LSA.miz .\zip-mission.bat .\7za.dll .\7za.exe .\7zxa.dll
+.\7za.exe a -t7z .\LSA.7z .\sounds .\src .\LSA.miz .\7za.dll .\7za.exe .\7zxa.dll
