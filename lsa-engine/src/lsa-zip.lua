@@ -5,7 +5,7 @@ Zip = {}
 ---@param archive string
 ---@param fileName string
 function Zip.extract(archive, fileName)
-    local cmd = string.format("cd %s & 7za.exe x %s %s -y", LSA.settings.path, archive, fileName)
+    local cmd = string.format("cd /d %s & 7za.exe x %s %s -y", LSA.settings.path, archive, fileName)
     Log.debug("Executing command: %s", cmd)
     os.execute(cmd)
 end
@@ -15,7 +15,7 @@ end
 ---@param archive string
 ---@param fileName string
 function Zip.archive(archive, fileName)
-    local cmd = string.format("cd %s & 7za.exe a %s %s -y", LSA.settings.path, archive, fileName)
+    local cmd = string.format("cd /d %s & 7za.exe a %s %s -y", LSA.settings.path, archive, fileName)
     Log.debug("Executing command: %s", cmd)
     os.execute(cmd)
 end

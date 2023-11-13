@@ -189,7 +189,7 @@ function NextMissionGenerator.__newMiz(missionFileName, mission)
 
 
     -- copy original miz to a new file
-    local cmd = string.format("cd %s & copy %s %s", LSA.settings.path, "LSA.miz", missionFileName)
+    local cmd = string.format("cd /d %s & copy %s %s", LSA.settings.path, "LSA.miz", missionFileName)
     Log.debug("Executing command: %s", cmd)
     os.execute(cmd)
 
