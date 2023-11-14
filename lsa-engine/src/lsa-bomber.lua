@@ -50,6 +50,7 @@ function Bomber.repair(bomber)
     if bomber == nil then return end
 
     bomber.killedOn = nil
+    bomber.usedOn = nil
 
     for _, static in ipairs(bomber.statics) do
         StaticWrp.repair(static)

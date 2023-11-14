@@ -1360,10 +1360,12 @@ function LSA.carriers(_, time)
     return time + (60 * 60) -- [TODO] move to settings
 end
 
+-- [REVIEW] bombers and tankers availability checks don't need to run as tasks
+-- they can be checked as a mission ends and update if necessary
 function LSA.bombers(_, time)
     for _, base in pairs(LSA.state.bases) do
         for _, bomber in ipairs(base.bombers) do
-            if Bomber.isDead(bomber) and Bomber.isAvailable(bomber) then
+            if Bomber.isAvailable(bomber) then
                 Bomber.repair(bomber)
             end
         end
@@ -1374,7 +1376,7 @@ end
 function LSA.tankers(_, time)
     for _, base in pairs(LSA.state.bases) do
         for _, tanker in ipairs(base.tankers) do
-            if Tanker.isDead(tanker) and Tanker.isAvailable(tanker) then
+            if Tanker.isAvailable(tanker) then
                 Tanker.repair(tanker)
             end
         end

@@ -63,7 +63,7 @@ function Tanker.isUsed(tanker)
 end
 
 function Tanker.isUnused(tanker)
-    return tanker.userOn == nil
+    return tanker.usedOn == nil
 end
 
 function Tanker.kill(tanker)
@@ -87,6 +87,7 @@ function Tanker.repair(tanker)
     if tanker == nil then return end
 
     tanker.killedOn = nil
+    tanker.usedOn = nil
 
     for _, static in ipairs(tanker.statics) do
         StaticWrp.repair(static)
