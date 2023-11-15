@@ -240,9 +240,19 @@ function Bomber.explode(bomber)
 end
 
 function Bomber.isAvailable(bomber)
-    if Bomber.__isUnused(bomber) and Bomber.__isAlive(bomber) then return true end
+    if bomber == nil then return false end
+    if bomber.usedOn == nil and bomber.killedOn == nil then return true end
 
-    local date = bomber.usedOn or bomber.killedOn
+    local date = nil
+    if bomber.usedOn ~= nil and bomber.killedOn == nil then
+        -- if the bomber was used but wasn't killed, 
+        -- calculate next availability using the usedOn date
+        date = bomber.usedOn
+    else
+        -- for any other situation use the killedOn date
+        date = bomber.killedOn
+    end
+    
     local waitPeriod = LSA.settings.waitPeriodForNewBomber
     local today = LSA.getToday()
     

@@ -151,9 +151,19 @@ function Tanker.onLostUnit(event)
 end
 
 function Tanker.isAvailable(tanker)
-    if Tanker.isUnused(tanker) and Tanker.isAlive(tanker) then return true end
+    if tanker == nil then return false end
+    if tanker.usedOn == nil and tanker.killedOn == nil then return true end
 
-    local date = tanker.usedOn or tanker.killedOn
+    local date = nil
+    if tanker.usedOn ~= nil and tanker.killedOn == nil then
+        -- if the tanker was used but wasn't killed, 
+        -- calculate next availability using the usedOn date
+        date = tanker.usedOn
+    else
+        -- for any other situation use the killedOn date
+        date = tanker.killedOn
+    end
+    
     local waitPeriod = LSA.settings.waitPeriodForNewTanker
     local today = LSA.getToday()
 
