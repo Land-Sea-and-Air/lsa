@@ -748,19 +748,21 @@ end
 
 function LSA.onBirthEvent(event)
     if event.initiator == nil then return end
+    local o = event.initiator
 
-    if event.initiator:getCategory() == Object.Category.UNIT then
+    if Object.getCategory(o) == Object.Category.UNIT then
         LSA.onUnitBirthEvent(event)
     end
 end
 
 function LSA.onUnitBirthEvent(event)
-    local initiator = event.initiator
-    local unitName = initiator:getName()
-    if event.initiator.getPlayerName == nil then return end
-    if event.initiator:getPlayerName() == nil then return end
+    local unit = event.initiator
+    local unitName = unit:getName()
 
-    local unitCategory = initiator:getDesc().category
+    if unit.getPlayerName == nil then return end
+    if unit:getPlayerName() == nil then return end
+
+    local unitCategory = unit:getDesc().category
     if unitCategory == Unit.Category.AIRPLANE or unitCategory == Unit.Category.HELICOPTER then
         local player = Player.onUnitBirth(unitName)
         LSA.addPlayerMenu(player)
@@ -768,11 +770,11 @@ function LSA.onUnitBirthEvent(event)
         FAC.onUnitBirth(event)
         local unitWrp = UnitWrp.new(
             unitName,
-            initiator:getTypeName(),
-            ToVec2(initiator:getPoint()),
+            unit:getTypeName(),
+            ToVec2(unit:getPoint()),
             0,
             nil,
-            initiator:getCoalition())
+            unit:getCoalition())
         RefUnits.new(unitName, unitWrp)
     end
 end
