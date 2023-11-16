@@ -1196,10 +1196,6 @@ function LSA.onLostStatic(event)
 end
 
 function LSA.onLostUnit(event)
-    local unit = event.initiator
-    local unitName = unit:getName()
-    Log.trace("Unit %s is dead", unitName)
-
     Player.onLostUnit(event)
     FAC.onLostUnit(event)
     Bomber.onLostUnit(event)
@@ -2691,6 +2687,10 @@ function LSA.findBasesAt(x, y, radius, height)
     return found
 end
 
+---Finds airbases (DCS).
+---@param location table
+---@param radius number
+---@return table
 function LSA.findAirbases(location, radius)
     local area = LSA.sphereVolume(location.x, location.y, radius)
     local found = {}

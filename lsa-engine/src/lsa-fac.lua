@@ -77,11 +77,11 @@ function FAC.spawn(fac)
     LSA.spawnGroup2(scheme, fac.side)
 
     -- [REVIEW] should we allow the FAC to become a default DCS FAC (by assigning it the FAC task)?
-    
+
     FAC.__updateMenus(fac)
 
-    FAC.facs[scheme.name] = fac
-    RefUnits.new(scheme.units[1].name, fac)
+    FAC.facs[fac.unitName] = fac
+    RefUnits.new(fac.unitName, fac)
 end
 
 ---Removes menu entries related to the give FAC from all players.
@@ -110,6 +110,7 @@ function FAC.onUnitBirth(event)
     local initiatorName = event.initiator:getName()
     local player = Player.operating(initiatorName)
     if player ~= nil then
+        Dump(FAC.facs)
         for _, fac in pairs(FAC.facs) do
             if player.side == fac.side then
                 FAC.__addMenus(player, fac)
@@ -121,17 +122,80 @@ end
 function FAC.__addMenus(player, fac)
     local menuPath = { "Forward Air Controller" }
     local rootMenu = missionCommands.addSubMenuForGroup(player.groupId, fac.callsign.name, menuPath)
-    missionCommands.addCommandForGroup(
-        player.groupId, "Status", rootMenu, FAC.onStatusMenu, { fac = fac, player = player }
-    )
-    missionCommands.addCommandForGroup(
-        player.groupId, "Lase Target", rootMenu, FAC.onLaseMenu, { fac = fac, player = player }
-    )
-    missionCommands.addCommandForGroup(
-        player.groupId, "Stand Down", rootMenu, FAC.onStandDownMenu, { fac = fac, player = player }
-    )
-    missionCommands.addCommandForGroup(
-        player.groupId, "Smoke Target", rootMenu, FAC.onSmokeMenu, { fac = fac, player = player }
+    local function menu(caption, fn)
+        missionCommands.addCommandForGroup(
+            player.groupId, caption, rootMenu, fn, { fac = fac, player = player }
+        )
+    end
+
+    menu("Status", FAC.onStatusMenu)
+    menu("Battle Damage Assessment", FAC.onBdaMenu)
+    menu("Lase Target", FAC.onLaseMenu)
+    menu("Smoke Target", FAC.onSmokeMenu)
+    menu("Stand Down", FAC.onStandDownMenu)
+
+    -- missionCommands.addCommandForGroup(
+    --     player.groupId, "Status", rootMenu, FAC.onStatusMenu, { fac = fac, player = player }
+    -- )
+    -- missionCommands.addCommandForGroup(
+    --     player.groupId, "Lase Target", rootMenu, FAC.onLaseMenu, { fac = fac, player = player }
+    -- )
+    -- missionCommands.addCommandForGroup(
+    --     player.groupId, "Stand Down", rootMenu, FAC.onStandDownMenu, { fac = fac, player = player }
+    -- )
+    -- missionCommands.addCommandForGroup(
+    --     player.groupId, "Smoke Target", rootMenu, FAC.onSmokeMenu, { fac = fac, player = player }
+    -- )
+end
+
+---Returns the current location of the FAC.
+---@param fac table
+---@return table|nil
+function FAC.__currentLocation(fac)
+    if fac == nil then return nil end
+    local unit = LSA.getUnit(fac.unitName)
+    if unit == nil then return nil end
+
+    return ToVec2(unit:getPoint())
+end
+
+function FAC.onBdaMenu(args)
+    local player = args.player
+    local fac = args.fac
+    local searchRadius = 10000 -- [TODO] move to settings
+
+    -- get the current location of the FAC
+    local currentLocation = FAC.__currentLocation(fac)
+    if currentLocation == nil then return end
+
+    -- find nearest enemy base
+    local nearestEnemyBase = nil
+    local nearestDistance = nil
+    local found = LSA.findAirbases(currentLocation, searchRadius)
+    for _, obj in ipairs(found) do
+        local base = LSA.findBase(obj:getName())
+        if base ~= nil and base.side ~= player.side then
+            local distance = Distance(currentLocation, base.location)
+            local hasLOS = LSA.hasLOS(currentLocation, base.location)
+            if (nearestDistance == nil or distance < nearestDistance) and hasLOS then
+                nearestDistance = distance
+                nearestEnemyBase = base
+            end
+        end
+    end
+
+    -- if no enemy base nearby is found, send message
+    if nearestEnemyBase == nil then
+        LSA.messagePlayer(player,
+            string.format("Unable, no enemy bases nearby (%s meters).", searchRadius)
+        )
+        return
+    end
+
+    -- send message about enemy base strength
+    local strength = Round(Base.strength(nearestEnemyBase))
+    LSA.messagePlayer(player,
+        string.format("Estimate base at %s%% strength.", strength)
     )
 end
 
@@ -421,9 +485,9 @@ function FAC.updateLocations()
     for _, fac in pairs(FAC.facs) do
         local unit = LSA.getUnit(fac.unitName)
         if unit ~= nil then
-            local unitPoint = unit:getPoint()
-            local location = ToVec2(unitPoint)
-            local heading = LSA.heading(unitPoint)
+            local position = unit:getPosition()
+            local location = ToVec2(position.p)
+            local heading = LSA.heading(position)
             fac.location = location
             fac.heading = heading
         end

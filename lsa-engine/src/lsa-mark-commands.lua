@@ -101,6 +101,7 @@ function MarkCommands.__commands()
         [SpawnDevCommand.name] = SpawnDevCommand.handler,
         [BaseStrengthDevCommand.name] = BaseStrengthDevCommand.handler,
         [BaseCaptureDevCommand.name] = BaseCaptureDevCommand.handler,
-        [BaseRepairsDevCommand.name] = BaseRepairsDevCommand.handler
+        [BaseRepairsDevCommand.name] = BaseRepairsDevCommand.handler,
+        [SpawnFacDevCommand.name] = SpawnFacDevCommand.handler
     }
 end
