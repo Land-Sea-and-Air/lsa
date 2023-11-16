@@ -110,7 +110,6 @@ function FAC.onUnitBirth(event)
     local initiatorName = event.initiator:getName()
     local player = Player.operating(initiatorName)
     if player ~= nil then
-        Dump(FAC.facs)
         for _, fac in pairs(FAC.facs) do
             if player.side == fac.side then
                 FAC.__addMenus(player, fac)
@@ -133,19 +132,6 @@ function FAC.__addMenus(player, fac)
     menu("Lase Target", FAC.onLaseMenu)
     menu("Smoke Target", FAC.onSmokeMenu)
     menu("Stand Down", FAC.onStandDownMenu)
-
-    -- missionCommands.addCommandForGroup(
-    --     player.groupId, "Status", rootMenu, FAC.onStatusMenu, { fac = fac, player = player }
-    -- )
-    -- missionCommands.addCommandForGroup(
-    --     player.groupId, "Lase Target", rootMenu, FAC.onLaseMenu, { fac = fac, player = player }
-    -- )
-    -- missionCommands.addCommandForGroup(
-    --     player.groupId, "Stand Down", rootMenu, FAC.onStandDownMenu, { fac = fac, player = player }
-    -- )
-    -- missionCommands.addCommandForGroup(
-    --     player.groupId, "Smoke Target", rootMenu, FAC.onSmokeMenu, { fac = fac, player = player }
-    -- )
 end
 
 ---Returns the current location of the FAC.
