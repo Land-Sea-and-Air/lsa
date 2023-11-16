@@ -80,6 +80,21 @@ function FAC.spawn(fac)
 
     FAC.__updateMenus(fac)
 
+    -- randomize the frequency based on the side of the FAC
+    if fac.side == coalition.side.RED then
+        local freq = math.random(121, 149) * 1000000
+        local modulation = "AM"
+        fac.freq = freq
+        fac.modulation = modulation
+    else
+        local freq = math.random(221, 249) * 1000000
+        local modulation = "AM"
+        fac.freq = freq
+        fac.modulation = modulation
+    end
+    
+    Dump(fac)
+
     FAC.facs[fac.unitName] = fac
     RefUnits.new(fac.unitName, fac)
 end
@@ -451,13 +466,39 @@ function FAC.onStatusMenu(args)
     local player = args.player
 
     local lat, lon, _ = coord.LOtoLL(unit:getPoint())
-    local mgrs = coord.LLtoMGRS(lat, lon)
+    local grid = coord.LLtoMGRS(lat, lon)
 
-    local grid = string.format("%s %s %s %s", mgrs.UTMZone, mgrs.MGRSDigraph, mgrs.Easting, mgrs.Northing)
-    local m = string.format("%s at grid %s", unit:getCallsign(), grid)
+    local callsign = unit:getCallsign()
+    local gridText = string.format("%s %s %s %s", grid.UTMZone, grid.MGRSDigraph, grid.Easting, grid.Northing)
+    local m = string.format("%s at grid %s", callsign, gridText)
     LSA.messagePlayer(player, m, 10, false)
+    if fac.freq ~= nil and fac.modulation ~= nil then
+        local speech = string.format("%s at grid %s", callsign, LSA.spell(gridText))
+        STTS.TextToSpeech(
+            speech,
+            LSA.hzToMhz(fac.freq),
+            fac.modulation,
+            "1.0",
+            fac.name,
+            player.side
+        )
+    end
+    
     if fac.status == "ready" then
-        LSA.messagePlayer(player, FAC.__getNearbyTargetsMessage(fac), 10, false)
+        local message = FAC.__getNearbyTargetsMessage(fac)
+        LSA.messagePlayer(player, message, 10, false)
+
+        -- message = string.gsub(message, "\n", " , ")
+
+        -- if fac.freq ~= nil and fac.modulation ~= nil then
+        --     STTS.TextToSpeech(
+        --         message,
+        --         LSA.hzToMhz(fac.freq),
+        --         fac.modulation,
+        --         "1.0",
+        --         fac.name,
+        --         player.side)
+        -- end
     else
         LSA.messagePlayer(player, FAC.__getLasingMessage(fac), 10, false)
     end

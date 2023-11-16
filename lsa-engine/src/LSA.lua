@@ -3962,6 +3962,20 @@ function LSA.getOrbitPoint(initialPoint, speed, altitude, duration, track)
     }
 end
 
+function LSA.spell(text)
+    local m = {}
+    for token in string.gmatch(text, "%S") do
+        local phoneme = PhoneticAlphabet[string.lower(token)]
+        if phoneme == nil then
+            table.insert(m, token)
+        else
+            table.insert(m, phoneme)
+        end
+    end
+
+    return table.concat(m, " ")
+end
+
 LSA.misc.events = LSA.invertTable(world.event)
 
 LSA.misc.BeaconTypes = {
