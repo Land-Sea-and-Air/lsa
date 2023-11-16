@@ -38,6 +38,14 @@
 - Request FAC for illumination bombs at a target location (spawn an aircraft to go drop it)
 - Allow player to ask for an altitude and speed to the tanker (this will need to be between a certain threshold speed: 300 - 315; alt: 21 - 25)
 - Announce tanker/bomber on mission start in SRS
+- Announce FAC targets in SRS
+- Create a drone FAC (allow F10 marks and BDA of bases)
+- Add recon airplane dispatching (much like bombers), should provide same features as drone
+  - UK Tornado (special recce variant with internal cameras)
+  - German Tornado (Recce pod)
+  - Tomcat (TARPS pod)
+  - Viggen (special recce variant with internal cameras)
+  - MiG-25 (special recce variant with internal cameras)
 - Create "Compile mission" option
   - Sets FC3 bulls
   - Sets briefing information
