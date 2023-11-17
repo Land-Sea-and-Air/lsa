@@ -3,7 +3,7 @@ id: lsa-lives-system
 title: Lives System
 description: Information about the lives system in LSA.
 slug: /lsa-lives-system
-sidebar_position: 3
+sidebar_position: 5
 ---
 
 # Lives System

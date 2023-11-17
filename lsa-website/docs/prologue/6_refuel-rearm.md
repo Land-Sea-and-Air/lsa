@@ -3,7 +3,7 @@ id: lsa-refuel-rearm
 title: Refuel and Rearm
 description: Information about the refueling and re-arming.
 slug: /lsa-refuel-rearm
-sidebar_position: 5
+sidebar_position: 6
 ---
 
 # Refuel and Rearm
@@ -34,6 +34,6 @@ However, if you are landing a helicopter and you wish to have your life returned
 
 :::tip
 
-See [Lives System](./lives-system.md) for more information.
+See [Lives System](./5_lives-system.md) for more information.
 
 :::
