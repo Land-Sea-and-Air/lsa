@@ -764,10 +764,13 @@ function LSA.onUnitBirthEvent(event)
 
     local unitCategory = unit:getDesc().category
     if unitCategory == Unit.Category.AIRPLANE or unitCategory == Unit.Category.HELICOPTER then
-        local player = Player.onUnitBirth(unitName)
-        LSA.addPlayerMenu(player)
+        Player.onUnitBirth(unitName)
+
         GCI.onUnitBirth(event)
         FAC.onUnitBirth(event)
+
+        Personnel.onUnitBirth(event)
+
         local unitWrp = UnitWrp.new(
             unitName,
             unit:getTypeName(),
@@ -3522,8 +3525,9 @@ function Player.onUnitBirth(unitName)
         ucid = playerUcid
     }
 
+    LSA.addPlayerMenu(Player.units[unitName]) -- [TODO] move to player object
+
     Log.debug("Unit %s has been entered by %s", unitName, playerName)
-    return Player.units[unitName]
 end
 
 ---Returns the settings of the player associated with the given ucid.

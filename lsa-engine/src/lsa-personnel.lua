@@ -182,7 +182,6 @@ function Personnel.load(name, player)
     group:destroy()
 
     -- inform player
-    local unitWrp = RefUnits.get(player.unitName)
     local total = UnitWrp.getWeight(unitWrp)
     local message = string.format("Personnel loaded (%s KG)", personnel.mass)
     LSA.messagePlayer(player, message)
@@ -207,7 +206,6 @@ function Personnel.unload(player)
     local unitWrp = RefUnits.get(player.unitName)
     UnitWrp.removeWeight(unitWrp, personnel.mass)
 
-    local unitWrp = RefUnits.get(player.unitName)
     local total = UnitWrp.getWeight(unitWrp)
     local message = string.format("Cargo unloaded (%s KG)", personnel.mass)
     LSA.messagePlayer(player, message)
@@ -267,6 +265,25 @@ function Personnel.updateLocations()
                 personnelUnit.location = location
                 personnelUnit.heading = heading
             end
+        end
+    end
+end
+
+function Personnel.onUnitBirth(event)
+    local unit = event.initiator
+
+    -- clear any personnel transported by the unit when a new players slots in
+
+    if unit.getPlayerName == nil then return end
+    if unit:getPlayerName() == nil then return end
+
+    local category = Unit.getCategory(unit)
+    if category == Unit.Category.AIRPLANE or category == Unit.Category.HELICOPTER then
+        local unitName = unit:getName()
+        local index = Personnel.__findByTransportName(unitName)
+        if index ~= nil then
+            Personnel.personnel[index] = nil
+            Log.debug("Cleared previously transported personnel in %s", unitName)
         end
     end
 end
