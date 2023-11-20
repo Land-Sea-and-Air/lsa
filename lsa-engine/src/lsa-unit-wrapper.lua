@@ -23,6 +23,19 @@ function UnitWrp.new(name, type, location, heading, baseName, side)
     return unit
 end
 
+---Creates a new instance of UnitWrp from a DCS unit.
+---@param unit unknown
+function UnitWrp.from(unit)
+    local unitWrp = UnitWrp.new(
+        unit:getName(),
+        unit:getTypeName(),
+        ToVec2(unit:getPoint()),
+        LSA.heading(unit:getPosition()),
+        nil,
+        unit:getCoalition())
+    return unitWrp
+end
+
 function UnitWrp.isDead(unitWrp)
     return unitWrp.killedOn ~= nil
 end

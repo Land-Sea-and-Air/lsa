@@ -472,6 +472,7 @@ function FAC.onStatusMenu(args)
     local gridText = string.format("%s %s %s %s", grid.UTMZone, grid.MGRSDigraph, grid.Easting, grid.Northing)
     local m = string.format("%s at grid %s", callsign, gridText)
     LSA.messagePlayer(player, m, 10, false)
+    
     if fac.freq ~= nil and fac.modulation ~= nil then
         local speech = string.format("%s at grid %s", callsign, LSA.spell(gridText))
         STTS.TextToSpeech(

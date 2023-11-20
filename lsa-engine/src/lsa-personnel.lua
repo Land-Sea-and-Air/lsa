@@ -137,7 +137,7 @@ end
 ---Returns index of the personnel on the given transport name.
 ---@param transportName string
 ---@return integer|nil
-function Personnel.__findByTransportName(transportName)
+function Personnel.__transportedBy(transportName)
     for index, personnel in pairs(Personnel.personnel) do
         if personnel.transportName == transportName then
             return index
@@ -161,7 +161,7 @@ end
 ---@param transportName string
 ---@return table|nil
 function Personnel.byTransport(transportName)
-    local index = Personnel.__findByTransportName(transportName)
+    local index = Personnel.__transportedBy(transportName)
     return Personnel.personnel[index]
 end
 
@@ -269,21 +269,9 @@ function Personnel.updateLocations()
     end
 end
 
-function Personnel.onUnitBirth(event)
-    local unit = event.initiator
-
-    -- clear any personnel transported by the unit when a new players slots in
-
-    if unit.getPlayerName == nil then return end
-    if unit:getPlayerName() == nil then return end
-
-    local category = Unit.getCategory(unit)
-    if category == Unit.Category.AIRPLANE or category == Unit.Category.HELICOPTER then
-        local unitName = unit:getName()
-        local index = Personnel.__findByTransportName(unitName)
-        if index ~= nil then
-            Personnel.personnel[index] = nil
-            Log.debug("Cleared previously transported personnel in %s", unitName)
-        end
+function Personnel.clear(unitName)
+    local index = Personnel.__transportedBy(unitName)
+    if index ~= nil then
+        Personnel.personnel[index] = nil
     end
 end

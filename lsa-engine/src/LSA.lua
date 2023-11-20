@@ -769,15 +769,9 @@ function LSA.onUnitBirthEvent(event)
         GCI.onUnitBirth(event)
         FAC.onUnitBirth(event)
 
-        Personnel.onUnitBirth(event)
+        Transport.onUnitBirth(event)
 
-        local unitWrp = UnitWrp.new(
-            unitName,
-            unit:getTypeName(),
-            ToVec2(unit:getPoint()),
-            0,
-            nil,
-            unit:getCoalition())
+        local unitWrp = UnitWrp.from(unit)
         RefUnits.new(unitName, unitWrp)
     end
 end
@@ -879,19 +873,26 @@ end
 function LSA.onPlayerLeaveAircraft(unitName)
     local unit = Unit.getByName(unitName)
     if unit ~= nil and unit:inAir() and unit:getLife() > 0 and Player.isPlayer(unitName) then
-        Log.debug("You left your plane while in the air")
+        local player = Player.operating(unitName)
+        if player ~= nil then
+            Log.debug("%s left your plane while in the air", player.playerName)
+        end
     end
 end
 
 function LSA.onPlayerLeaveHelicopter(unitName)
     local unit = Unit.getByName(unitName)
     if unit ~= nil and unit:inAir() and unit:getLife() > 0 and Player.isPlayer(unitName) then
-        Log.debug("You left your helo while in the air")
+        local player = Player.operating(unitName)
+        if player ~= nil then
+            Log.debug("%s left your plane while in the air", player.playerName)
+        end
     end
+
     local unitType = unit:getTypeName()
     if Transport.isTransport(unitType) then
         Log.debug("Clearing transport %s", unitName)
-        Transport.leave(unitName)
+        Transport.clear(unitName)
     end
 end
 
@@ -899,7 +900,7 @@ function LSA.onPlayerLeaveGroundUnit(initiator)
     local unitName = initiator:getName()
     local unitType = initiator:getTypeName()
     if Transport.isTransport(unitType) then
-        Transport.leave(unitName)
+        Transport.clear(unitName)
     end
 end
 
@@ -2289,7 +2290,7 @@ function LSA.saveState()
     local path = LSA.settings.path .. "\\" .. snapshot.theatre .. ".state.json"
     WriteFile(path, contents)
 
-    Log.debug("Save file written at %s", snapshot.createdOn)
+    Log.debug("Saved at %s", snapshot.createdOn)
 end
 
 function LSA.destroyTraitorUnit(args)
@@ -3681,9 +3682,22 @@ function Transport.isTransport(unitType)
     return Transport.types[unitType] ~= nil
 end
 
----Clears supplies, repairs and CSAR associated with the transport.
----@param unitName any
-function Transport.leave(unitName)
+---Process the unit birth event for transports.
+---@param event any
+function Transport.onUnitBirth(event)
+    local unit = event.initiator
+    local unitName = unit:getName()
+
+    if unit.getPlayerName == nil then return end
+    if unit:getPlayerName() == nil then return end
+
+    Transport.clear(unitName)
+end
+
+---Clear all associated transported items
+---@param unitName string
+function Transport.clear(unitName)
+    Personnel.clear(unitName)
     Supplies.clear(unitName)
     Repairs.clear(unitName)
     EjectedPilot.clear(unitName)
