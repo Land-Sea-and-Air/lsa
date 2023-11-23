@@ -63,13 +63,13 @@ function Base.isUnderAttack(base)
         return false
     end
 
-    local currentTime = timer.getTime()
-    local interlude = math.floor(currentTime - base.lastAttackAt)
-    return interlude <= LSA.settings.baseAttackCooldownDelay
+    local currentTime = LSA.getNow()
+    local interval = math.floor(currentTime - base.lastAttackAt)
+    return interval <= LSA.settings.baseAttackCooldownDelay
 end
 
-function Base.attacked(base, time)
-    base.lastAttackAt = time
+function Base.attacked(base)
+    base.lastAttackAt = LSA.getNow()
 end
 
 ---Returns the strength of the base in percentage.
@@ -371,7 +371,7 @@ function Base.onLostStatic(event)
     local s = RefStatics.get(staticName)
     if s ~= nil and s.baseName ~= nil then
         local base = Base.find(s.baseName)
-        Base.attacked(base, event.time)
+        Base.attacked(base)
     end
 end
 
@@ -380,6 +380,6 @@ function Base.onLostUnit(event)
     local unit = RefUnits.get(unitName)
     if unit ~= nil and unit.baseName ~= nil then
         local base = Base.find(unit.baseName)
-        Base.attacked(base, event.time)
+        Base.attacked(base)
     end
 end

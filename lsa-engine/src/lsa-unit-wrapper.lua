@@ -89,7 +89,7 @@ function UnitWrp.onHit(event)
     if unit ~= nil and unit.baseName ~= nil then
         local base = Base.find(unit.baseName)
         if base ~= nil then
-            Base.attacked(base, event.time)
+            Base.attacked(base)
         end
     end
 end

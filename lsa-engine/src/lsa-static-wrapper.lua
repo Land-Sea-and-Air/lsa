@@ -87,7 +87,7 @@ function StaticWrp.onHit(event)
 
     local base = Base.find(static.baseName)
     if base ~= nil then
-        Base.attacked(base, event.time)
+        Base.attacked(base)
     end
 end
 
