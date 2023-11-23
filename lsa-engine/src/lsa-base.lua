@@ -11,7 +11,7 @@ function Base.new(airbase)
     local airbaseLocation = ToVec2(airbase:getPoint())
 
     local apronPolygons = LSA.getApronPolygons(airbaseName)
-    
+
     local base = {
         id = airbaseId,     -- dcs id
         name = airbaseName, -- dcs name
@@ -51,7 +51,7 @@ end
 
 function Base.hasRepairs(base)
     for _, static in ipairs(base.repairs) do
-        if StaticWrp.isRepairs(static) and StaticWrp.isAlive(static)  then
+        if StaticWrp.isRepairs(static) and StaticWrp.isAlive(static) then
             return true
         end
     end
@@ -316,7 +316,7 @@ end
 function Base.__toogleBaseCoalition(base)
     local newSide = LSA.theOtherSide(base.side)
     local airbase = Airbase.getByName(base.name)
-    
+
     base.side = newSide
     airbase:setCoalition(base.side)
 end
@@ -356,10 +356,23 @@ function Base.find(baseName)
 end
 
 function Base.isApronArea(base, position)
-    -- check if the player is at one of them
-    for _, apronPolygon in ipairs(base.apron.polygons) do
-        if InPolygon(position.x, position.y, apronPolygon) then
-            return true
+    if base.type == Airbase.Category.SHIP then
+        -- the entire ship surface is an apron
+        return true
+    end
+
+    if base.type == Airbase.Category.HELIPAD then
+        -- a helipad is roughly 120 meters radius so if you are inside it
+        -- we consider it as at the apron
+        return Distance(position, base.location) < 125 -- [TODO] move to settings and review
+    end
+
+    if base.type == Airbase.Category.AIRDROME then
+        -- at an airfield, check if the player is at one of the aprons
+        for _, apronPolygon in ipairs(base.apron.polygons) do
+            if InPolygon(position.x, position.y, apronPolygon) then
+                return true
+            end
         end
     end
 

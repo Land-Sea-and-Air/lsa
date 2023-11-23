@@ -387,6 +387,28 @@ function LSA.findBasePlayerLandedOn(player)
     return bases[1]:getName()
 end
 
+---Returns the nearest friendly base to the player.
+---@param player any
+---@return unknown nearestBase
+---@return number nearestBaseDistance
+function LSA.findNearestBase(player)
+    local playerPosition = Player.position(player)
+    local found = coalition.getAirbases(player.side)
+    local nearestBaseDistance = nil
+    local nearestBase = nil
+    for _, base in pairs(found) do
+        local baseLocation = ToVec2(base:getPoint())
+        local distance = Distance(playerPosition, baseLocation)
+        if nearestBaseDistance == nil or distance < nearestBaseDistance then
+            nearestBaseDistance = distance
+            nearestBase = Airbase.getByName(base:getName())
+        end
+    end
+
+    -- nearest base will never be nil, but the editor requires the coalesce
+    return nearestBase, nearestBaseDistance or 0
+end
+
 function LSA.onReturnCargoMenu(args)
     local player = args.player
     local playerPosition = Player.position(player)
@@ -698,28 +720,40 @@ function LSA.onEngineShutdownEvent(event)
 
         player.engines = false
 
-        local place = event.place
-        if place == nil then return end
+        local airbase, baseDistance = LSA.findNearestBase(player)
+        local baseType = airbase:getDesc().category
+        local baseName = airbase:getName()
+        
+        if baseType == Airbase.Category.AIRDROME and baseDistance > 5000 then -- [TODO] move to settings and review
+            Log.debug("Found airfield %s at %s meters", baseName, baseDistance)
+            return
+        end
 
-        local baseSide = place:getCoalition()
-        if player.side ~= baseSide then return end
+        if baseType == Airbase.Category.HELIPAD and baseDistance > 125 then -- [TODO] move to settings and review
+            Log.debug("Found helipad %s at %s meters", baseName, baseDistance)
+            return
+        end
 
-        local isAtApron = false
-        if place:getDesc().category == Airbase.Category.SHIP then
-            isAtApron = true
-        else
+        if baseType == Airbase.Category.SHIP and baseDistance > 180 then -- [TODO] move to settings and review
+            Log.debug("Found ship %s at %s meters", baseName, baseDistance)
+            return
+        end
+
+        Log.debug("Found %s at %s meters", baseName, baseDistance)
+
+
+        if baseType == Airbase.Category.AIRDROME then
             local position = ToVec2(unit:getPoint())
-            local base = Base.find(place:getName())
-            isAtApron = Base.isApronArea(base, position)
+            local base = LSA.findBase(baseName)
+            local isAtApron = Base.isApronArea(base, position)
+            if not isAtApron then return end
         end
 
-        if isAtApron then
-            Player.winLife(player.ucid)
-            LSA.messagePlayer(player,
-                string.format("Welcome back %s. You now have %s lives.", player.playerName,
-                    Player.lives(player))
-            )
-        end
+        Player.winLife(player.ucid)
+        LSA.messagePlayer(player,
+            string.format("Welcome back %s. You now have %s lives.", player.playerName,
+                Player.lives(player))
+        )
     end
 end
 
@@ -733,11 +767,6 @@ function LSA.onEngineStartupEvent(event)
         if player == nil then return end
 
         player.engines = true
-
-        if event.place == nil then return end
-
-        local baseSide = event.place:getCoalition()
-        if player.side ~= baseSide then return end
 
         Player.loseLife(player.ucid)
         LSA.messagePlayer(player,
@@ -2681,7 +2710,7 @@ function LSA.findBasesAt(x, y, radius, height)
     local area = LSA.sphereVolume(x, y, radius, height)
     local found = {}
     local collect = function(obj, _)
-        table.insert(found, Airbase.getByName(obj:getName()))
+        table.insert(found, obj)
     end
 
     local categories = {
