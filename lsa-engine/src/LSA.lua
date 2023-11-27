@@ -28,6 +28,7 @@ LSA.settings.shipSpeedMetersPerSecond = 6                  -- meters per second
 LSA.settings.waitPeriodForNewCarrier = 10 * (24 * 60 * 60) -- ten days in seconds
 LSA.settings.waitPeriodForNewBomber = 10 * (24 * 60 * 60)  -- ten days in seconds
 LSA.settings.waitPeriodForNewTanker = 10 * (24 * 60 * 60)  -- ten days in seconds
+LSA.settings.waitPeriodForNewAwacs = 10 * (24 * 60 * 60)  -- ten days in seconds
 LSA.settings.saveMissionInterval = 5 * 60
 --#endregion
 
@@ -1375,6 +1376,7 @@ function LSA.initializeTasks()
     TS.task("carriers", LSA.carriers, {})
     TS.task("bombers", LSA.bombers, {})
     TS.task("tankers", LSA.tankers, {})
+    TS.task("awacs", LSA.awacs, {})
     TS.task("remove debris", LSA.removeDebris, {}, (60 * 60)) -- [TODO] move to settings
     TS.task("save mission", LSA.saveMissionTask, {}, LSA.settings.saveMissionInterval)
     TS.task("next session", LSA.nextMission, {}, LSA.settings.sessionLengthSeconds)
@@ -1414,6 +1416,18 @@ function LSA.tankers(_, time)
     end
     return time + (60 * 60) -- [TODO] move to settings
 end
+
+function LSA.awacs(_, time)
+    for _, base in pairs(LSA.state.bases) do
+        for _, awacs in ipairs(base.awacs) do
+            if Awacs.isAvailable(awacs) then
+                Awacs.repair(awacs)
+            end
+        end
+    end
+    return time + (60 * 60) -- [TODO] move to settings
+end
+
 
 function LSA.saveMissionTask(_, time)
     LSA.saveState()

@@ -23,7 +23,7 @@ function Bomber.new(name, type, baseName, location, statics)
         location = location,
         statics = statics,
         killedOn = nil,
-        status = "ready"
+        usedOn = nil,
     }
 
     return bomber
@@ -35,7 +35,7 @@ end
 
 function Bomber.spawn(bomber)
     if Bomber.isDead(bomber) then return end
-    if Bomber.__isUsed(bomber) then return end
+    if Bomber.isUsed(bomber) then return end
 
     for _, static in ipairs(bomber.statics) do
         local scheme = StaticWrp.__scheme(static)
@@ -92,7 +92,6 @@ function Bomber.onLandEvent(unitName)
                 unit:destroy()
             end
         end, {}, 10 * 60) -- [TODO] move to settings and fine tune
-        bomber.status = "landed"
     end
 end
 
@@ -149,7 +148,7 @@ function Bomber.__isUnused(bomber)
     return bomber.usedOn == nil
 end
 
-function Bomber.__isUsed(bomber)
+function Bomber.isUsed(bomber)
     return bomber.usedOn ~= nil
 end
 
@@ -186,7 +185,8 @@ function Bomber.dispatch(side, from, to)
         Log.debug("Base %s has no bombers", origin.name)
         return false, string.format("Unable, base %s has no bombers.", origin.name)
     end
-    if bomber.status ~= "ready" then
+    
+    if not Bomber.isUsed(bomber) ~= "ready" then
         Log.debug("There is no bomber available at %s", origin.name)
         return false, string.format("Unable, there is no bomber available at %s.", origin.name)
     end
@@ -223,7 +223,6 @@ function Bomber.dispatch(side, from, to)
             return nil
         end)
 
-        bomber.status = "airborne"
     end)
 
     return true,
@@ -233,7 +232,6 @@ function Bomber.dispatch(side, from, to)
 end
 
 function Bomber.explode(bomber)
-    if bomber.status ~= "ready" then return end
     for _, static in ipairs(bomber.statics) do
         LSA.explodeStatic(static.name)
     end
@@ -269,7 +267,7 @@ function Bomber.isAvailable(bomber)
     -- effectively moving the current date to next year
     -- then subtract the used date to the new current date
     -- and compare with the wait period
-    local yearLengthInSeconds = LSA.getYearLengthInSeconds(env.mission.date.year)
+    local yearLengthInSeconds = LSA.getYearLengthInSeconds(env.mission.date.Year)
     return (today + yearLengthInSeconds) - date > waitPeriod
 end
 

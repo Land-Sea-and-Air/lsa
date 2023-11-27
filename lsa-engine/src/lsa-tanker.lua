@@ -178,7 +178,7 @@ function Tanker.isAvailable(tanker)
     -- effectively moving the current date to next year
     -- then subtract the used date to the new current date
     -- and compare with the wait period
-    local yearLengthInSeconds = LSA.getYearLengthInSeconds(env.mission.date.year)
+    local yearLengthInSeconds = LSA.getYearLengthInSeconds(env.mission.date.Year)
     return (today + yearLengthInSeconds) - date > waitPeriod
 end
 

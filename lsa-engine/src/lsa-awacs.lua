@@ -39,7 +39,7 @@ function Awacs.new(name, type, side, freq, modulation, baseName, statics, locati
         },
         side = side,
         killedOn = nil,
-        status = "ready"
+        usedOn = nil,
     }
 
     return awacs
@@ -55,6 +55,7 @@ end
 
 function Awacs.spawn(awacs)
     if Awacs.isDead(awacs) then return end
+    if Awacs.isUsed(awacs) then return end
 
     for _, static in ipairs(awacs.statics) do
         local scheme = StaticWrp.__scheme(static)
@@ -76,7 +77,6 @@ function Awacs.onLandEvent(unitName)
                 unit:destroy()
             end
         end, {}, 10 * 60) -- [TODO] move to settings and fine tune
-        awacs.status = "landed"
     end
 end
 
@@ -123,12 +123,22 @@ function Awacs.isUnused(awacs)
 end
 
 function Awacs.isAvailable(awacs)
-    if Awacs.isUnused(awacs) and Awacs.isAlive(awacs) then return true end
+    if awacs == nil then return false end
+    if awacs.usedOn == nil and awacs.killedOn == nil then return true end
 
-    local date = awacs.usedOn or awacs.killedOn
-    local waitPeriod = LSA.settings.waitPeriodForNewTanker
+    local date = nil
+    if awacs.usedOn ~= nil and awacs.killedOn == nil then
+        -- if the awacs was used but wasn't killed, 
+        -- calculate next availability using the usedOn date
+        date = awacs.usedOn
+    else
+        -- for any other situation use the killedOn date
+        date = awacs.killedOn
+    end
+    
+    local waitPeriod = LSA.settings.waitPeriodForNewAwacs
     local today = LSA.getToday()
-
+    
     -- if the current date is greater than the used date
     -- the we can just subtract the current with the used date
     -- and compare with the wait period
@@ -142,8 +152,19 @@ function Awacs.isAvailable(awacs)
     -- effectively moving the current date to next year
     -- then subtract the used date to the new current date
     -- and compare with the wait period
-    local yearLenghtInSeconds = LSA.getYearLengthInSeconds(env.mission.date.year)
-    return (today + yearLenghtInSeconds) - date > waitPeriod
+    local yearLengthInSeconds = LSA.getYearLengthInSeconds(env.mission.date.Year)
+    return (today + yearLengthInSeconds) - date > waitPeriod
+end
+
+function Awacs.repair(awacs)
+    if awacs == nil then return end
+
+    awacs.killedOn = nil
+    awacs.usedOn = nil
+
+    for _, static in ipairs(awacs.statics) do
+        StaticWrp.repair(static)
+    end
 end
 
 function Awacs.__removeByName(name)
@@ -191,7 +212,6 @@ function Awacs.__find(predicate)
 end
 
 function Awacs.explode(awacs)
-    if awacs.status ~= "ready" then return end
     for _, static in ipairs(awacs.statics) do
         LSA.explodeStatic(static.name)
     end
@@ -224,7 +244,8 @@ function Awacs.dispatch(side, fromName, destination, track)
         Log.debug("Base %s has no awacs", origin.name)
         return false, string.format("Unable, base %s has no awacs.", origin.name)
     end
-    if awacs.status ~= "ready" then
+    
+    if Awacs.isUsed(awacs) then
         Log.debug("There is no awacs available at %s", origin.name)
         return false, string.format("Unable, there is no awacs available at %s.", origin.name)
     end
@@ -236,6 +257,8 @@ function Awacs.dispatch(side, fromName, destination, track)
 
     -- despawn the statics that represent the awacs
     Awacs.__despawnStatics(awacs)
+    -- mark the awacs as used
+    Awacs.__setUsed(awacs)
 
     -- spawn the awacs
     local scheme = Awacs.__scheme(awacs)
@@ -245,10 +268,13 @@ function Awacs.dispatch(side, fromName, destination, track)
     TS.task("spawn awacs", function()
         local group = LSA.spawnAircraft(scheme, side)
         assert(group ~= nil)
-
-        awacs.status = "airborne"
     end)
     return true, string.format("Roger, %s on the way.", awacs.callsign.name)
+end
+
+function Awacs.__setUsed(awacs)
+    if awacs == nil then return end
+    awacs.usedOn = LSA.getNow()
 end
 
 ---Returns the awacs by the callsign.
