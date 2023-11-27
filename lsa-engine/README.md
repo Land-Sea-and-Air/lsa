@@ -25,6 +25,7 @@
 - Create polygon with trigger zones to create an ocean area where carriers can move (movement outside is denied) (done)
 - Create mechanics for bombers, tankers and awacs (done)
 - Create system to auto recover and load last mission in case of server crash (done)
+- CSAR (done)
 
 # Roadmap
 - Rolling window play time
@@ -32,13 +33,13 @@
 - Use IADS with SAMs (deployed)
 - Bases with lighter defenses designed for low level, high-drag bombing (cold war style)
 - Add beacons with morse code to the FARPs (and non-airfield bases)
-- CSAR (done)
 - Move bulls by a command
 - Make units move if smoke is nearby
 - Request FAC for illumination bombs at a target location (spawn an aircraft to go drop it)
 - Allow player to ask for an altitude and speed to the tanker (this will need to be between a certain threshold speed: 300 - 315; alt: 21 - 25)
 - Announce tanker/bomber on mission start in SRS
 - Announce FAC targets in SRS
+- Feature (optional) to force players to return to base of origin (affects only return of lives)
 - Create a drone FAC (allow F10 marks and BDA of bases)
 - Add recon airplane dispatching (much like bombers), should provide same features as drone
   - UK Tornado (special recce variant with internal cameras)
