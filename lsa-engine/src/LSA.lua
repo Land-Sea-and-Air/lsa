@@ -91,7 +91,6 @@ LSA.transports = {
     ["Mi-8MT"] = { type = "Mi-8MT", seats = 12 },
     ["Mi-24P"] = { type = "Mi-24P", seats = 8 },
     ["UH-1H"] = { type = "UH-1H", seats = 7 },
-    ["BMP-1"] = { type = "BMP-1", seats = 5 }
 }
 
 LSA.index = {}
@@ -1158,14 +1157,14 @@ function LSA.logisticsMenuEntries(player)
         },
     }
 
-    local personnels = LSA.byCoalition(player.side, LSA.logistics.personnel.red, LSA.logistics.personnel.blue)
-    for _, personnel in ipairs(personnels) do
+    local templates = LSA.byCoalition(player.side, LSA.logistics.personnel.red, LSA.logistics.personnel.blue)
+    for _, template in ipairs(templates) do
         local menuEntry = {
-            path = "Logistics.Personnel." .. personnel.name,
+            path = "Logistics.Personnel." .. template.name,
             handler = LSA.onPersonnelMenu,
             args = {
                 player = player,
-                personnel = personnel
+                personnel = template
             }
         }
 
