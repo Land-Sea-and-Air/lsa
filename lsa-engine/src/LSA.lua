@@ -28,7 +28,7 @@ LSA.settings.shipSpeedMetersPerSecond = 6                  -- meters per second
 LSA.settings.waitPeriodForNewCarrier = 10 * (24 * 60 * 60) -- ten days in seconds
 LSA.settings.waitPeriodForNewBomber = 10 * (24 * 60 * 60)  -- ten days in seconds
 LSA.settings.waitPeriodForNewTanker = 10 * (24 * 60 * 60)  -- ten days in seconds
-LSA.settings.waitPeriodForNewAwacs = 10 * (24 * 60 * 60)  -- ten days in seconds
+LSA.settings.waitPeriodForNewAwacs = 10 * (24 * 60 * 60)   -- ten days in seconds
 LSA.settings.saveMissionInterval = 5 * 60
 --#endregion
 
@@ -724,7 +724,7 @@ function LSA.onEngineShutdownEvent(event)
         local airbase, baseDistance = LSA.findNearestBase(player)
         local baseType = airbase:getDesc().category
         local baseName = airbase:getName()
-        
+
         if baseType == Airbase.Category.AIRDROME and baseDistance > 5000 then -- [TODO] move to settings and review
             Log.debug("Found airfield %s at %s meters", baseName, baseDistance)
             return
@@ -1428,7 +1428,6 @@ function LSA.awacs(_, time)
     return time + (60 * 60) -- [TODO] move to settings
 end
 
-
 function LSA.saveMissionTask(_, time)
     LSA.saveState()
     return time + LSA.settings.saveMissionInterval
@@ -1545,17 +1544,30 @@ end
 function LSA.supplies(_, time)
     local max = LSA.settings.maxSupplies
 
-    local current = LSA.state.faction.supplies.red
-    local deployed = 0
+    local getQuantity = function(currentSupplies, side)
+        local deployed = 0
 
-    for _, group in pairs(LSA.state.faction.groups.red) do
-        deployed = deployed + group._template.cost
+        for _, asset in pairs(LSA.state.assets) do
+            if asset.side == side then
+                deployed = deployed + asset.cost
+            end
+        end
+
+        local remaining = max - deployed
+        if currentSupplies < remaining then
+            return LSA.settings.regeneratedSupplyQuantity
+        end
+
+        -- self heal quantities
+        -- in case of an issue we return negative quantity so it will deduct any surplus
+        return currentSupplies - remaining
     end
 
-    local remaining = max - deployed
-    if current < remaining then
-        LSA.state.faction.supplies.red = LSA.state.faction.supplies.red + LSA.settings.regeneratedSupplyQuantity
-    end
+    local redQty = getQuantity(LSA.state.faction.supplies.red, coalition.side.RED)
+    local blueQty = getQuantity(LSA.state.faction.supplies.blue, coalition.side.BLUE)
+
+    LSA.state.faction.supplies.red = LSA.state.faction.supplies.red + redQty
+    LSA.state.faction.supplies.blue = LSA.state.faction.supplies.blue + blueQty
 
     return time + LSA.settings.timeToSupplyRegeneration
 end
