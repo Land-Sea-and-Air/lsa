@@ -44,7 +44,6 @@ function Tanker.new(name, type, side, method, freq, modulation, baseName, tacan,
         side = side,
         usedOn = nil,
         killedOn = nil,
-        status = "ready"
     }
 
     return tanker
@@ -105,7 +104,6 @@ function Tanker.onLandEvent(unitName)
                 unit:destroy()
             end
         end, {}, 10 * 60) -- [TODO] move to settings and fine tune
-        tanker.status = "landed"
     end
 end
 
@@ -208,7 +206,6 @@ function Tanker.__find(predicate)
 end
 
 function Tanker.explode(tanker)
-    if tanker.status ~= "ready" then return end
     for _, static in ipairs(tanker.statics) do
         LSA.explodeStatic(static.name)
     end
@@ -242,7 +239,8 @@ function Tanker.dispatch(side, fromName, destination, method, track)
         Log.debug("Base %s has no tanker of type %s", origin.name, method)
         return false, string.format("Unable, base %s has no tanker of type %s.", origin.name, method)
     end
-    if tanker.status ~= "ready" then
+    
+    if Tanker.isUsed(tanker) then
         Log.debug("There is no tanker available at %s", origin.name)
         return false, string.format("Unable, there is no tanker available at %s.", origin.name)
     end
@@ -265,7 +263,6 @@ function Tanker.dispatch(side, fromName, destination, method, track)
         assert(group ~= nil)
 
         tanker.usedOn = LSA.getNow()
-        tanker.status = "airborne"
     end)
     return true, string.format("Roger, %s on the way.", tanker.callsign.name)
 end
