@@ -51,9 +51,6 @@ LSA.state.faction.supplies = {
     red = 0,
     blue = 0,
 }
-LSA.state.faction.groups = {}
-LSA.state.faction.groups.red = {}
-LSA.state.faction.groups.blue = {}
 --#endregion
 
 --#region Logistic Templates
@@ -1694,6 +1691,18 @@ function LSA.outSoundForUnit(unitId, fileName)
     trigger.action.outSoundForUnit(unitId, filePath)
 end
 
+---Plays the given sound file for the given group.
+---@param groupId any
+---@param fileName any
+function LSA.outSoundForGroup(groupId, fileName)
+    local filePath = fileName
+    if not LSA.dev then
+        filePath = string.format("%s\\%s", LSA.settings.soundFilesPath, fileName)
+    end
+    Log.trace("Playing sound file %s", filePath)
+    trigger.action.outSoundForGroup(groupId, filePath)
+end
+
 LSA.BaseCaptureFunctionIds = {}
 function LSA.captureZoneBaseStatus(base)
     Log.trace("Checking if capture zone is under attack")
@@ -1786,7 +1795,9 @@ function LSA.monitorUnit(base, unitWrp)
 
         local message = string.format(Text.GARRISON_LEAVING_PERIMETER, LSA.settings.outsidePerimeterDelay)
         trigger.action.outTextForUnit(unitId, message, 10, true)
-        LSA.outSoundForUnit(unitId, "beep.ogg")
+        --LSA.outSoundForUnit(unitId, "beep.ogg")
+        local groupId = unit:getGroup():getID()
+        LSA.outSoundForGroup(groupId, "beep.ogg")
     end
 
     -- if a unit is no longer outside the base perimeter (returned)
@@ -1798,7 +1809,9 @@ function LSA.monitorUnit(base, unitWrp)
 
         local message = Text.GARRISON_RETURNING_PERIMETER
         trigger.action.outTextForUnit(unitId, message, 10, true)
-        LSA.outSoundForUnit(unitId, "beep.ogg")
+        --LSA.outSoundForUnit(unitId, "beep.ogg")
+        local groupId = unit:getGroup():getID()
+        LSA.outSoundForGroup(groupId, "beep.ogg")
     end
 end
 
