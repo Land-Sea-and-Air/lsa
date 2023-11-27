@@ -77,8 +77,8 @@ function Vessel.isAvailable(vessel)
     -- effectively moving the current date to next year
     -- then subtract the kill date to the new current date
     -- and compare with the wait period
-    local yearLenghtInSeconds = LSA.getYearLengthInSeconds(env.mission.date.Year)
-    return (today + yearLenghtInSeconds) - killedOn > waitPeriod
+    local yearLengthInSeconds = LSA.getYearLengthInSeconds(env.mission.date.Year)
+    return (today + yearLengthInSeconds) - killedOn > waitPeriod
 end
 
 function Vessel.updateLocation(vessel)
