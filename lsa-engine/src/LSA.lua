@@ -2177,7 +2177,7 @@ function LSA.groupScheme(name)
 
     return {
         ["visible"] = false,
-        ["hidden"] = true,
+        ["hidden"] = false,
         ["hiddenOnMFD"] = true,
         ["tasks"] = {},
         ["units"] = {},
