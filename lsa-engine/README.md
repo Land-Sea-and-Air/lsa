@@ -40,6 +40,8 @@
 - Announce tanker/bomber on mission start in SRS
 - Announce FAC targets in SRS
 - Feature (optional) to force players to return to base of origin (affects only return of lives)
+- Allow CSAR only after a certain time has passed in the flight
+- Allow a player to issue orders to an assault group
 - Create a drone FAC (allow F10 marks and BDA of bases)
 - Add recon airplane dispatching (much like bombers), should provide same features as drone
   - UK Tornado (special recce variant with internal cameras)
