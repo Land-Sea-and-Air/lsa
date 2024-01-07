@@ -41,7 +41,8 @@
 - Announce FAC targets in SRS
 - Feature (optional) to force players to return to base of origin (affects only return of lives)
 - Allow CSAR only after a certain time has passed in the flight
-- Allow a player to issue orders to an assault group
+- Allow a player to issue orders to an assault group (2 MBT, 2 IFV, 2 AAA, 1 IRSAM)
+- Allow a player to deploy and issue orders to an artillery group (with point fire) (4 Arty, 2 AAA, 1 IRSAM)
 - Create a drone FAC (allow F10 marks and BDA of bases)
 - Add recon airplane dispatching (much like bombers), should provide same features as drone
   - UK Tornado (special recce variant with internal cameras)
@@ -58,3 +59,6 @@
   - Sets options (no external views, no F10 icon, etc...)
   - remove zones
   - serialize compact
+
+  fix wrong orbit command for awacs
+  fix ewr not including friendly helos
