@@ -229,10 +229,16 @@ function GCI.getFriendlies(playerUnitName)
     local targetList, filtered, unitTable = {}, {}, {}
 
 
-    for _, friendlyGroups in next, coalition.getGroups(side, Group.Category.AIRPLANE) do
+    for _, friendlyGroups in next, coalition.getGroups(side) do
         for _, friendlyUnit in next, friendlyGroups:getUnits() do
+            local friendlyCategory = Unit.getCategoryEx(friendlyUnit)
             local friendlyUnitName = friendlyUnit:getName()
-            if friendlyUnitName ~= playerUnitName and friendlyUnit:getLife() > 0 and friendlyUnit:isActive() then
+
+            if friendlyUnitName ~= playerUnitName and
+                friendlyUnit:getLife() > 0 and
+                friendlyUnit:isActive() and
+                MatchAny(friendlyCategory, { Unit.Category.AIRPLANE, Unit.Category.HELICOPTER })
+            then
                 unitTable = {}
                 unitTable.object = friendlyUnit
                 unitTable.position = friendlyUnit:getPosition()

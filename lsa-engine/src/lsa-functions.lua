@@ -151,6 +151,19 @@ function In(token, list)
     return false
 end
 
+---Checks if a value is in a given collection.
+---@param value any
+---@param collection any
+---@return boolean
+function MatchAny(value, collection)
+    for _, v in pairs(collection) do
+        if value == v then
+            return true
+        end
+    end
+    return false
+end
+
 ---Returns the arguments joined by a dash.
 ---@param ... any
 ---@return string
