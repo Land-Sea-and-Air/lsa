@@ -12,7 +12,7 @@
 - CSAR
 - Bombers
 - Tankers (basket and boom)
-- Auto-move garrison units between spawn zones (done - works by defining several patrol waypoints using trigger zones)
+- Auto-move garrison units
 - Supply based logistics (done)
 - F10 map deployment commands (done)
 - Enforce re-arm and refuel at specific location (done)
