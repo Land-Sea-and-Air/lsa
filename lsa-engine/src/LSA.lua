@@ -3458,7 +3458,7 @@ function Player.onTakeoffEvent(event)
 end
 
 LSA.settings.returnToApronDelay = 5 * 60
-function Player.880(event)
+function Player.onLandEvent(event)
     if event.place == nil then return end
 
     -- player landed
