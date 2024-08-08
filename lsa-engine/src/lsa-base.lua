@@ -49,6 +49,26 @@ function Base.new(airbase)
     return base
 end
 
+function Base.cull(base)
+    if base.culled == true then return end
+    for _, group in ipairs(base.groups) do
+        local dcsGroup = LSA.getGroup(group.name)
+        local controller = dcsGroup:getController()
+        controller:setOnOff(false)
+    end
+    base.culled = true
+end
+
+function Base.uncull(base)
+    if base.culled == false then return end
+    for _, group in ipairs(base.groups) do
+        local dcsGroup = LSA.getGroup(group.name)
+        local controller = dcsGroup:getController()
+        controller:setOnOff(true)
+    end
+    base.culled = false
+end
+
 function Base.hasRepairs(base)
     for _, static in ipairs(base.repairs) do
         if StaticWrp.isRepairs(static) and StaticWrp.isAlive(static) then
