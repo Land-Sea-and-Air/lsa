@@ -908,8 +908,10 @@ function LSA.onPlayerLeaveAircraft(unitName)
 end
 
 function LSA.onPlayerLeaveHelicopter(unitName)
-    local unit = Unit.getByName(unitName)
-    if unit ~= nil and unit:inAir() and unit:getLife() > 0 and Player.isPlayer(unitName) then
+    local unit = LSA.getUnit(unitName)
+    if unit == nil then return end
+
+    if unit:inAir() and unit:getLife() > 0 and Player.isPlayer(unitName) then
         local player = Player.operating(unitName)
         if player ~= nil then
             Log.debug("%s left your plane while in the air", player.playerName)
@@ -924,6 +926,8 @@ function LSA.onPlayerLeaveHelicopter(unitName)
 end
 
 function LSA.onPlayerLeaveGroundUnit(initiator)
+    if initiator == nil then return end
+    
     local unitName = initiator:getName()
     local unitType = initiator:getTypeName()
     if Transport.isTransport(unitType) then
@@ -1364,16 +1368,16 @@ function LSA.onScheduledTasksMenu()
 end
 
 function LSA.initializeTasks()
-    TS.task("players", LSA.players, {},1)
-    TS.task("garrison", LSA.garrison, {},2)
-    TS.task("supplies", LSA.supplies, {},3)
-    TS.task("siege check", LSA.baseSiege, {},4)
-    TS.task("repair check", LSA.baseRepair, {},5)
-    TS.task("patrol", LSA.patrol, {},6)
-    TS.task("carriers", LSA.carriers, {},7)
-    TS.task("bombers", LSA.bombers, {},8)
-    TS.task("tankers", LSA.tankers, {},9)
-    TS.task("awacs", LSA.awacs, {},10)
+    TS.task("players", LSA.players, {}, 1)
+    TS.task("garrison", LSA.garrison, {}, 2)
+    TS.task("supplies", LSA.supplies, {}, 3)
+    TS.task("siege check", LSA.baseSiege, {}, 4)
+    TS.task("repair check", LSA.baseRepair, {}, 5)
+    TS.task("patrol", LSA.patrol, {}, 6)
+    TS.task("carriers", LSA.carriers, {}, 7)
+    TS.task("bombers", LSA.bombers, {}, 8)
+    TS.task("tankers", LSA.tankers, {}, 9)
+    TS.task("awacs", LSA.awacs, {}, 10)
     TS.task("culling", LSA.culling, {}, 60)
     TS.task("remove debris", LSA.removeDebris, {}, (60 * 60)) -- [TODO] move to settings
     TS.task("save mission", LSA.saveMissionTask, {}, LSA.settings.saveMissionInterval)
@@ -1391,7 +1395,7 @@ function LSA.culling(args, time)
                 break
             end
         end
-        
+
         if hostile then
             -- Log.info("Unculling %s", base.name)
             Base.uncull(base)
@@ -1400,7 +1404,7 @@ function LSA.culling(args, time)
             Base.cull(base)
         end
     end
-    
+
     -- local e = os.clock()
     -- local d = e - s
     -- Log.info("Culling took: %s", d)
