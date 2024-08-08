@@ -121,8 +121,7 @@ function LSA.start()
                 server.missionYear, server.missionMonth, server.missionDay, year, month, day
             )
             Log.info("Reloading server state | Miz File: %s", server.missionFile)
-            local mizFile = server.missionFile
-            local command = string.format("a_load_mission(\"%s\")", mizFile)
+            local command = string.format("a_load_mission(\"%s\")", server.missionFile)
             Log.debug("Calling mission scripting command: " .. command)
             net.dostring_in('mission', command)
         end
@@ -863,7 +862,9 @@ end
 
 LSA.lastEvt = nil
 function LSA.onPlayerLeaveUnitEvent(event)
-    if event.initiator == nil then return end
+    local initiator = event.initiator
+    if initiator == nil then return end
+    if initiator.getName == nil then return end
 
     -- at the time of writing DCS fires the same event twice
     -- this stops us from processing it twice
@@ -876,8 +877,8 @@ function LSA.onPlayerLeaveUnitEvent(event)
     LSA.lastEvt = event
     -- end of duplicate event handling
 
-    local initiator = event.initiator
     local unitName = initiator:getName()
+    if unitName == nil then return end
 
     Log.debug("Unit %s has been vacated at %s", unitName, event.time)
 
@@ -1363,19 +1364,47 @@ function LSA.onScheduledTasksMenu()
 end
 
 function LSA.initializeTasks()
-    TS.task("players", LSA.players, {})
-    TS.task("garrison", LSA.garrison, {})
-    TS.task("supplies", LSA.supplies, {})
-    TS.task("siege check", LSA.baseSiege, {})
-    TS.task("repair check", LSA.baseRepair, {})
-    TS.task("patrol", LSA.patrol, {})
-    TS.task("carriers", LSA.carriers, {})
-    TS.task("bombers", LSA.bombers, {})
-    TS.task("tankers", LSA.tankers, {})
-    TS.task("awacs", LSA.awacs, {})
+    TS.task("players", LSA.players, {},1)
+    TS.task("garrison", LSA.garrison, {},2)
+    TS.task("supplies", LSA.supplies, {},3)
+    TS.task("siege check", LSA.baseSiege, {},4)
+    TS.task("repair check", LSA.baseRepair, {},5)
+    TS.task("patrol", LSA.patrol, {},6)
+    TS.task("carriers", LSA.carriers, {},7)
+    TS.task("bombers", LSA.bombers, {},8)
+    TS.task("tankers", LSA.tankers, {},9)
+    TS.task("awacs", LSA.awacs, {},10)
+    TS.task("culling", LSA.culling, {}, 60)
     TS.task("remove debris", LSA.removeDebris, {}, (60 * 60)) -- [TODO] move to settings
     TS.task("save mission", LSA.saveMissionTask, {}, LSA.settings.saveMissionInterval)
     TS.task("next session", LSA.nextMission, {}, LSA.settings.sessionLengthSeconds)
+end
+
+function LSA.culling(args, time)
+    -- local s = os.clock()
+    for _, base in pairs(LSA.state.bases) do
+        local nearbyUnits = LSA.findUnits(base.location, 80000)
+        local hostile = false
+        for _, unit in ipairs(nearbyUnits) do
+            if unit:getCoalition() ~= base.side then
+                hostile = true
+                break
+            end
+        end
+        
+        if hostile then
+            -- Log.info("Unculling %s", base.name)
+            Base.uncull(base)
+        else
+            -- Log.info("Culling %s", base.name)
+            Base.cull(base)
+        end
+    end
+    
+    -- local e = os.clock()
+    -- local d = e - s
+    -- Log.info("Culling took: %s", d)
+    return time + 60
 end
 
 function LSA.carriers(_, time)
@@ -2952,7 +2981,7 @@ function LSA.findUnitsAt(x, y, radius, height)
     return found
 end
 
----Paints a circle in DCS.
+---Paints a circle in DCS F10 map.
 ---@param zone table
 ---@param color table
 ---@param fill table
@@ -3429,7 +3458,7 @@ function Player.onTakeoffEvent(event)
 end
 
 LSA.settings.returnToApronDelay = 5 * 60
-function Player.onLandEvent(event)
+function Player.880(event)
     if event.place == nil then return end
 
     -- player landed
