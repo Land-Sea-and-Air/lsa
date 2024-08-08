@@ -22,7 +22,10 @@ function TS.task(name, fn, args, delay)
 
     local function dispatcher(_a, _time)
         local _name, _fn, _args = unpack(_a)
+        local startTime = os.clock()
         local r = _fn(_args, _time)
+        local endTime = os.clock()
+        Log.info("Task %s took %s", _name, (endTime - startTime))
         if r == nil then
             TS.countTasks = TS.countTasks - 1
             local taskId = TS.tasksByName[_name]
